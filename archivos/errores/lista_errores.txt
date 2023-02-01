@@ -1,0 +1,91 @@
+----------------------------------------------------------------------------------------------------
+MENSAJE: Error al seleccionar
+FECHA DEL ERROR: January 24, 2022, 3:32 pm
+----------------------------------------------------------------------------------------------------
+MENSAJE: Error al seleccionar
+FECHA DEL ERROR: January 24, 2022, 3:34 pm
+CONTROLADOR Y METODO:  - roles::insertar_rol
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'nombre' in 'where clause'
+LINEA DE CODIGO: 277
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+MENSAJE: Error al seleccionar
+FECHA DEL ERROR: January 24, 2022, 3:34 pm
+CONTROLADOR Y METODO: roles - roles::insertar_rol
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'nombre' in 'where clause'
+LINEA DE CODIGO: 277
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+MENSAJE: Error al seleccionar
+FECHA DEL ERROR: January 24, 2022, 3:35 pm
+CONTROLADOR Y METODO: roles - roles::insertar_rol
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'nombre' in 'where clause'
+LINEA DE CODIGO: 277
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+MENSAJE: Error al seleccionar
+FECHA DEL ERROR: January 24, 2022, 3:36 pm
+CONTROLADOR Y METODO: roles - roles::insertar_rol
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'nombre' in 'where clause'
+LINEA DE CODIGO: 277
+----------------------------------------------------------------------------------------------------
+MENSAJE: Error al seleccionar
+FECHA DEL ERROR: January 24, 2022, 3:41 pm
+CONTROLADOR Y METODO: roles::insertar_rol
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'nombre' in 'where clause'
+LINEA DE CODIGO: 277
+----------------------------------------------------------------------------------------------------
+MENSAJE: No hay datos
+FECHA DEL ERROR: January 24, 2022, 3:55 pm
+CONTROLADOR Y METODO: roles::obtener_roles
+ERROR: Array
+LINEA DE CODIGO: 0
+----------------------------------------------------------------------------------------------------
+MENSAJE: Error al seleccionar
+FECHA DEL ERROR: January 24, 2022, 3:57 pm
+CONTROLADOR Y METODO: roles::obtener_roles
+ERROR: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db_sistemapos.rolf' doesn't exist
+LINEA DE CODIGO: 184
+----------------------------------------------------------------------------------------------------
+MENSAJE: Error al seleccionar
+FECHA DEL ERROR: January 24, 2022, 4:01 pm
+CONTROLADOR Y METODO: roles::obtener_roles
+ERROR: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db_sistemapos.rolf' doesn't exist
+LINEA DE CODIGO: 184
+----------------------------------------------------------------------------------------------------
+MENSAJE: Error al seleccionar
+FECHA DEL ERROR: January 24, 2022, 4:01 pm
+CONTROLADOR Y METODO: roles::obtener_roles
+ERROR: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db_sistemapos.rolf' doesn't exist
+LINEA DE CODIGO: 184
+----------------------------------------------------------------------------------------------------
+MENSAJE: Error al seleccionar
+FECHA DEL ERROR: January 24, 2022, 4:02 pm
+CONTROLADOR Y METODO: roles::obtener_roles
+ERROR: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db_sistemapos.rolf' doesn't exist
+LINEA DE CODIGO: 184
+----------------------------------------------------------------------------------------------------
+MENSAJE: Error al seleccionar
+FECHA DEL ERROR: January 24, 2022, 4:06 pm
+CONTROLADOR Y METODO: roles::insertar_rol
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'nombre' in 'where clause'
+LINEA DE CODIGO: 277
+----------------------------------------------------------------------------------------------------
+MENSAJE: Error al seleccionar
+FECHA DEL ERROR: January 24, 2022, 4:07 pm
+CONTROLADOR Y METODO: roles::insertar_rol
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'nombre' in 'where clause'
+LINEA DE CODIGO: 449
+----------------------------------------------------------------------------------------------------
+MENSAJE: Error al seleccionar
+FECHA DEL ERROR: January 24, 2022, 4:19 pm
+CONTROLADOR Y METODO: roles::insertar_rol
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'nombre' in 'where clause'
+LINEA DE CODIGO: 277
+----------------------------------------------------------------------------------------------------
+MENSAJE: Error al seleccionar
+FECHA DEL ERROR: February 1, 2022, 4:44 pm
+CONTROLADOR Y METODO: usuarios::obtener_usuarios
+ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'u.usuario' in 'field list'
+LINEA DE CODIGO: 477
+----------------------------------------------------------------------------------------------------

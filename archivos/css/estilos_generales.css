@@ -1,0 +1,170 @@
+span.error{ 
+    color: #0054A4; font-size: 0.8em; 
+}
+
+.navbar-danger{
+    background-color: #0054A4;
+}
+
+.sidebar-light-danger .nav-sidebar>.nav-item>.nav-link.active {
+    background-color: #0054A4;
+}
+
+.btn-danger {
+    background-color: #0054A4!important;
+    border-color: #0054A4!important;
+}
+
+.bg-danger, .bg-danger>a {
+    background-color: #0054A4!important;
+}
+
+.page-item.active .page-link {
+    background-color: #0054A4!important;
+    border-color: #0054A4;
+}
+
+.text-danger {
+    color: #0054A4!important;
+}
+
+.select2-danger+.select2-container--default.select2-container--focus .select2-selection--single {
+    border-color: #0054A4!important;
+}
+
+.select2-container--default .select2-danger .select2-results__option--highlighted[aria-selected], .select2-container--default .select2-danger .select2-results__option--highlighted[aria-selected]:hover, .select2-danger .select2-container--default .select2-results__option--highlighted[aria-selected], .select2-danger .select2-container--default .select2-results__option--highlighted[aria-selected]:hover {
+    background-color: #0054A4!important;
+}
+
+.custom-switch.custom-switch-on-danger .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #0054A4!important;
+    border-color: #0054A4!important;
+  }
+
+
+
+  a {
+    color: #0054A4;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+    color: #fff;
+    text-decoration: none;
+    background-color: #0054A4;
+  }
+
+
+
+
+
+
+  .navbar-light .navbar-brand {
+    color: #fff;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: #fff;
+}
+
+.card-danger:not(.card-outline)>.card-header {
+    background-color: #0054A4;
+}
+.card-danger:not(.card-outline)>.card-header a {
+    color: #fff;
+}
+
+
+.slidecontainer {
+    width: 100%; /* Width of the outside container */
+  }
+  
+  /* The slider itself */
+  .slider {
+    -webkit-appearance: none;  /* Override default CSS styles */
+    appearance: none;
+    width: 100%; /* Full-width */
+    height: 25px; /* Specified height */
+    background: #d3d3d3; /* Grey background */
+    outline: none; /* Remove outline */
+    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+  }
+  
+  /* Mouse-over effects */
+  .slider:hover {
+    opacity: 1; /* Fully shown on mouse-over */
+  }
+  
+  /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 25px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    background: #0054A4; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+  }
+  
+  .slider::-moz-range-thumb {
+    width: 25px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    background: #0054A4; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+  }
+
+  .swal2-styled.swal2-confirm {
+
+    background-color: #0054A4!important;
+    color: #fff;
+
+}
+.swal2-confirm swal2-styled{
+    display: inline-block;
+    background-color: #0054A4!important;
+}
+
+button.bg-danger:hover,  button.bg-danger:focus{
+    background-color: #014482!important;
+}
+
+.bg-danger.btn:hover {
+    border-color: #014482!important;
+    color: 0054A4;
+}
+
+.bg-danger.btn:not(:disabled):not(.disabled):active, .bg-danger.btn:not(:disabled):not(.disabled).active, .bg-danger.btn:active, .bg-danger.btn.active {
+    background-color: #014482 !important;
+    border-color: #014482;
+    color: #fff;
+  }
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    color: #fff;
+    background-color: #0054A4;
+    border-color: #dee2e6 #dee2e6 #fff;
+}
+
+.card-primary.card-outline {
+    border-top: 3px solid #0054A4;
+}
+
+.carousel-indicators li {
+    box-sizing: content-box;
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+    width: 30px;
+    height: 3px;
+    margin-right: 3px;
+    margin-left: 3px;
+    text-indent: -999px;
+    cursor: pointer;
+    background-color: #000;
+    background-clip: padding-box;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    opacity: .5;
+    transition: opacity .6s ease;
+}

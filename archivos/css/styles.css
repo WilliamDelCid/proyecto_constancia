@@ -1,0 +1,34 @@
+.container {
+  padding: 10px;
+}
+.wrapper1 {
+  /* width: 90%; */
+  height: 650px;
+  margin: 0 auto;
+}
+
+.container__card {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  place-items: center;
+}
+
+.footer_space {
+  position: relative;
+  bottom: 0px;
+}
+
+@media only screen and (min-width: 1200px) {
+  .form__grid {
+    display: grid;
+    grid-template-columns: 461px 680px;
+    padding-bottom: 0px;
+  }
+  .form__inputs {
+    display: grid;
+    grid-template-columns: 504px;
+    padding-top: 10px;
+    padding-bottom: 0px;
+  }
+}

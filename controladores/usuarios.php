@@ -1,0 +1,564 @@
+<?php 
+
+	class usuarios extends controladores{
+		public function __construct()
+		{
+			parent::__construct();
+			session_start();
+			if (empty($_SESSION['login_'.nombreproyecto()])) {
+				header('location: '.url_base().'/login');
+			}
+
+			$this->modelo->obtener_permisos_modulo(4, $_SESSION['login_datos_'.nombreproyecto()]['id_rol']);
+			$this->modelo->obtener_permisos_todos($_SESSION['login_datos_'.nombreproyecto()]['id_rol']);
+		}
+
+		/*=======================================================
+        			LLAMADA A LA VISTA
+        =======================================================*/
+		public function usuarios()
+		{
+			if (!isset($_SESSION['permisos_'.nombreproyecto()]['Ver Usuarios'])) { //Si no existe ese permiso
+				header('location: '.url_base().'/inicio');
+			}
+
+			$datos_vista['titulo_ventana'] = "Usuarios";
+			$datos_vista['titulo_pagina'] = "Usuarios";
+			$datos_vista['nombre_pagina'] = "usuarios";
+			$datos_vista['archivo_funciones'] = "js_usuarios.js";
+			$this->vista->obtener_vista($this,"usuarios", $datos_vista);
+		}
+
+		/*=======================================================
+        			LISTADO DE REGISTROS
+        =======================================================*/
+		public function listar()
+		{
+			$token = $_GET['token'];
+			$validar_token = $this->modelo->validar_token($token);
+			
+			if($validar_token['estado'] == 1){ //el token no esta expirado
+				if (isset($_SESSION['permisos_'.nombreproyecto()]['Ver Usuarios'])) {
+					$where_admin = "";
+					if($_SESSION['login_datos_'.nombreproyecto()]['id'] != 1){
+						$where_admin = " AND u.id != 1";
+					}
+					$consulta_datos = $this->modelo->seleccionar_todos_sql("SELECT 
+																			u.id, u.foto_url, u.email, u.estado, u.fecha_creacion, r.nombre as nombrerol, r.id as id_rol
+																			FROM usuarios u 
+																			INNER JOIN roles r ON r.id = u.id_rol".$where_admin);
+
+					if ($consulta_datos['estado'] == true) {
+						$num_registros = $consulta_datos['cuantos'];
+						$arr_datos = $consulta_datos['datos'];
+						
+						$htmlDatosTabla = "";
+						for ($i=0; $i < count($arr_datos); $i++) {
+							$boton_ver = "";
+							$boton_editar = "";
+							$boton_eliminar = "";
+
+							if($arr_datos[$i]['estado'] == 1)
+							{
+								$arr_datos[$i]['estado'] = '<span class="badge badge-success">Activo</span>';
+							}else{
+								$arr_datos[$i]['estado'] = '<span class="badge badge-danger">Inactivo</span>';
+							}
+
+							$arr_datos[$i]['fecha_creacion'] = formatear_fecha($arr_datos[$i]['fecha_creacion']);
+
+							if (isset($_SESSION['permisos_'.nombreproyecto()]['Editar Usuarios'])) {
+								//si el usuario logueado tiene el id 1 y si tiene el id rol 1 es que es ADMINSTRADOR
+								//si son administradores pero no el superadministrador, no podran editar los datos de aquellos que sean administradores, solamente los demas roles
+								if(($_SESSION['login_datos_'.nombreproyecto()]['id'] == 1 and $_SESSION['login_datos_'.nombreproyecto()]['id_rol'] == 1) 
+								|| ($_SESSION['login_datos_'.nombreproyecto()]['id_rol'] == 1 and $arr_datos[$i]['id_rol'] != 1) ){ 
+									$boton_editar = '<button type="button" class="btn btn-danger btn-sm" onClick="fnt_editar_usuario('.$arr_datos[$i]['id'].')" title="Editar"><i class="fas fa-edit"></i></button>';
+								}else{
+									$boton_editar = '<button type="button" class="btn btn-danger btn-sm" disabled><i class="fas fa-edit"></i></button>';
+								}
+								
+							}
+							if (isset($_SESSION['permisos_'.nombreproyecto()]['Dar de baja Usuarios'])) {
+								//si el usuario logueado tiene el id 1 y si tiene el id rol 1 es que es ADMINSTRADOR
+								//si son administradores pero no el superadministrador, no podran dar de baja los datos de aquellos que sean administradores, solamente los demas roles
+								if(($_SESSION['login_datos_'.nombreproyecto()]['id'] == 1 and $_SESSION['login_datos_'.nombreproyecto()]['id_rol'] == 1) 
+								|| ($_SESSION['login_datos_'.nombreproyecto()]['id_rol'] == 1 and $arr_datos[$i]['id_rol'] != 1)
+								and ($_SESSION['login_datos_'.nombreproyecto()]['id'] != $arr_datos[$i]['id']) ){ //si el id del usuario logueado es diferente al que esta recorriendo, para desabilitar el boton al que es superadmin
+									$boton_eliminar = '<button type="button" class="btn btn-danger btn-sm" onClick="fnt_eliminar_usuario('.$arr_datos[$i]['id'].')" title="Eliminar"><i class="fas fa-trash"></i></button>';
+								}else{
+									$boton_eliminar = '<button type="button" class="btn btn-danger btn-sm" disabled><i class="fas fa-trash"></i></button>';
+								}
+								
+							}
+							//agregamos los botones
+							$arr_datos[$i]['acciones'] = '<div class="text-center">'.$boton_ver.' '.$boton_editar.' ' .$boton_eliminar.'</div>';
+
+							//AGREGAMOS EL CAMPO DE FOTO
+							if (empty($arr_datos[$i]['foto_url'])) {
+								$arr_datos[$i]['foto'] = '<img style="height: 40px;" src="'.archivos().'/imagenes/no-imagen.png"  alt="...">';
+							}else{
+								$existe_foto = file_exists($arr_datos[$i]['foto_url']);
+								//var_dump($existe_foto);die();
+								if ($existe_foto) {
+									$arr_datos[$i]['foto'] = '<img style="height: 40px;" src="'.url_base().'/'.$arr_datos[$i]['foto_url'].'"  alt="...">';
+								}else{
+									$arr_datos[$i]['foto'] = '<img style="height: 40px;" src="'.archivos().'/imagenes/no-imagen.png"  alt="...">';
+								}
+							}
+							
+							$htmlDatosTabla.='<tr>
+												<td>'.$arr_datos[$i]['id'].'</td>
+												<td>'.$arr_datos[$i]['foto'].'</td>
+												<td>'.$arr_datos[$i]['email'].'</td>
+												<td>'.$arr_datos[$i]['nombrerol'].'</td>
+												<td>'.$arr_datos[$i]['estado'].'</td>
+												<td>'.$arr_datos[$i]['fecha_creacion'].'</td>
+												<td>'.$arr_datos[$i]['acciones'].'</td>
+											</tr>';
+						}
+						$arr_respuesta = array('estado' => true, 'tabla' => $htmlDatosTabla);
+					}else{
+						$arr_respuesta = array("estado" => false, "msg" => 'Ops. Ocurrió un error.');
+					}
+					
+					echo json_encode($arr_respuesta,JSON_UNESCAPED_UNICODE);
+				}else{
+					$arr_respuesta = array("estado" => false, "msg" => 'Ops. No tiene permisos para ver.');
+					echo json_encode($arr_respuesta,JSON_UNESCAPED_UNICODE);
+				}
+				die();
+			}else if($validar_token['estado'] == 2){ //el token esta expirado
+				$arr_respuesta = array("estado" => false, "msg" => 'Token expirado');
+				echo json_encode($arr_respuesta,JSON_UNESCAPED_UNICODE);
+			}else if($validar_token['estado'] == 0){ //el token no existe
+				$arr_respuesta = array("estado" => false, "msg" => 'Token no existe');
+				echo json_encode($arr_respuesta,JSON_UNESCAPED_UNICODE);
+			}
+			die();
+		}
+
+		/*=======================================================
+        			INSERTAR O EDITAR REGISTROS
+        =======================================================*/
+		public function insertar()
+		{
+			$token = $_GET['token'];
+			$validar_token = $this->modelo->validar_token($token);
+			
+			if($validar_token['estado'] == 1){ //el token no esta expirado
+				if ($_POST) {
+					//imprimir($_POST);die();
+					
+					$idusuario = intval($_POST['id']);
+					$correo =  limpiar($_POST['email']);
+					$estado = intval($_POST['estado']);
+					$rol = intval($_POST['rol']);
+					$contrasena = $_POST['password'];
+					$empleado = intval($_POST['empleado']);
+
+					if ($idusuario == 0) { //Es una inserción
+						if (isset($_SESSION['permisos_'.nombreproyecto()]['Crear Usuarios'])) {
+							$existe = $this->modelo->seleccionar_todos_sql("SELECT * FROM usuarios WHERE email = '$correo'");
+
+							//SI LA PETICION SE HIZO CORRECTAMENTE
+							if ($existe['estado'] == true) {
+								$arr_datos = $existe['datos'];
+								//SI NO EXISTE ESE USUARIO
+								if (empty($arr_datos)) {
+									//REGISTRO EL USUARIO						
+
+									//si la contra viene vacia se le crea una
+									if (empty($contrasena)) {
+										$contragenerada = generar_contrasena(); //ESTA CONTRASEÑA SE LE DEBE ENVIAR AL CORREO, HAY QUE DESENCRIPTSARLA Y ENVIARLA
+										$contra_encriptada = crypt($contragenerada, '$2a$07$azybxcagsrp23425rpazybxcags098$'); //CRYPT_BLOWFISH
+										
+										
+										$campos = array(
+											"email" => $correo, 
+											"password" => $contra_encriptada, 
+											"id_rol"=> $rol, 
+											"estado"=> $estado,
+											"id_empleado"=> $empleado
+											
+											);
+										
+										
+									}else{
+										$contra_encriptada = crypt($contrasena, '$2a$07$azybxcagsrp23425rpazybxcags098$'); //CRYPT_BLOWFISH
+										
+											$campos = array(
+												"email" => $correo, 
+												"password" => $contra_encriptada, 
+												"id_rol"=> $rol, 
+												"estado"=> $estado,
+												"id_empleado"=> $empleado
+												);
+										
+										
+									}
+								
+									
+									$insertar = $this->modelo->insertar("usuarios", $campos);
+									
+									//imprimir($insertar);die();
+									//SI SE INSERTO CORRECTAMENTE EL USUARIO
+									if ($insertar['estado'] == true) {
+										//SI EXISTE FOTO
+										if (empty($_FILES['foto']['name'])) {
+											$respuesta = array("estado" => true, "msg" => "Se registró el usuario pero no se subió foto.");
+											echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
+											die();
+										}else{
+											$foto = $_FILES['foto'];
+											$imgNombre = 'usuario_'.limpiar($insertar['idcreado']).'_'.md5(date('d-m-Y H:i:s')).'.jpg';
+											$urlcorta = 'vistas/usuarios/fotos/' . $imgNombre;
+											$url = $_SERVER['DOCUMENT_ROOT'] . '/'.nombreproyecto().'/'.$urlcorta;
+											try {
+												$subir_imagen = subir_imagen($foto, $url);
+											} catch (Exception $e) {
+												$respuesta = array("estado" => true, "msg" => "Se registró el usuario pero ocurrió un error al subir la foto.");
+												echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
+												die();
+											}
+											
+											//SI SE SUBIO LA FOTO
+											if($subir_imagen){
+												//INGRESO LA URL DE LA FOTO A LA TABLA
+												
+												$campos = array("foto_url"=> $urlcorta);
+												$ingresar_url = $this->modelo->editar("usuarios", $campos, "id", $insertar['idcreado']);
+											
+												if ($ingresar_url['estado'] == true) {
+													$respuesta = array("estado" => true, "msg" => "Se registraron los datos correctamente.");
+													echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
+													die();
+												}else{
+													$respuesta = array("estado" => false, "msg" => "Se registró el usuario pero ocurrió un error al subir la foto.");
+													echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
+													die();
+												}
+
+												
+											}else{
+												$respuesta = array("estado" => false, "msg" => "Se registró el usuario pero ocurrió un error al subir la foto.");
+												echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
+												die();
+											}
+
+										}
+									}else{
+										$respuesta = array("estado" => false, "msg" => "Ops. Ocurrió un error.");
+										echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
+										die();
+									}
+								}else{
+									$respuesta = array("estado" => false, "msg" => "Ese correo ya está registrado.");
+									echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
+									die();
+								}
+								
+							}else{
+								$respuesta = array("estado" => false, "msg" => "Ops. Ocurrió un error.");
+								echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
+								die();
+							}
+						}else{
+							$respuesta = array("estado" => false, "msg" => "Ops. No tiene permisos para insertar.");
+							echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
+							die();
+						}
+					}else{ //actualizacion
+						if (isset($_SESSION['permisos_'.nombreproyecto()]['Editar Usuarios'])) {
+							$existe = $this->modelo->seleccionar_todos_sql("SELECT * FROM usuarios WHERE email = '$correo' AND id != $idusuario");
+							//SI LA PETICION SE HIZO CORRECTAMENTE
+							if ($existe['estado'] == true) {
+								$arr_datos = $existe['datos'];
+								//SI NO EXISTE ESE USUARIO
+								if (empty($arr_datos)) {
+									//ACTUALIZAR EL USUARIO
+
+									//si la contra viene vacia no se envia a la actualizacion
+									if (empty($contrasena)) {
+										
+											$campos = array(
+												"email" => $correo, 
+												"id_rol"=> $rol, 
+												"estado"=> $estado,
+												"id_empleado"=> $empleado
+												);
+										
+										
+			
+									}else{
+										$contra_encriptada = crypt($contrasena, '$2a$07$azybxcagsrp23425rpazybxcags098$'); //CRYPT_BLOWFISH
+										
+											$campos = array(
+												"email" => $correo, 
+												"password" => $contra_encriptada, 
+												"id_rol"=> $rol, 
+												"estado"=> $estado,
+												"id_empleado"=> $empleado
+												);
+										
+										
+										
+									}
+									
+									$editar = $this->modelo->editar("usuarios", $campos, "id", $idusuario);
+									
+									//var_dump($editar);die();
+									//SI SE EDITO CORRECTAMENTE EL USUARIO
+									if ($editar['estado'] == true) {
+										//SI EXISTE LA VARIABLE SE SUBIRA LA FOTO
+										if (empty($_FILES['foto']['name'])) {
+											$respuesta = array("estado" => true, "msg" => "Se editó el usuario pero no se subió foto.");
+											echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
+											die();
+										}else{
+											$foto = $_FILES['foto'];
+											$imgNombre = 'usuario_'.limpiar($idusuario).'_'.md5(date('d-m-Y H:i:s')).'.jpg';
+											$urlcorta = 'vistas/usuarios/fotos/' . $imgNombre;
+											$url = $_SERVER['DOCUMENT_ROOT'] . '/'.nombreproyecto().'/'.$urlcorta;
+											try {
+												$subir_imagen = subir_imagen($foto, $url);
+											} catch (Exception $e) {
+												$respuesta = array("estado" => true, "msg" => "Se editó el usuario pero ocurrió un error al subir la foto.");
+												echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
+												die();
+											}
+											
+											//SI SE SUBIO LA FOTO
+											if($subir_imagen){
+												//OBTENGO LA URL DE LA FOTO QUE TENIA, SI ES QUE HABIA Y ELIMINO ESA FOTO
+												$obtener_foto = $this->modelo->seleccionar_unico_sql("SELECT foto_url FROM usuarios WHERE id = $idusuario");
+												if ($obtener_foto['estado'] == true) {
+													$arr_datos = $obtener_foto['datos'];
+													//SI EXISTE URL FOTO ELIMINO ESA FOTO
+													if (!empty($arr_datos)) {
+														if (file_exists("".$arr_datos['foto_url'])) { //si el archivo existe
+															unlink("".$arr_datos['foto_url']);
+														}
+													}
+
+												}
+												
+												//INGRESO LA URL DE LA FOTO A LA TABLA
+												$campos = array("foto_url"=> $urlcorta);
+												$ingresar_url = $this->modelo->editar("usuarios", $campos, "id", $idusuario);
+											
+												if ($ingresar_url['estado'] == true) {
+													$respuesta = array("estado" => true, "msg" => "Se editaron los datos correctamente.");
+													echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
+													die();
+												}else{
+													$respuesta = array("estado" => false, "msg" => "Se editó el usuario pero ocurrió un error al subir la foto.");
+													echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
+													die();
+												}
+
+												
+											}else{
+												$respuesta = array("estado" => false, "msg" => "Se editó el usuario pero ocurrió un error al subir la foto.");
+												echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
+												die();
+											}
+
+										}
+									}else{
+										$respuesta = array("estado" => false, "msg" => "Ops. Ocurrió un error.");
+										echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
+										die();
+									}
+								}else{
+									$respuesta = array("estado" => false, "msg" => "Ese correo ya está registrado.");
+									echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
+									die();
+								}
+							}else{
+								$respuesta = array("estado" => false, "msg" => "Ops. Ocurrió un error.");
+								echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
+								die();
+							}
+							
+						}else{
+							$respuesta = array("estado" => false, "msg" => "Ops. No tiene permisos para editar.");
+							echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
+							die();
+						}
+					}
+
+					
+				}// if ($_POST)
+			}else if($validar_token['estado'] == 2){ //el token esta expirado
+				$arr_respuesta = array("estado" => false, "msg" => 'Token expirado');
+				echo json_encode($arr_respuesta,JSON_UNESCAPED_UNICODE);
+			}else if($validar_token['estado'] == 0){ //el token no existe
+				$arr_respuesta = array("estado" => false, "msg" => 'Token no existe');
+				echo json_encode($arr_respuesta,JSON_UNESCAPED_UNICODE);
+			}
+			die();
+		}
+
+		/*=======================================================
+        			OBTENER REGISTRO ESPECIFICO
+        =======================================================*/
+		public function obtener()
+		{
+			$token = $_GET['token'];
+			$validar_token = $this->modelo->validar_token($token);
+			
+			if($validar_token['estado'] == 1){ //el token no esta expirado
+				if (isset($_SESSION['permisos_'.nombreproyecto()]['Ver Usuarios'])) {
+					if ($_POST) {
+						$idusuario = intval($_POST['idusuario']);
+						$existe = $this->modelo->seleccionar_unico_sql("SELECT * FROM usuarios WHERE id = $idusuario");
+						if ($existe['estado'] == true) {
+							$arr_datos = $existe['datos'];
+							//SI NO EXISTE ESE USUARIO
+							if (empty($arr_datos)) {
+								$respuesta = array("estado" => false, "msg" => "Ops. Ocurrió un error.");
+								echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
+								die();
+							}else{
+								$respuesta = array("estado" => true, "datos" => $arr_datos);
+								echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
+								die();
+							}
+						}else{
+							$respuesta = array("estado" => false, "msg" => "Ops. Ocurrió un error.");
+							echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
+							die();
+						}
+						
+					}
+				}else{
+					$respuesta = array("estado" => false, "msg" => "Ops. No tiene permisos para ver.");
+					echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
+					die();
+				}
+				die();
+			}else if($validar_token['estado'] == 2){ //el token esta expirado
+				$arr_respuesta = array("estado" => false, "msg" => 'Token expirado');
+				echo json_encode($arr_respuesta,JSON_UNESCAPED_UNICODE);
+			}else if($validar_token['estado'] == 0){ //el token no existe
+				$arr_respuesta = array("estado" => false, "msg" => 'Token no existe');
+				echo json_encode($arr_respuesta,JSON_UNESCAPED_UNICODE);
+			}
+			die();	
+		}
+
+		/*=======================================================
+        			ELIMINAR REGISTRO
+        =======================================================*/
+		public function eliminar()
+		{
+			$token = $_GET['token'];
+			$validar_token = $this->modelo->validar_token($token);
+			
+			if($validar_token['estado'] == 1){ //el token no esta expirado
+				if (isset($_SESSION['permisos_'.nombreproyecto()]['Dar de baja Usuarios'])) {
+					if ($_POST) {
+						$idusuario = intval($_POST['idusuario']);
+						$usuario = $this->modelo->seleccionar_unico_sql("SELECT * FROM usuarios WHERE id = $idusuario");
+						if ($usuario['estado'] == true) {
+							$arr_datos = $usuario['datos'];
+						}
+
+						$eliminar = $this->modelo->eliminar("usuarios", "id", $idusuario);
+						if ($eliminar['estado'] == true) {
+
+							//SI EXISTE URL FOTO ELIMINO ESA FOTO
+							if (!empty($arr_datos)) {
+								if (file_exists("".$arr_datos['foto_url'])) { //si el archivo existe
+									unlink("".$arr_datos['foto_url']);
+								}
+							}
+
+							$respuesta = array("estado" => true, "msg" => "Se ha eliminado el usuario");
+							echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
+							die();
+						}else{
+							$respuesta = array("estado" => false, "msg" => "Ops. Ocurrió un error.");
+							echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
+							die();
+						}
+						
+					}
+				}else{
+					$respuesta = array("estado" => false, "msg" => "Ops. No tiene permisos para dar de baja.");
+					echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
+					die();
+				}
+				die();
+			}else if($validar_token['estado'] == 2){ //el token esta expirado
+				$arr_respuesta = array("estado" => false, "msg" => 'Token expirado');
+				echo json_encode($arr_respuesta,JSON_UNESCAPED_UNICODE);
+			}else if($validar_token['estado'] == 0){ //el token no existe
+				$arr_respuesta = array("estado" => false, "msg" => 'Token no existe');
+				echo json_encode($arr_respuesta,JSON_UNESCAPED_UNICODE);
+			}
+			die();
+			
+		}
+
+		/*=======================================================
+        			LISTAR LOS SELECT PARA FORMULARIO
+        =======================================================*/
+		public function listar_selects()
+		{
+			if (isset($_SESSION['permisos_'.nombreproyecto()]['Ver Usuarios'])) {
+				$htmlRoles = "";
+				$htmlEmpleados = "";
+				$where_admin = "";
+					if($_SESSION['login_datos_'.nombreproyecto()]['id'] != 1){
+						$where_admin = " AND id != 1";
+					}
+				$consulta_datos = $this->modelo->seleccionar_todos_sql("SELECT * FROM roles WHERE estado = 1".$where_admin);
+				if ($consulta_datos['estado'] == true) {
+					$num_registros = $consulta_datos['cuantos'];
+					$arr_datos = $consulta_datos['datos'];
+
+					for ($i=0; $i < count($arr_datos); $i++) { 
+						$htmlRoles .= '<option value="'.$arr_datos[$i]['id'].'">'.$arr_datos[$i]['nombre'].'</option>';
+					}
+					
+				}else{
+					$arr_respuesta = array("estado" => false, "msg" => 'Ops. Ocurrió un error.');
+					echo json_encode($arr_respuesta,JSON_UNESCAPED_UNICODE);
+					die();
+				}
+
+				$consulta_datos2 = $this->modelo->seleccionar_todos_sql("SELECT * FROM empleados WHERE estado = 1");
+				if ($consulta_datos2['estado'] == true) {
+					$arr_datos2 = $consulta_datos2['datos'];
+
+					for ($i=0; $i < count($arr_datos2); $i++) { 
+						$htmlEmpleados .= '<option value="'.$arr_datos2[$i]['id'].'">'.$arr_datos2[$i]['nombres'].' '.$arr_datos2[$i]['apellidos'].'</option>';
+					}
+					
+				}else{
+					$arr_respuesta = array("estado" => false, "msg" => 'Ops. Ocurrió un error.');
+					echo json_encode($arr_respuesta,JSON_UNESCAPED_UNICODE);
+					die();
+				}
+
+				$arr_respuesta = array("estado" => true, 'roles' => $htmlRoles, 'empleados' => $htmlEmpleados);
+				echo json_encode($arr_respuesta,JSON_UNESCAPED_UNICODE);
+				die();
+			}else{
+				$respuesta = array("estado" => false, "msg" => "Ops. No tiene permisos para ver.");
+				echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
+				die();
+			}
+			die();		
+		}
+
+		
+
+
+	}
+
+
+
+
+ ?>

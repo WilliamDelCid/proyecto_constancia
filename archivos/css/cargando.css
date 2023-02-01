@@ -1,0 +1,24 @@
+#div_cargando{
+	position:fixed;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: #0054A4;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: rgba(254, 254,255, .65);
+	z-index: 9999;
+	display: none;
+
+}
+
+#div_cargando img{
+	width: 70px;
+	height: 70px;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: #fff;
+    background-color: #0054A4;
+}
