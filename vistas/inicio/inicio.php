@@ -1,5 +1,4 @@
 <?php cabecera($datos_vista);
-obtener_modal("modal_estudiantes", $datos_vista);
 obtener_modal("modal_roles", $datos_vista);
 
 ?>

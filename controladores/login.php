@@ -128,89 +128,7 @@
 			}
 		}
 
-		public function enviar_correo_restablecer()
-		{
-			if ($_POST) {
-				$correo = limpiar($_POST['txt_email_restablecer']);
-				$existe_usuario = $this->modelo->seleccionar_unico_sql("SELECT * FROM usuarios WHERE email = '$correo' AND estado = 1");
-				
-				if ($existe_usuario['estado'] == true) {
-					$arr_datos = $existe_usuario['datos'];
-					//SI NO EXISTE ESE USUARIO
-					if (empty($arr_datos)) {
-						$respuesta = array("estado" => false, "msg" => "No existe ese usuario.");
-						echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
-						die();
-					}else{ //SI EXISTE
-						
-							//Creamos el token
-							$token = $this->modelo->token_jwt($existe_usuario['datos']['id'], $existe_usuario['datos']['email']);
-							//generamos el token JWT
-							$llave = 'mi_contrasena_secreta_es_ues2022$';
-							$jwt = JWT::encode($token, $llave, "HS256");
-							//Actualizamos la base de datos con el token
-							$datos_token = array(
-								"token" => $jwt,
-								"token_exp" => $token["exp"]
-							);
-
-							$idusuario = $existe_usuario['datos']['id'];
-							$tipo_usuario = intval($existe_usuario['datos']['tipo_usuario']);
-							//obtenemos el nombre de ese usuario
-							if($tipo_usuario == 1){
-								$id_personal_academico = intval($existe_usuario['datos']['id_personal_academico']);
-								$obtener_nombre = $this->modelo->seleccionar_unico_sql("SELECT * FROM personal_academico WHERE id = $id_personal_academico");
-								//imprimir($obtener_nombre);die();
-								$nombre_usuario = $obtener_nombre['datos']['nombres'].' '.$obtener_nombre['datos']['apellidos'];
-							}else if($tipo_usuario == 2){
-								$id_integrante_admin = intval($existe_usuario['datos']['id_integrante_admin']);
-								$obtener_nombre = $this->modelo->seleccionar_unico_sql("SELECT * FROM integrantes_comite_administrativos WHERE id = $id_integrante_admin");
-								$nombre_usuario = $obtener_nombre['datos']['nombre'];
-							}
-							
-							
-
-							$url_recuperacion = url_base().'/login/confirmar_usuario/'.$correo.'/'.$jwt; //url que le mandara al correo para el reinicio de contra
-							//preparando el correo para recuperar la cuenta
-							$datos_usuario = array('nombre_usuario' => $nombre_usuario,
-													'correo' => $correo,
-													'asunto' => 'Recuperar Cuenta - '.NOMBRE_REMITENTE,
-													'url_recuperacion' => $url_recuperacion);
-
-							//actualiza el token en la base
-							$editar = $this->modelo->editar("usuarios", $datos_token, "id", $existe_usuario['datos']['id']);
-							//si se edito el token
-							if ($editar['estado'] == true) {
-								
-								//enviar el email
-								$enviar_correo = enviar_correo_phpmailer($datos_usuario, 'plantilla-correo-restablecer');
-								//var_dump($enviar_correo);die();
-								if ($enviar_correo) {
-									$respuesta = array('estado' => true, 'msg' => 'Se ha enviado un email a tu cuenta de correo para cambiar tu contraseña');
-									echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
-									die();
-								}else{
-									$respuesta = array('estado' => false, 'msg' => 'No es posible realizar el proceso, intenta mas tarde');
-									echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
-									die();
-								}
-							}else{
-								$respuesta = array("estado" => false, "msg" => 'Ops. Ocurrió un error.');
-								echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
-								die();
-							}
-							
-						
-					}
-				}else{
-					$respuesta = array("estado" => false, "msg" => "Ops. Ocurrió un error.");
-					echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
-					die();
-				}	
-				
-			}
-		}
-
+	
 		public function confirmar_usuario(string $parametros){
 			if (empty($parametros)) {
 				header('Location: '.url_base());
@@ -309,6 +227,3 @@
 		}
 
 	}
-
-
- ?>
