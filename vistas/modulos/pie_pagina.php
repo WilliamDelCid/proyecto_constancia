@@ -1,5 +1,5 @@
 <footer class="main-footer footer_space">
-  <strong>Copyright &copy; <?= date("Y"); ?> <a class="text-<?= COLOR_SIDEBAR_ACTIVO ?>" href="" target="_blank">Centro de Desarrollo Infantil Taber San Vicente</a>.</strong> Todos los derechos reservados.
+  <strong>Copyright &copy; <?= date("Y"); ?> <a class="text-<?= COLOR_SIDEBAR_ACTIVO ?>" href="" target="_blank">Facultad de Contaduria y Administración</a>.</strong> Todos los derechos reservados.
 </footer>
 
 <!-- Control Sidebar -->
@@ -53,11 +53,13 @@
 
 <!-- AdminLTE App -->
 <script src="<?= url_base(); ?>/template/plugins/adminlte/js/adminlte.min.js"></script>
+<script src="<?= url_base(); ?>/Horizontal/public/assets/js/app.js"></script>
 
 <!-- AdminLTE for demo purposes <script src="template/plugins/adminlte/js/demo.js"></script>-->
 
+<script src="<?= url_base(); ?>/funciones/jquery-ui.multidatespicker.js"></script>
 
-<script src="<?= url_base(); ?>/Horizontal/public/assets/js/app.js"></script>
+<link rel="stylesheet" type="text/css" href="<?= url_base(); ?>/funciones/jquery-ui.css">
 
 </body>
 

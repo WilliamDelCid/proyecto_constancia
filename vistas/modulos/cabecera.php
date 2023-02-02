@@ -5,9 +5,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><?= $datos_vista['titulo_ventana']; ?></title>
-  <link rel="shortcut icon" href="<?= url_base(); ?>/archivos/imagenes/logotaber.png">
+  <link rel="shortcut icon" href="<?= url_base(); ?>/archivos/imagenes/SR.png">
   <!-- Google Font: Source Sans Pro -->
   <!-- Font Awesome -->
+  <style>
+    .ui-state-highlight {
+      border: 0 !important;
+    }
+
+    .ui-state-highlight a {
+      background: #363636 !important;
+      color: #fff !important;
+    }
+  </style>
   <link rel="stylesheet" href="<?= url_base(); ?>/template/plugins/fontawesome-free/css/all.min.css">
   <!-- overlayScrollbars -->
   <!-- overlayScrollbars -->

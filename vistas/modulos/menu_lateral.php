@@ -9,28 +9,12 @@
                     <img src="<?= url_base(); ?>/archivos/imagenes/Logo_Universidad.png" alt="" height="120">
                 </a>
             </div>
-            <!-- End Logo container-->
 
-            <div class="menu-extras topbar-custom">
-                <!-- Search input -->
-                <div class="search-wrap" id="search-wrap">
-                    <div class="search-bar">
-                        <input class="search-input" type="search" placeholder="Search" />
-                        <a href="#" class="close-search toggle-search" data-target="#search-wrap">
-                            <i class="mdi mdi-close-circle"></i>
-                        </a>
-                    </div>
-                </div>
 
-            </div>
-            <!-- end menu-extras -->
-
-            <div class="clearfix"></div>
 
         </div> <!-- end container -->
     </div>
     <!-- end topbar-main -->
-
     <!-- MENU Start -->
     <div class="navbar-custom" style="background-color: #fff;">
         <div class="container-fluid">
@@ -39,7 +23,7 @@
                 <ul class="navigation-menu">
 
                     <li class="has-submenu">
-                        <a href="" style="color: #004A98;"><i class="mdi mdi-view-dashboard"></i>Inicio</a>
+                        <a href="<?= url_base(); ?>" style="color: #004A98;"><i class="mdi mdi-view-dashboard"></i>Inicio</a>
 
                     </li>
 
@@ -64,43 +48,57 @@
                                     </a>
                                 </li>
                             <?php } ?>
-                            <?php if (isset($_SESSION['todos_permisos_' . nombreproyecto()]['Ver Usuarios'])) { ?>
+                            <?php if (isset($_SESSION['todos_permisos_' . nombreproyecto()]['Ver Participacion'])) { ?>
                                 <li class="">
-                                    <a href="<?= url_base(); ?>/usuarios" class=" <?php if ($datos_vista['nombre_pagina'] == 'usuarios') {
-                                                                                        echo 'active';
-                                                                                    } ?>">
+                                    <a href="<?= url_base(); ?>/participacion" class=" <?php if ($datos_vista['nombre_pagina'] == 'participacion') {
+                                                                                            echo 'active';
+                                                                                        } ?>">
                                         <p>Tipo Participacion</p>
                                     </a>
                                 </li>
                             <?php } ?>
-                            <?php if (isset($_SESSION['todos_permisos_' . nombreproyecto()]['Ver Roles'])) { ?>
+                            <?php if (isset($_SESSION['todos_permisos_' . nombreproyecto()]['Ver Evento'])) { ?>
                                 <li class="">
-                                    <a href="<?= url_base(); ?>/roles" class=" <?php if ($datos_vista['nombre_pagina'] == 'roles') {
+                                    <a href="<?= url_base(); ?>/evento" class=" <?php if ($datos_vista['nombre_pagina'] == 'evento') {
                                                                                     echo 'active';
                                                                                 } ?>">
-                                        <p>Tipo de Conferencia</p>
+                                        <p>Evento</p>
                                     </a>
                                 </li>
                             <?php } ?>
-
+                            <?php if (isset($_SESSION['todos_permisos_' . nombreproyecto()]['Ver Cargo'])) { ?>
+                                <li class="">
+                                    <a href="<?= url_base(); ?>/cargos" class=" <?php if ($datos_vista['nombre_pagina'] == 'cargos') {
+                                                                                    echo 'active';
+                                                                                } ?>">
+                                        <p>Cargos</p>
+                                    </a>
+                                </li>
+                            <?php } ?>
+                            <?php if (isset($_SESSION['todos_permisos_' . nombreproyecto()]['Ver Empleado'])) { ?>
+                                <li class="">
+                                    <a href="<?= url_base(); ?>/empleados" class=" <?php if ($datos_vista['nombre_pagina'] == 'empleados') {
+                                                                                        echo 'active';
+                                                                                    } ?>">
+                                        <p>Empleados</p>
+                                    </a>
+                                </li>
+                            <?php } ?>
                         </ul>
                     </li>
+                    <?php if (isset($_SESSION['todos_permisos_' . nombreproyecto()]['Crear Formulario'])) { ?>
 
-                    <li class="has-submenu">
-                        <a href="#" style="color: #004A98;"><i class="mdi mdi-cube-outline"></i>Formulario</a>
-                        <ul class="submenu">
+                        <li class="has-submenu">
 
-                            <li>
-                                <a href="widgets.php">Widgets</a>
-                            </li>
-                            <li>
-                                <a href="calendar.php">Calendar</a>
-                            </li>
+                            <a style="color: #004A98;" href="<?= url_base(); ?>/crearformulario" class=" <?php if ($datos_vista['nombre_pagina'] == 'crearformulario') {
+                                                                                                                echo 'active';
+                                                                                                            } ?>">
+                                <i class="mdi mdi-buffer"></i>Formulario
 
+                            </a>
+                        </li>
+                    <?php } ?>
 
-
-                        </ul>
-                    </li>
                     <li>
                         <a style="color: #004A98;" href="<?= url_base(); ?>/logout" class="dropdown-item">
                             <i class="fas fa-sign-out-alt mr-2"></i> Cerrar Sesión
