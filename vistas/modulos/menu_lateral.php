@@ -64,25 +64,42 @@
                                     </a>
                                 </li>
                             <?php } ?>
-                            <?php if (isset($_SESSION['todos_permisos_' . nombreproyecto()]['Ver Usuarios'])) { ?>
+                            <?php if (isset($_SESSION['todos_permisos_' . nombreproyecto()]['Ver Participacion'])) { ?>
                                 <li class="">
-                                    <a href="<?= url_base(); ?>/usuarios" class=" <?php if ($datos_vista['nombre_pagina'] == 'usuarios') {
-                                                                                        echo 'active';
-                                                                                    } ?>">
+                                    <a href="<?= url_base(); ?>/participacion" class=" <?php if ($datos_vista['nombre_pagina'] == 'participacion') {
+                                                                                            echo 'active';
+                                                                                        } ?>">
                                         <p>Tipo Participacion</p>
                                     </a>
                                 </li>
                             <?php } ?>
-                            <?php if (isset($_SESSION['todos_permisos_' . nombreproyecto()]['Ver Roles'])) { ?>
+                            <?php if (isset($_SESSION['todos_permisos_' . nombreproyecto()]['Ver Evento'])) { ?>
                                 <li class="">
-                                    <a href="<?= url_base(); ?>/roles" class=" <?php if ($datos_vista['nombre_pagina'] == 'roles') {
+                                    <a href="<?= url_base(); ?>/evento" class=" <?php if ($datos_vista['nombre_pagina'] == 'evento') {
                                                                                     echo 'active';
                                                                                 } ?>">
-                                        <p>Tipo de Conferencia</p>
+                                        <p>Evento</p>
                                     </a>
                                 </li>
                             <?php } ?>
-
+                            <?php if (isset($_SESSION['todos_permisos_' . nombreproyecto()]['Ver Cargo'])) { ?>
+                                <li class="">
+                                    <a href="<?= url_base(); ?>/cargos" class=" <?php if ($datos_vista['nombre_pagina'] == 'cargos') {
+                                                                                    echo 'active';
+                                                                                } ?>">
+                                        <p>Cargos</p>
+                                    </a>
+                                </li>
+                            <?php } ?>
+                            <?php if (isset($_SESSION['todos_permisos_' . nombreproyecto()]['Ver Empleado'])) { ?>
+                                <li class="">
+                                    <a href="<?= url_base(); ?>/empleados" class=" <?php if ($datos_vista['nombre_pagina'] == 'empleados') {
+                                                                                        echo 'active';
+                                                                                    } ?>">
+                                        <p>Empleados</p>
+                                    </a>
+                                </li>
+                            <?php } ?>
                         </ul>
                     </li>
 

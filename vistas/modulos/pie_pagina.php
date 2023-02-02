@@ -1,5 +1,5 @@
 <footer class="main-footer footer_space">
-  <strong>Copyright &copy; <?= date("Y"); ?> <a class="text-<?= COLOR_SIDEBAR_ACTIVO ?>" href="" target="_blank">Centro de Desarrollo Infantil Taber San Vicente</a>.</strong> Todos los derechos reservados.
+  <strong>Copyright &copy; <?= date("Y"); ?> <a class="text-<?= COLOR_SIDEBAR_ACTIVO ?>" href="" target="_blank">Facultad de Contaduria y Administración</a>.</strong> Todos los derechos reservados.
 </footer>
 
 <!-- Control Sidebar -->
