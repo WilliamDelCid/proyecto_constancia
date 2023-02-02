@@ -9,28 +9,12 @@
                     <img src="<?= url_base(); ?>/archivos/imagenes/Logo_Universidad.png" alt="" height="120">
                 </a>
             </div>
-            <!-- End Logo container-->
 
-            <div class="menu-extras topbar-custom">
-                <!-- Search input -->
-                <div class="search-wrap" id="search-wrap">
-                    <div class="search-bar">
-                        <input class="search-input" type="search" placeholder="Search" />
-                        <a href="#" class="close-search toggle-search" data-target="#search-wrap">
-                            <i class="mdi mdi-close-circle"></i>
-                        </a>
-                    </div>
-                </div>
 
-            </div>
-            <!-- end menu-extras -->
-
-            <div class="clearfix"></div>
 
         </div> <!-- end container -->
     </div>
     <!-- end topbar-main -->
-
     <!-- MENU Start -->
     <div class="navbar-custom" style="background-color: #fff;">
         <div class="container-fluid">
@@ -39,7 +23,7 @@
                 <ul class="navigation-menu">
 
                     <li class="has-submenu">
-                        <a href="" style="color: #004A98;"><i class="mdi mdi-view-dashboard"></i>Inicio</a>
+                        <a href="<?= url_base(); ?>" style="color: #004A98;"><i class="mdi mdi-view-dashboard"></i>Inicio</a>
 
                     </li>
 
