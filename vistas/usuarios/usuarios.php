@@ -42,7 +42,6 @@
                   <thead>
                     <tr>
                       <th>ID</th>
-                      <th>Foto</th>
                       <th>Email</th>
                       <th>Rol</th>
                       <th>Estado</th>

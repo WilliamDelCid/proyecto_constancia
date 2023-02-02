@@ -67,7 +67,7 @@ class evento extends controladores
 						$arr_datos[$i]['acciones'] = '<div class="text-center"> ' . $boton_editar . ' ' . $boton_eliminar . '</div>';
 						$htmlDatosTabla .= '<tr>
 												<td>' . $arr_datos[$i]['id'] . '</td>
-												<td>' . $arr_datos[$i]['nombre'] . '</td>
+												<td style="width:50%;">' . $arr_datos[$i]['nombre'] . '</td>
 												<td>' . $arr_datos[$i]['estado'] . '</td>
 												<td>' . $arr_datos[$i]['fecha_creacion'] . '</td>
 												<td>' . $arr_datos[$i]['acciones'] . '</td>
