@@ -86,22 +86,19 @@
                             <?php } ?>
                         </ul>
                     </li>
+                    <?php if (isset($_SESSION['todos_permisos_' . nombreproyecto()]['Crear Formulario'])) { ?>
 
-                    <li class="has-submenu">
-                        <a href="#" style="color: #004A98;"><i class="mdi mdi-cube-outline"></i>Formulario</a>
-                        <ul class="submenu">
+                        <li class="has-submenu">
 
-                            <li>
-                                <a href="widgets.php">Widgets</a>
-                            </li>
-                            <li>
-                                <a href="calendar.php">Calendar</a>
-                            </li>
+                            <a style="color: #004A98;" href="<?= url_base(); ?>/crearformulario" class=" <?php if ($datos_vista['nombre_pagina'] == 'crearformulario') {
+                                                                                                                echo 'active';
+                                                                                                            } ?>">
+                                <i class="mdi mdi-buffer"></i>Formulario
 
+                            </a>
+                        </li>
+                    <?php } ?>
 
-
-                        </ul>
-                    </li>
                     <li>
                         <a style="color: #004A98;" href="<?= url_base(); ?>/logout" class="dropdown-item">
                             <i class="fas fa-sign-out-alt mr-2"></i> Cerrar Sesión

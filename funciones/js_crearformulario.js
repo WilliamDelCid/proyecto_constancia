@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
         yearSuffix: ''
     };
     $.datepicker.setDefaults($.datepicker.regional['es']);
-    $('#datePick').multiDatesPicker();
+    $('#fecha_evento').multiDatesPicker();
     // obtener_formulario();
     /*---------------------------------------------------
       AL DAR CLIC EN EL BOTON DE NUEVO SE ABRE EL MODAL

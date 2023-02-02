@@ -11,6 +11,9 @@ class crearformulario extends controladores
 		}
 		$this->modelo->obtener_permisos_modulo(16, $_SESSION['login_datos_' . nombreproyecto()]['id_rol']);
 		$this->modelo->obtener_permisos_todos($_SESSION['login_datos_' . nombreproyecto()]['id_rol']);
+		if (!isset($_SESSION['permisos_' . nombreproyecto()]['Crear Formulario'])) {
+			header('location: ' . url_base() . '/login');
+		}
 	}
 
 	/*=======================================================
@@ -18,6 +21,7 @@ class crearformulario extends controladores
         =======================================================*/
 	public function crearformulario()
 	{
+
 		$datos_vista['titulo_ventana'] = "Crear Formulario";
 		$datos_vista['titulo_pagina'] = "Crear Formulario";
 		$datos_vista['nombre_pagina'] = "Crear Formulario";
