@@ -1,4 +1,4 @@
-// var formEmpleado = document.querySelector("#formEmpleado");
+var formFormulario = document.querySelector("#formFormulario");
 let div_cargando = document.querySelector('#div_cargando');
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -82,72 +82,103 @@ document.addEventListener('DOMContentLoaded', function () {
     METODOS PERSONALIZADOS DE VALIDACION DE FORMULARIOS
     ----------------------------------------------------*/
 
-    //SOLO ALFANUMERICO
-    // $.validator.addMethod("formAlphanumeric", function (value, element) {
-    //     var pattern = /^[\w]+$/i;
-    //     return this.optional(element) || pattern.test(value);
-    // }, "El campo debe tener un valor alfanumérico (azAZ09)");
+    // SOLO ALFANUMERICO
+    $.validator.addMethod("formAlphanumeric", function (value, element) {
+        var pattern = /^[\w]+$/i;
+        return this.optional(element) || pattern.test(value);
+    }, "El campo debe tener un valor alfanumérico (azAZ09)");
 
-    // //SOLO LETRAS
-    // $.validator.addMethod("formLetras", function (value, element) {
-    //     var pattern = /^[a-z\-\s-áéíóú_.,ñ0-9()]+$/i;
-    //     return this.optional(element) || pattern.test(value);
-    // }, "Este campo solo acepta letras");
+    //SOLO LETRAS
+    $.validator.addMethod("formLetras", function (value, element) {
+        var pattern = /^[a-z\-\s-áéíóú_.,ñ0-9()]+$/i;
+        return this.optional(element) || pattern.test(value);
+    }, "Este campo solo acepta letras");
 
-    // //EMAIL CORRECTO
-    // $.validator.addMethod("formEmail", function (value, element) {
-    //     var pattern = /^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\.([a-zA-Z])+([a-zA-Z])+/;
-    //     return this.optional(element) || pattern.test(value);
-    // }, "Formato del email incorrecto");
+    //EMAIL CORRECTO
+    $.validator.addMethod("formEmail", function (value, element) {
+        var pattern = /^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\.([a-zA-Z])+([a-zA-Z])+/;
+        return this.optional(element) || pattern.test(value);
+    }, "Formato del email incorrecto");
 
     /*---------------------------------------------------
             VALIDANDO EL FORMULARIO
     ----------------------------------------------------*/
-    // $("#formEmpleado").validate({
-    //     rules: {
-    //         nombre: {
-    //             required: true,
-    //             formLetras: true
-    //         },
-    //         estado: {
-    //             required: true
-    //         }
-    //     },
-    //     messages: {
-    //         nombre: {
-    //             required: "Este campo es requerido"
-    //         },
-    //         estado: {
-    //             required: "Este campo es requerido"
-    //         }
-    //     },
-    //     errorElement: 'span'
-    // });
+    $("#formFormulario").validate({
+        rules: {
+            nombre: {
+                required: true,
+                formLetras: true
+            },
+            apellido: {
+                required: true,
+                formLetras: true
+            },
+            participacion: {
+                required: true
+            },
+            evento: {
+                required: true
+            },
+            fecha_evento: {
+                required: true
+            },
+            lugar_evento: {
+                required: true
+            },
+            fecha_expedicion: {
+                required: true
+            }
+        },
+        messages: {
+            nombre: {
+                required: "Este campo es requerido"
+            },
+            apellido: {
+                required: "Este campo es requerido"
+            },
+            participacion: {
+                required: "Este campo es requerido"
+            },
+            evento: {
+                required: "Este campo es requerido"
+            },
+            fecha_evento: {
+                required: "Este campo es requerido"
+            },
+            lugar_evento: {
+                required: "Este campo es requerido"
+            },
+            fecha_expedicion: {
+                required: "Este campo es requerido"
+            }
+
+        },
+        errorElement: 'span'
+    });
 
     /*---------------------------------------------------
             EVENTO CLIC EN EL FORMULARIO
     ----------------------------------------------------*/
 
-    $(document).on("submit", "#formEmpleado", function (e) {
+    $(document).on("submit", "#formFormulario", function (e) {
         e.preventDefault();
-        var datos = new FormData(formEmpleado);
+        var datos = new FormData(formFormulario);
         div_cargando.style.display = "flex";
         $.ajax({
             dataType: "json",
             method: "POST",
-            url: url_base + "/empleados/insertar?token=" + token,
+            url: url_base + "/crearformulario/insertar?token=" + token,
             data: datos,
             processData: false,
             contentType: false
         }).done(function (json) {
-            $('#modal_empleados').modal("hide");
-            formEmpleado.reset();
+            formFormulario.reset();
             if (json.estado === true) {
-                alerta_recargartabla('Empleado', json.msg);
+                alerta_recargartabla('Formulario', json.msg);
             } else {
-                if (json.msg === "Token expirado") { alerta_token_exp("Empleado", "El token está expirado. Inicie sesión nuevamente.") }
-                else if (json.msg === "Token no existe") { alerta_token_exp("Empleado", "El token no existe. Inicie sesión nuevamente.") }
-                else { alerta_error('Empleado', json.msg); }
+                if (json.msg === "Token expirado") { alerta_token_exp("Formulario", "El token está expirado. Inicie sesión nuevamente.") }
+                else if (json.msg === "Token no existe") { alerta_token_exp("Formulario", "El token no existe. Inicie sesión nuevamente.") }
+                else { alerta_error('Formulario', json.msg); }
             }
         }).fail(function () {
 
@@ -202,20 +233,6 @@ function alerta_recargartabla(titulo, mensaje) {
     });
 
 }
-
-/*---------------------------------------------------
-            CARGA LOS DATOS A LA TABLA
-----------------------------------------------------*/
-
-
-
-/*---------------------------------------------------
-                EDITAR
-----------------------------------------------------*/
-
-
-
-
 
 function reset_form(form) {
     form.reset();
