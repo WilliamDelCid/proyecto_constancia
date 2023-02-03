@@ -68,8 +68,10 @@ class formulario extends controladores
 						if (isset($_SESSION['permisos_' . nombreproyecto()]['Dar de baja Formulario'])) {
 							$boton_eliminar = '<button type="button" class="btn btn-danger btn-sm" onClick="fnt_eliminar_formulario(' . $arr_datos[$i]['id_formulario'] . ')" title="Eliminar"><i class="fas fa-trash"></i></button>';
 						}
+						$boton_detalle = '<button type="button" class="btn btn-primary btn-sm" onClick="verFormulario(' . $arr_datos[$i]['id_formulario'] . ')" title="Ver detalles"><i class="fas fa-eye"></i></button>';
+
 						//agregamos los botones
-						$arr_datos[$i]['acciones'] = '<div class="text-center"> ' . $boton_editar . ' ' . $boton_eliminar . '</div>';
+						$arr_datos[$i]['acciones'] = '<div class="text-center"> ' . $boton_editar . ' ' . $boton_eliminar . ' ' . $boton_detalle . '</div>';
 						$htmlDatosTabla .= '<tr>
 												<td>' . $arr_datos[$i]['id_formulario'] . '</td>
 												<td>' . $arr_datos[$i]['nombre_formulario'] . '</td>
