@@ -76,7 +76,12 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-
+    // $("#btn_nueva_participacion").click(function (e) {
+    //     e.preventDefault();
+    //     $("#titulo_modal").empty().html("Nueva Participacion");
+    //     $("#id").val(0);
+    //     $('#modal_participacion').modal('show');
+    // });
 
     /*---------------------------------------------------
     METODOS PERSONALIZADOS DE VALIDACION DE FORMULARIOS
@@ -142,6 +147,9 @@ document.addEventListener('DOMContentLoaded', function () {
             evento: {
                 required: "Este campo es requerido"
             },
+            evento_opcional: {
+                required: "Este campo es requerido"
+            },
             fecha_evento: {
                 required: "Este campo es requerido"
             },
@@ -156,9 +164,6 @@ document.addEventListener('DOMContentLoaded', function () {
         errorElement: 'span'
     });
 
-    /*---------------------------------------------------
-            EVENTO CLIC EN EL FORMULARIO
-    ----------------------------------------------------*/
 
     // function dataURLtoFile(dataurl, filename) {
     //     var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
@@ -179,13 +184,21 @@ document.addEventListener('DOMContentLoaded', function () {
         document.querySelector('#token').value = 'Hola';
     });
 
+    $(document).on("change", "#evento", function (e) {
+        if (e.target.value == '-1') {
+            document.querySelector('#evento_opcional').removeAttribute('disabled');
+            document.querySelector('#evento_opcional').setAttribute('required', 'true');
+        } else {
+            document.querySelector('#evento_opcional').setAttribute('disabled', 'false')
+            document.querySelector('#evento_opcional').removeAttribute('required');
+        }
+    });
+
 
 
     $(document).on("submit", "#formFormulario", function (e) {
         e.preventDefault();
         var datos = new FormData(formFormulario);
-
-        return 0;
         div_cargando.style.display = "flex";
         $.ajax({
             dataType: "json",
@@ -251,7 +264,6 @@ function alerta_recargartabla(titulo, mensaje) {
         confirmButtonColor: "#AA0000"
     }).then((result) => {
         if (result.isConfirmed) {
-            cargar_datos();
         } //result confirm
     });
 
@@ -260,6 +272,55 @@ function alerta_recargartabla(titulo, mensaje) {
 function reset_form(form) {
     form.reset();
 }
+
+
+async function fntAñadirMarca() { //Cambiarlo
+
+    const { value: nombre } = await Swal.fire({
+        title: 'Ingrese una participación',
+        input: 'text',
+        inputLabel: 'Su participación',
+        showCancelButton: true,
+        inputValidator: (value) => {
+            if (!value) {
+                return 'Ingrese una participación'
+            } else {
+                div_cargando.style.display = "flex";
+                var datos = { "txtNombre": value };
+                $.ajax({
+                    dataType: "json",
+                    method: "POST",
+                    url: url_base + "/crearformulario/listarparticipacion",
+                    data: datos,
+                }).done(function (json) {
+                    console.log("EL consultar", json);
+                    if (json.estado) {
+                        console.log(json.estado)
+                        $("#participacion").empty().html(json.participacion);
+                        Swal.fire("Participación!", json.msg, "success");
+                        document.querySelector("#participacion").value = json.id;
+                    } else {
+                        Swal.fire("Participación!", json.msg, "error");
+                    }
+                }).fail(function () {
+
+                }).always(function () {
+                    div_cargando.style.display = "none";
+                });
+            }
+        }
+    })
+
+    if (nombre) {
+        Swal.fire(`Your IP address is ${nombre}`)
+    }
+
+
+
+
+
+}
+
 
 
 

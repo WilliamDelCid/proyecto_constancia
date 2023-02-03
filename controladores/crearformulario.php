@@ -34,6 +34,56 @@ class crearformulario extends controladores
         =======================================================*/
 	public function listarparticipacion()
 	{
+
+		if (!empty($_POST['txtNombre'])) {
+			$idparticipacion = 0;
+			$nombre =  limpiar($_POST['txtNombre']);
+			$estado = 1;
+			$existe = $this->modelo->seleccionar_todos_sql("SELECT * FROM participacion WHERE nombre = '$nombre'");
+			//imprimir($existe);die();
+			if ($existe['estado'] == true) {
+				if (empty($existe['datos'])) {
+
+					//$token = $_SESSION['login_datos_'.nombreproyecto()]->{'token_usuario'};
+
+					$campos = array("nombre" => $nombre, "estado" => $estado);
+					//if (isset($_SESSION['permisos_'.nombreproyecto()]['Crear Roles'])) {
+					$insertar = $this->modelo->insertar("participacion", $campos);
+					if ($insertar['estado'] == true) {
+						$htmlC = "";
+						$consulta_datos2 = $this->modelo->seleccionar_todos_sql("SELECT * FROM participacion 
+																						WHERE participacion.estado = 1");
+						if ($consulta_datos2['estado'] == true) {
+							$arr_datos2 = $consulta_datos2['datos'];
+
+							for ($i = 0; $i < count($arr_datos2); $i++) {
+								$htmlC .= '<option value="' . $arr_datos2[$i]['id'] . '">' . $arr_datos2[$i]['nombre'] . '</option>';
+							}
+						} else {
+							$arr_respuesta = array("estado" => false, "msg" => 'Ops. Ocurrió un error.');
+							echo json_encode($arr_respuesta, JSON_UNESCAPED_UNICODE);
+							die();
+						}
+						$respuesta = array("estado" => true, "msg" => $insertar['respuesta'], 'participacion' => $htmlC, "id" => $insertar['idcreado']);
+						echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
+						die();
+					} else {
+						$respuesta = array("estado" => false, "msg" => "Ops. Ocurrió un error.");
+						echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
+						die();
+					}
+				} else {
+					$respuesta = array("estado" => false, "msg" => "La participación ya existe.");
+					echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
+					die();
+				}
+			} else {
+				$respuesta = array("estado" => false, "msg" => "Ops. Ocurrió un error.");
+				echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
+				die();
+			}
+		}
+
 		if (isset($_SESSION['permisos_' . nombreproyecto()]['Crear Formulario'])) {
 			$htmlC = "";
 			$consulta_datos2 = $this->modelo->seleccionar_todos_sql("SELECT * FROM participacion 
@@ -80,6 +130,8 @@ class crearformulario extends controladores
 				echo json_encode($arr_respuesta, JSON_UNESCAPED_UNICODE);
 				die();
 			}
+
+			$htmlC .= '<option value="-1">Otros</option>';
 			$arr_respuesta = array("estado" => true, 'evento' => $htmlC);
 			echo json_encode($arr_respuesta, JSON_UNESCAPED_UNICODE);
 			die();
@@ -119,7 +171,6 @@ class crearformulario extends controladores
 				$fecha_evento_separada = explode(',', $fecha_evento);
 
 
-				die();
 
 
 				if (isset($_SESSION['permisos_' . nombreproyecto()]['Crear Formulario'])) {
