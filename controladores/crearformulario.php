@@ -143,10 +143,60 @@ class crearformulario extends controladores
 		die();
 	}
 
+	/*=======================================================
+        	FUNCION PARA GENERAR STRING DE FECHAS
+	=======================================================*/
 
+
+	public  function fechaReducida($fecha_evento)
+	{
+		// separamos las fechas
+		$fechas = explode(',', $fecha_evento);
+		$fechas2 = [];
+		for ($i = 0; $i < count($fechas); $i++) {
+			$fechas2[$i] = explode('/', $fechas[$i]);
+		}
+
+		// Obtenemos los meses
+		$meses = [];
+		for ($j = 0; $j < count($fechas2); $j++) {
+
+			$meses[$j] = $fechas2[$j][1];
+		}
+
+		// eliminamos los meses duplicados
+		$meses = array_values(array_unique($meses));
+
+		// Concatenamos las fechas con las que matchean los meses
+		$fechaReducida = '';
+		for ($k = 0; $k < count($meses); $k++) {
+			for ($l = 0; $l < count($fechas2); $l++) {
+				// var_dump(in_array($meses[$k], $fechas2[$l]));
+				// die();
+				if (in_array($meses[$k], $fechas2[$l])) {
+					if ($l == 0) {
+						$fechaReducida .= $fechas2[$l][0];
+					} else {
+						$fechaReducida .= ', ' . $fechas2[$l][0];
+					}
+					// echo ($fechas2[$l][0]);
+				}
+			}
+			// si es la ultima iteracion del mes concatenamos el mes
+			$ultimaIteracion = $k + 1;
+			if ($ultimaIteracion < count($meses)) {
+				$fechaReducida .= ' de ' . $meses[$k];
+			} else {
+				$fechaReducida .= ' de ' . $meses[$k] . ' de ' . $fechas2[0][2];
+			}
+		}
+		return $fechaReducida;
+	}
 	/*=======================================================
         			INSERTAR O EDITAR REGISTROS
         =======================================================*/
+
+
 	public function insertar()
 	{
 		$token = $_GET['token'];
@@ -159,7 +209,7 @@ class crearformulario extends controladores
 				$apellido =  limpiar($_POST['apellido']);
 				$idparticipacion = intval($_POST['participacion']);
 				$idevento = intval($_POST['evento']);
-				$evento_opcional = intval($_POST['evento_opcional']);
+				$evento_opcional = limpiar($_POST['evento_opcional']);
 				$fecha_evento = limpiar($_POST['fecha_evento']);
 				$lugar_evento = limpiar($_POST['lugar_evento']);
 				$fecha_expedicion = limpiar($_POST['fecha_expedicion']);
@@ -168,8 +218,9 @@ class crearformulario extends controladores
 					$evento_opcional = null;
 				}
 
-				$fecha_evento_separada = explode(',', $fecha_evento);
 
+				$fechaReducida = self::fechaReducida($fecha_evento);
+				var_dump($fechaReducida);
 
 
 
