@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><?= $datos_vista['titulo_ventana']; ?></title>
-  <link rel="shortcut icon" href="<?= url_base(); ?>/archivos/imagenes/SR.png">
+  <link rel="shortcut icon" href="<?= url_base(); ?>/archivos/imagenes/logo-u.png">
   <!-- Google Font: Source Sans Pro -->
   <!-- Font Awesome -->
   <style>

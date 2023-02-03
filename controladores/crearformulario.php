@@ -122,16 +122,20 @@ class crearformulario extends controladores
 				// var_dump(in_array($meses[$k], $fechas2[$l]));
 				// die();
 				if (in_array($meses[$k], $fechas2[$l])) {
-					$fechaReducida .= $fechas2[$l][0] . ', ';
+					if ($l == 0) {
+						$fechaReducida .= $fechas2[$l][0];
+					} else {
+						$fechaReducida .= ', ' . $fechas2[$l][0];
+					}
 					// echo ($fechas2[$l][0]);
 				}
 			}
 			// si es la ultima iteracion del mes concatenamos el mes
 			$ultimaIteracion = $k + 1;
 			if ($ultimaIteracion < count($meses)) {
-				$fechaReducida .= 'de ' . $meses[$k] . ' y ';
+				$fechaReducida .= ' de ' . $meses[$k];
 			} else {
-				$fechaReducida .= 'de ' . $meses[$k];
+				$fechaReducida .= ' de ' . $meses[$k] . ' de ' . $fechas2[0][2];
 			}
 		}
 		return $fechaReducida;
@@ -153,7 +157,7 @@ class crearformulario extends controladores
 				$apellido =  limpiar($_POST['apellido']);
 				$idparticipacion = intval($_POST['participacion']);
 				$idevento = intval($_POST['evento']);
-				$evento_opcional = intval($_POST['evento_opcional']);
+				$evento_opcional = limpiar($_POST['evento_opcional']);
 				$fecha_evento = limpiar($_POST['fecha_evento']);
 				$lugar_evento = limpiar($_POST['lugar_evento']);
 				$fecha_expedicion = limpiar($_POST['fecha_expedicion']);
