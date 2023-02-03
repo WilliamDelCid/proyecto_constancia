@@ -99,11 +99,19 @@
                         <input id="fecha_expedicion" name="fecha_expedicion" class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" />
                       </div>
                     </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label class="control-label">Codigo QR</label>
+                        <div id="contenedorQR" class="contenedorQR"></div>
+                        <input type="hidden" id="token" name="token" value="">
+                      </div>
+                    </div>
                   </div>
                 </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cerrar</button>
+              <button type="button" id="buttonQR" class="btn btn-success" data-dismiss="modal">Generar QR</button>
               <button type="submit" class="btn bg-<?= COLOR_SIDEBAR_ACTIVO ?>">Guardar</button>
             </div>
             </form>

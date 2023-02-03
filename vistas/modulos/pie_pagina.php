@@ -58,6 +58,8 @@
 <!-- AdminLTE for demo purposes <script src="template/plugins/adminlte/js/demo.js"></script>-->
 
 <script src="<?= url_base(); ?>/funciones/jquery-ui.multidatespicker.js"></script>
+<script src="<?= url_base(); ?>/funciones/qrcode.min.js"></script>
+
 
 <link rel="stylesheet" type="text/css" href="<?= url_base(); ?>/funciones/jquery-ui.css">
 
