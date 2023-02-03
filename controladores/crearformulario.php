@@ -95,6 +95,19 @@ class crearformulario extends controladores
 	/*=======================================================
         			INSERTAR O EDITAR REGISTROS
         =======================================================*/
+
+	public  function verificar($mes, $array)
+	{
+		for ($i = 0; $i < count($array); $i++) {
+			if ($mes == $array[$i]) {
+				continue;
+			} else {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public function insertar()
 	{
 		$token = $_GET['token'];
@@ -116,8 +129,42 @@ class crearformulario extends controladores
 					$evento_opcional = null;
 				}
 
-				$fecha_evento_separada = explode(',', $fecha_evento);
+				// https://lineadecodigo.com/php/eliminar-elementos-duplicados-de-un-array-en-php/
 
+				$fechas = explode(',', $fecha_evento);
+				$fechas2 = [];
+				for ($i = 0; $i < count($fechas); $i++) {
+					$fechas2[$i] = explode('/', $fechas[$i]);
+				}
+
+				$meses = [];
+				for ($j = 0; $j < count($fechas2); $j++) {
+
+					$meses[$j] = $fechas2[$j][1];
+				}
+
+				$meses = array_values(array_unique($meses));
+				// var_dump($meses);
+				// die();
+
+				$fechaReducida = '';
+				for ($k = 0; $k < count($meses); $k++) {
+					for ($l = 0; $l < count($fechas2); $l++) {
+						// var_dump(in_array($meses[$k], $fechas2[$l]));
+						// die();
+						if (in_array($meses[$k], $fechas2[$l])) {
+							$fechaReducida .= $fechas2[$l][0] . ', ';
+							// echo ($fechas2[$l][0]);
+						}
+					}
+					$a = $k + 1;
+					if ($a < count($meses)) {
+						$fechaReducida .= 'de ' . $meses[$k] . ' y ';
+					} else {
+						$fechaReducida .= 'de ' . $meses[$k];
+					}
+				}
+				var_dump($fechaReducida);
 
 				die();
 
