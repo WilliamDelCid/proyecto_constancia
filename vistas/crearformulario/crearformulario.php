@@ -1,5 +1,4 @@
 <?php cabecera($datos_vista); ?>
-<!-- <?php obtener_modal("modal_formulario", $datos_vista); ?> -->
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper" style="margin-top: 80px">
