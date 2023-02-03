@@ -1,4 +1,6 @@
-<?php cabecera($datos_vista); ?>
+<?php cabecera($datos_vista);
+obtener_modal("modal_detalle_formulario", $datos_vista);
+?>
 
 
 <!-- Content Wrapper. Contains page content -->
