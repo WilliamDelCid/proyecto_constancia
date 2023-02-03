@@ -1,6 +1,11 @@
 // var formEmpleado = document.querySelector("#formEmpleado");
 let div_cargando = document.querySelector('#div_cargando');
 document.addEventListener('DOMContentLoaded', function () {
+
+    obtener_participacion();
+    obtener_evento();
+
+
     $.datepicker.regional['es'] = {
         closeText: 'Cerrar',
         prevText: '<Ant',
@@ -24,16 +29,16 @@ document.addEventListener('DOMContentLoaded', function () {
     /*---------------------------------------------------
       AL DAR CLIC EN EL BOTON DE NUEVO SE ABRE EL MODAL
     ----------------------------------------------------*/
-    function obtener_formulario() {
+    function obtener_participacion() {
         $.ajax({
             dataType: "json",
             method: "POST",
-            url: url_base + "/crearformularios/listarparticipacion"
+            url: url_base + "/crearformulario/listarparticipacion"
         }).done(function (json) {
             if (json.estado) {
-                $("#cargo").empty().html(json.cargos);
+                $("#participacion").empty().html(json.participacion);
             } else {
-                alerta_error('Expediente', json.msg);
+                alerta_error('Participacion', json.msg);
             }
         }).fail(function () {
 
@@ -41,6 +46,37 @@ document.addEventListener('DOMContentLoaded', function () {
             //Swal.close();
         });
     }
+
+    function obtener_evento() {
+        $.ajax({
+            dataType: "json",
+            method: "POST",
+            url: url_base + "/crearformulario/listarevento"
+        }).done(function (json) {
+            if (json.estado) {
+                $("#evento").empty().html(json.evento);
+            } else {
+                alerta_error('Participacion', json.msg);
+            }
+        }).fail(function () {
+
+        }).always(function () {
+            //Swal.close();
+        });
+    }
+
+    $('.select2').select2({
+        "language": {
+            "noResults": function () {
+                return "No se encontraron resultados";
+            }
+        },
+        escapeMarkup: function (markup) {
+            return markup;
+        }
+    });
+
+
 
     /*---------------------------------------------------
     METODOS PERSONALIZADOS DE VALIDACION DE FORMULARIOS

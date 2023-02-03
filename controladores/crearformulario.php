@@ -61,6 +61,38 @@ class crearformulario extends controladores
 	}
 
 	/*=======================================================
+        			COMBO CARGO
+        =======================================================*/
+	public function listarevento()
+	{
+		if (isset($_SESSION['permisos_' . nombreproyecto()]['Crear Formulario'])) {
+			$htmlC = "";
+			$consulta_datos2 = $this->modelo->seleccionar_todos_sql("SELECT * FROM eventos 
+																			WHERE eventos.estado = 1");
+			if ($consulta_datos2['estado'] == true) {
+				$arr_datos2 = $consulta_datos2['datos'];
+
+				for ($i = 0; $i < count($arr_datos2); $i++) {
+					$htmlC .= '<option value="' . $arr_datos2[$i]['id'] . '">' . $arr_datos2[$i]['nombre'] . '</option>';
+				}
+			} else {
+				$arr_respuesta = array("estado" => false, "msg" => 'Ops. Ocurrió un error.');
+				echo json_encode($arr_respuesta, JSON_UNESCAPED_UNICODE);
+				die();
+			}
+			$arr_respuesta = array("estado" => true, 'evento' => $htmlC);
+			echo json_encode($arr_respuesta, JSON_UNESCAPED_UNICODE);
+			die();
+		} else {
+			$respuesta = array("estado" => false, "msg" => "Ops. No tiene permisos para ver.");
+			echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
+			die();
+		}
+		die();
+	}
+
+
+	/*=======================================================
         			INSERTAR O EDITAR REGISTROS
         =======================================================*/
 	public function insertar()
