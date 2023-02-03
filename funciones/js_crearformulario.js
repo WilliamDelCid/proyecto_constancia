@@ -206,9 +206,30 @@ document.addEventListener(
             EVENTO CLIC EN EL FORMULARIO
     ----------------------------------------------------*/
 
+    // function dataURLtoFile(dataurl, filename) {
+    //     var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+    //         bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+    //     while(n--){
+    //         u8arr[n] = bstr.charCodeAt(n);
+    //     }
+    //     return new File([u8arr], filename, {type:mime});
+    // }
+
+    // //Usage example:
+    // var file = dataURLtoFile('data:image/png;base64,......', 'a.png');
+    // console.log(file);
+    $(document).on("click", "#buttonQR", function (e) {
+      const contenedorQR = document.getElementById("contenedorQR");
+      const QR = new QRCode(contenedorQR);
+      QR.makeCode("http://localhost/proyecto_constancia/crearformulario");
+      document.querySelector("#token").value = "Hola";
+    });
+
     $(document).on("submit", "#formFormulario", function (e) {
       e.preventDefault();
       var datos = new FormData(formFormulario);
+
+      return 0;
       div_cargando.style.display = "flex";
       $.ajax({
         dataType: "json",
@@ -223,19 +244,7 @@ document.addEventListener(
           if (json.estado === true) {
             alerta_recargartabla("Formulario", json.msg);
           } else {
-            if (json.msg === "Token expirado") {
-              alerta_token_exp(
-                "Formulario",
-                "El token está expirado. Inicie sesión nuevamente."
-              );
-            } else if (json.msg === "Token no existe") {
-              alerta_token_exp(
-                "Formulario",
-                "El token no existe. Inicie sesión nuevamente."
-              );
-            } else {
-              alerta_error("Formulario", json.msg);
-            }
+            alerta_error("Formulario", json.msg);
           }
         })
         .fail(function () {})
