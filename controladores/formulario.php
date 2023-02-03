@@ -63,7 +63,7 @@ class formulario extends controladores
 						}
 
 						if (isset($_SESSION['permisos_' . nombreproyecto()]['Editar Formulario'])) {
-							$boton_editar = '<button type="button" class="btn btn-danger btn-sm" onClick="fnt_editar_formulario(' . $arr_datos[$i]['id_formulario'] . ')" title="Editar"><i class="fas fa-edit"></i></button>';
+							$boton_editar = '<button type="button" class="btn btn-danger btn-sm abrir" data-id="' . $arr_datos[$i]['id_formulario'] . '" title="Editar"><i class="fas fa-edit"></i></button>';
 						}
 						if (isset($_SESSION['permisos_' . nombreproyecto()]['Dar de baja Formulario'])) {
 							$boton_eliminar = '<button type="button" class="btn btn-danger btn-sm" onClick="fnt_eliminar_formulario(' . $arr_datos[$i]['id_formulario'] . ')" title="Eliminar"><i class="fas fa-trash"></i></button>';
@@ -101,42 +101,9 @@ class formulario extends controladores
 	}
 
 	/*=======================================================
-        			COMBO CARGO
+        			EDITAR REGISTROS
         =======================================================*/
-	public function listarc()
-	{
-		if (isset($_SESSION['permisos_' . nombreproyecto()]['Ver Empleado'])) {
-			$htmlC = "";
-
-			$consulta_datos2 = $this->modelo->seleccionar_todos_sql("SELECT * FROM cargos 
-																		WHERE cargos.estado = 1");
-			if ($consulta_datos2['estado'] == true) {
-				$arr_datos2 = $consulta_datos2['datos'];
-
-				for ($i = 0; $i < count($arr_datos2); $i++) {
-					$htmlC .= '<option value="' . $arr_datos2[$i]['id'] . '">' . $arr_datos2[$i]['nombre'] . '</option>';
-				}
-			} else {
-				$arr_respuesta = array("estado" => false, "msg" => 'Ops. Ocurrió un error.');
-				echo json_encode($arr_respuesta, JSON_UNESCAPED_UNICODE);
-				die();
-			}
-
-			$arr_respuesta = array("estado" => true, 'cargos' => $htmlC);
-			echo json_encode($arr_respuesta, JSON_UNESCAPED_UNICODE);
-			die();
-		} else {
-			$respuesta = array("estado" => false, "msg" => "Ops. No tiene permisos para ver.");
-			echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
-			die();
-		}
-		die();
-	}
-
-	/*=======================================================
-        			INSERTAR O EDITAR REGISTROS
-        =======================================================*/
-	public function insertar()
+	public function editar()
 	{
 		$token = $_GET['token'];
 		$validar_token = $this->modelo->validar_token($token);
@@ -149,83 +116,44 @@ class formulario extends controladores
 				$idcargo = intval($_POST['cargo']);
 				$estado = intval($_POST['estado']);
 
-				if ($idempleado == 0) { //Es una inserción
-					if (isset($_SESSION['permisos_' . nombreproyecto()]['Crear Empleado'])) {
-						$existe = $this->modelo->seleccionar_todos_sql("SELECT * FROM empleados WHERE id = $idempleado");
-						//imprimir($existe);die();
-						if ($existe['estado'] == true) {
-							if (empty($existe['datos'])) {
 
-								//$token = $_SESSION['login_datos_'.nombreproyecto()]->{'token_usuario'};
+				if (isset($_SESSION['permisos_' . nombreproyecto()]['Editar Formulario'])) {
+					$existe_edicion = $this->modelo->seleccionar_todos_sql("SELECT * FROM empleados WHERE id != $idempleado AND nombres = '$nombre'");
+					//imprimir($url_nombre);die();
+					if ($existe_edicion['estado'] == true) {
+						if (empty($existe_edicion['datos'])) {
+							//$token = $_SESSION['login_datos_'.nombreproyecto()]->{'token_usuario'};
+							//$url = "roles?token=".$token."&tabla=usuarios&sufijo=usuario&nombreid=id_rol&id=".$idrol;
+							$campos = array("nombres" => $nombre, "apellidos" => $apellido, "estado" => $estado, "id_cargo" => $idcargo);
 
-								$campos = array("nombres" => $nombre, "apellidos" => $apellido, "estado" => $estado, "id_cargo" => $idcargo);
-								//if (isset($_SESSION['permisos_'.nombreproyecto()]['Crear Roles'])) {
-								$insertar = $this->modelo->insertar("empleados", $campos);
-								//}
-								if ($insertar['estado'] == true) {
-									$respuesta = array("estado" => true, "msg" => $insertar['respuesta']);
-									echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
-									die();
-								} else {
-									$respuesta = array("estado" => false, "msg" => "Ops. Ocurrió un error.");
-									echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
-									die();
-								}
+							//if (isset($_SESSION['permisos_'.nombreproyecto()]['Editar Roles'])) {
+							$editar = $this->modelo->editar("empleados", $campos, 'id', $idempleado);
+							//}
+							//}
+							if ($editar['estado'] == true) {
+								$respuesta = array("estado" => true, "msg" => $editar['respuesta']);
+								echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
+								die();
 							} else {
-								$respuesta = array("estado" => false, "msg" => "El empleado ya existe.");
+								$respuesta = array("estado" => false, "msg" => "Ops. Ocurrió un error.");
 								echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
 								die();
 							}
 						} else {
-							$respuesta = array("estado" => false, "msg" => "Ops. Ocurrió un error.");
+							$respuesta = array("estado" => false, "msg" => "El empleado ya existe.");
 							echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
 							die();
 						}
 					} else {
-						$respuesta = array("estado" => false, "msg" => "Ops. No tiene permisos para insertar.");
+						$respuesta = array("estado" => false, "msg" => "Ops. Ocurrió un error.");
 						echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
 						die();
 					}
-				} else { //actualizacion
-					if (isset($_SESSION['permisos_' . nombreproyecto()]['Editar Empleado'])) {
-						$existe_edicion = $this->modelo->seleccionar_todos_sql("SELECT * FROM empleados WHERE id != $idempleado AND nombres = '$nombre'");
-						//imprimir($url_nombre);die();
-						if ($existe_edicion['estado'] == true) {
-							if (empty($existe_edicion['datos'])) {
-								//$token = $_SESSION['login_datos_'.nombreproyecto()]->{'token_usuario'};
-								//$url = "roles?token=".$token."&tabla=usuarios&sufijo=usuario&nombreid=id_rol&id=".$idrol;
-								$campos = array("nombres" => $nombre, "apellidos" => $apellido, "estado" => $estado, "id_cargo" => $idcargo);
-
-								//if (isset($_SESSION['permisos_'.nombreproyecto()]['Editar Roles'])) {
-								$editar = $this->modelo->editar("empleados", $campos, 'id', $idempleado);
-								//}
-								//}
-								if ($editar['estado'] == true) {
-									$respuesta = array("estado" => true, "msg" => $editar['respuesta']);
-									echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
-									die();
-								} else {
-									$respuesta = array("estado" => false, "msg" => "Ops. Ocurrió un error.");
-									echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
-									die();
-								}
-							} else {
-								$respuesta = array("estado" => false, "msg" => "El empleado ya existe.");
-								echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
-								die();
-							}
-						} else {
-							$respuesta = array("estado" => false, "msg" => "Ops. Ocurrió un error.");
-							echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
-							die();
-						}
-					} else {
-						$respuesta = array("estado" => false, "msg" => "Ops. No tiene permisos para editar.");
-						echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
-						die();
-					}
-				} //else actualizacion
-
+				} else {
+					$respuesta = array("estado" => false, "msg" => "Ops. No tiene permisos para editar.");
+					echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
+					die();
+				}
 			} // if ($_POST)
 		} else if ($validar_token['estado'] == 2) { //el token esta expirado
 			$arr_respuesta = array("estado" => false, "msg" => 'Token expirado');
@@ -344,8 +272,4 @@ class formulario extends controladores
 		}
 		die();
 	}
-
-	/*=======================================================
-        		OBTENER LOS PERMISOS Y MOSTRAR EL MODAL
-        =======================================================*/
 }

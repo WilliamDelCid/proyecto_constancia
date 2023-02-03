@@ -29,6 +29,16 @@ class crearformulario extends controladores
 		$this->vista->obtener_vista($this, "crearformulario", $datos_vista);
 	}
 
+	public function obtener()
+	{
+		$id =  $_GET['id'];
+		$datos_vista['id'] = $id;
+		$datos_vista['titulo_ventana'] = "Detalle Actividad";
+		$datos_vista['titulo_pagina'] = "Detalle Actividad";
+		$datos_vista['nombre_pagina'] = "empleados";
+		$datos_vista['archivo_funciones'] = "js_editarformulario.js";
+		$this->vista->obtener_vista($this, "crearformulario", $datos_vista);
+	}
 	/*=======================================================
         			COMBO CARGO
         =======================================================*/
