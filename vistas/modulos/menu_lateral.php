@@ -93,9 +93,24 @@
                             <a style="color: #004A98;" href="<?= url_base(); ?>/crearformulario" class=" <?php if ($datos_vista['nombre_pagina'] == 'crearformulario') {
                                                                                                                 echo 'active';
                                                                                                             } ?>">
-                                <i class="mdi mdi-buffer"></i>Formulario
+                                <i class="mdi mdi-buffer"></i>Crear formulario
 
                             </a>
+                            <ul class="submenu">
+                                <?php if (isset($_SESSION['todos_permisos_' . nombreproyecto()]['Ver Formulario'])) { ?>
+                                    <li class="">
+                                        <a href="<?= url_base(); ?>/formulario" class=" <?php if ($datos_vista['nombre_pagina'] == 'formulario') {
+                                                                                            echo 'active';
+                                                                                        } ?>">
+                                            Ver formularios
+                                        </a>
+                                    </li>
+                                <?php } ?>
+
+
+
+
+                            </ul>
                         </li>
                     <?php } ?>
 

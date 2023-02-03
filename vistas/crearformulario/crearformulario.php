@@ -1,5 +1,5 @@
 <?php cabecera($datos_vista); ?>
-<!-- <?php obtener_modal("modal_formularios", $datos_vista); ?> -->
+<!-- <?php obtener_modal("modal_formulario", $datos_vista); ?> -->
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper" style="margin-top: 80px">
@@ -60,7 +60,7 @@
                     </div>
                     <div class="col-sm-2">
                       <div class="form-group">
-                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal" style="display: grid; place-items: center; margin:30px 0px  0px; width: 50px; height: 40px;"><i class="fa fa-plus"></i></button>
+                        <button type="button" onclick="fntAñadirMarca();" class="btn btn-outline-dark" id="btn_nueva_participacion" data-dismiss="modal" style="display: grid; place-items: center; margin:30px 0px  0px; width: 50px; height: 40px;"><i class="fa fa-plus"></i></button>
                       </div>
                     </div>
                     <div class="col-sm-6">
@@ -76,7 +76,7 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label class="control-label">Nombre del evento (Opcional) </label>
-                        <input class="form-control" id="evento_opcional" name="evento_opcional" type="text" placeholder="Nombre del evento">
+                        <input class="form-control" id="evento_opcional" name="evento_opcional" disabled type="text" placeholder="Nombre del evento">
                       </div>
                     </div>
                     <div class="col-sm-6">

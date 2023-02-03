@@ -11,7 +11,7 @@
  Target Server Version : 50733
  File Encoding         : 65001
 
- Date: 02/02/2023 20:54:50
+ Date: 03/02/2023 16:12:44
 */
 
 SET NAMES utf8mb4;
@@ -95,17 +95,20 @@ CREATE TABLE `formularios`  (
   `fecha_expedicion` date NULL DEFAULT NULL,
   `fecha_actualizacion` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `fecha_creacion` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `url` longtext CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
+  `token_unico` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_tipo_participacion`(`id_tipo_participacion`) USING BTREE,
   INDEX `fk_id_evento`(`id_evento`) USING BTREE,
-  CONSTRAINT `fk_tipo_participacion` FOREIGN KEY (`id_tipo_participacion`) REFERENCES `participacion` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `fk_id_evento` FOREIGN KEY (`id_evento`) REFERENCES `eventos` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+  CONSTRAINT `fk_id_evento` FOREIGN KEY (`id_evento`) REFERENCES `eventos` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `fk_tipo_participacion` FOREIGN KEY (`id_tipo_participacion`) REFERENCES `participacion` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of formularios
 -- ----------------------------
-INSERT INTO `formularios` VALUES (1, 'Prueba Nombre', 'Prueba Apellido', 12, 10, '', '10/Febrero/2023,17/Febrero/2023', 'Prueba Evento 1', '2023-02-02', '2023-02-02 20:45:15', '2023-02-02 20:45:15');
+INSERT INTO `formularios` VALUES (24, 'William', 'Antonio', 12, 10, NULL, '28 de Febrero de 2023', 'HOla', '2023-02-03', NULL, '2023-02-03 16:08:16', NULL, NULL);
+INSERT INTO `formularios` VALUES (25, 'Kely', 'Perdomo', 12, NULL, 'Mexico', '27, 28 de Febrero, 04 de Marzo de 2023', 'Mexico', '2023-02-03', NULL, '2023-02-03 16:08:52', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for modulos
@@ -150,7 +153,7 @@ CREATE TABLE `participacion`  (
   `fecha_creacion` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `fecha_actualizacion` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of participacion
@@ -158,6 +161,11 @@ CREATE TABLE `participacion`  (
 INSERT INTO `participacion` VALUES (12, 'CONFERENCISTA', 1, '2023-02-01 22:00:24', NULL);
 INSERT INTO `participacion` VALUES (13, 'CONGRESISTA', 1, '2023-02-01 22:00:37', NULL);
 INSERT INTO `participacion` VALUES (14, 'EXPOSITOR', 1, '2023-02-02 15:35:19', NULL);
+INSERT INTO `participacion` VALUES (24, 'Yaaaaa', 1, '2023-02-03 13:20:26', NULL);
+INSERT INTO `participacion` VALUES (25, 'Prueba 1', 1, '2023-02-03 13:21:29', NULL);
+INSERT INTO `participacion` VALUES (26, 'Prueba Insertar desde Signo mas', 1, '2023-02-03 14:38:16', NULL);
+INSERT INTO `participacion` VALUES (27, 'Prueba desde aqui Formulario', 1, '2023-02-03 14:51:45', NULL);
+INSERT INTO `participacion` VALUES (28, 'Prueba Fercha', 1, '2023-02-03 15:44:50', NULL);
 
 -- ----------------------------
 -- Table structure for permisos
@@ -172,7 +180,7 @@ CREATE TABLE `permisos`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_modulo_permiso`(`id_modulo`) USING BTREE,
   CONSTRAINT `permisos_ibfk_1` FOREIGN KEY (`id_modulo`) REFERENCES `modulos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE = InnoDB AUTO_INCREMENT = 47 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 50 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of permisos
@@ -221,6 +229,9 @@ INSERT INTO `permisos` VALUES (43, 'Crear Evento', 15, '2023-02-01 21:36:30', '2
 INSERT INTO `permisos` VALUES (44, 'Editar Evento', 15, '2023-02-01 21:36:26', NULL);
 INSERT INTO `permisos` VALUES (45, 'Dar de baja Evento', 15, '2023-02-01 21:36:54', '2023-02-01 21:36:54');
 INSERT INTO `permisos` VALUES (46, 'Crear Formulario', 16, '2023-02-02 14:18:35', NULL);
+INSERT INTO `permisos` VALUES (47, 'Ver Formulario', 16, '2023-02-02 22:23:13', NULL);
+INSERT INTO `permisos` VALUES (48, 'Editar Formulario', 16, '2023-02-02 22:23:20', NULL);
+INSERT INTO `permisos` VALUES (49, 'Dar de baja Formulario', 16, '2023-02-02 22:23:30', NULL);
 
 -- ----------------------------
 -- Table structure for permisosrol
@@ -238,7 +249,7 @@ CREATE TABLE `permisosrol`  (
   INDEX `fk_rol_permisorol`(`id_rol`) USING BTREE,
   CONSTRAINT `permisosrol_ibfk_1` FOREIGN KEY (`id_permiso`) REFERENCES `permisos` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `permisosrol_ibfk_2` FOREIGN KEY (`id_rol`) REFERENCES `roles` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 46 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 49 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of permisosrol
@@ -287,6 +298,9 @@ INSERT INTO `permisosrol` VALUES (42, 43, 1, 1, '2023-02-01 21:54:34', NULL);
 INSERT INTO `permisosrol` VALUES (43, 44, 1, 1, '2023-02-01 21:54:35', NULL);
 INSERT INTO `permisosrol` VALUES (44, 45, 1, 1, '2023-02-01 21:54:35', NULL);
 INSERT INTO `permisosrol` VALUES (45, 46, 1, 1, '2023-02-02 17:23:03', '2023-02-02 17:23:03');
+INSERT INTO `permisosrol` VALUES (46, 47, 1, 1, '2023-02-02 22:23:56', NULL);
+INSERT INTO `permisosrol` VALUES (47, 48, 1, 1, '2023-02-02 22:23:57', NULL);
+INSERT INTO `permisosrol` VALUES (48, 49, 1, 1, '2023-02-02 22:23:57', NULL);
 
 -- ----------------------------
 -- Table structure for roles
@@ -319,7 +333,7 @@ CREATE TABLE `sesiones`  (
   `id_usuario` bigint(20) NOT NULL,
   `fecha_creacion` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 383 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 388 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sesiones
@@ -329,7 +343,10 @@ INSERT INTO `sesiones` VALUES (350, '56ed6h5t3peuefkpo32pa3o8ao', 'eyJ0eXAiOiJKV
 INSERT INTO `sesiones` VALUES (351, 'ps8dthum2ef92lpab0hspnrda9', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzUyMjE0NDgsImV4cCI6MTY3NTMwNzg0OCwiZGF0YSI6eyJpZCI6IjIiLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSJ9fQ.cUzwis9oPqcZefsnr3-drmt0J9otxI7cNc4SzzsELFY', 1675307848, 2, '2023-01-31 21:17:28');
 INSERT INTO `sesiones` VALUES (370, 'qpi5740k62qe5n3vqjg9drb2dr', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzUyODgzNDAsImV4cCI6MTY3NTM3NDc0MCwiZGF0YSI6eyJpZCI6IjIiLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSJ9fQ.t94h21HvLJB1RSP_pSXCvBHqgDXYw4w3UzEgZKWIl6c', 1675374740, 2, '2023-02-01 15:52:20');
 INSERT INTO `sesiones` VALUES (379, 'j3v2pjjq4op2rd92r2vvro0km0', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzUzMTI4NzQsImV4cCI6MTY3NTM5OTI3NCwiZGF0YSI6eyJpZCI6IjIiLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSJ9fQ.65wKy3Ac8mUEDFKIdSZ9sqsyYXovqn_LLHUoWgFbIc4', 1675399274, 2, '2023-02-01 22:41:14');
-INSERT INTO `sesiones` VALUES (382, 'tvl16kgob0b7sg3nt5d6t2u8sg', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzUzNzk2ODIsImV4cCI6MTY3NTQ2NjA4MiwiZGF0YSI6eyJpZCI6IjIiLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSJ9fQ.romCAwvG5tovAgGB34tQC6pJ2yd89AckfISNalH3tkQ', 1675466082, 2, '2023-02-02 17:14:42');
+INSERT INTO `sesiones` VALUES (383, 'tvl16kgob0b7sg3nt5d6t2u8sg', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzUzOTM5MTUsImV4cCI6MTY3NTQ4MDMxNSwiZGF0YSI6eyJpZCI6IjIiLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSJ9fQ.3nNRQomlAfYIJ-LTaYeqnzWImAc4i5h9rrqvKPb69iA', 1675480315, 2, '2023-02-02 21:11:55');
+INSERT INTO `sesiones` VALUES (385, 'qaspe3fgitchvv5nmna9fq5qc2', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzU0MzgyNDEsImV4cCI6MTY3NTUyNDY0MSwiZGF0YSI6eyJpZCI6IjIiLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSJ9fQ.aGKLrL2O3VO1O1fajpe07s1hQpPQ4WG-9sNlgWEnR0c', 1675524641, 2, '2023-02-03 09:30:41');
+INSERT INTO `sesiones` VALUES (386, 'qaspe3fgitchvv5nmna9fq5qc2', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzU0MzgyNjMsImV4cCI6MTY3NTUyNDY2MywiZGF0YSI6eyJpZCI6IjIiLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSJ9fQ.WP26ZZcejbgoOppmwFhhs0VgZRF9hzWajZjYtHeyULU', 1675524663, 2, '2023-02-03 09:31:03');
+INSERT INTO `sesiones` VALUES (387, 'fusj7t2u2recp3i4n6p2vg6tf6', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzU0Mzk3NzIsImV4cCI6MTY3NTUyNjE3MiwiZGF0YSI6eyJpZCI6IjIiLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSJ9fQ.sHfzbBd3X0c0EwuAYesedzpGxqg1r69oKXAEGYHTwg0', 1675526172, 2, '2023-02-03 09:56:12');
 
 -- ----------------------------
 -- Table structure for usuarios

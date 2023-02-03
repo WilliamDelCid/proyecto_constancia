@@ -76,7 +76,7 @@ document.addEventListener(
             alerta_error("Participacion", json.msg);
           }
         })
-        .fail(function () {})
+        .fail(function () { })
         .always(function () {
           //Swal.close();
         });
@@ -95,7 +95,7 @@ document.addEventListener(
             alerta_error("Participacion", json.msg);
           }
         })
-        .fail(function () {})
+        .fail(function () { })
         .always(function () {
           //Swal.close();
         });
@@ -111,6 +111,13 @@ document.addEventListener(
         return markup;
       },
     });
+
+    // $("#btn_nueva_participacion").click(function (e) {
+    //     e.preventDefault();
+    //     $("#titulo_modal").empty().html("Nueva Participacion");
+    //     $("#id").val(0);
+    //     $('#modal_participacion').modal('show');
+    // });
 
     /*---------------------------------------------------
     METODOS PERSONALIZADOS DE VALIDACION DE FORMULARIOS
@@ -156,9 +163,32 @@ document.addEventListener(
           required: true,
           formLetras: true,
         },
-        apellido: {
-          required: true,
-          formLetras: true,
+        messages: {
+          nombre: {
+            required: "Este campo es requerido"
+          },
+          apellido: {
+            required: "Este campo es requerido"
+          },
+          participacion: {
+            required: "Este campo es requerido"
+          },
+          evento: {
+            required: "Este campo es requerido"
+          },
+          evento_opcional: {
+            required: "Este campo es requerido"
+          },
+          fecha_evento: {
+            required: "Este campo es requerido"
+          },
+          lugar_evento: {
+            required: "Este campo es requerido"
+          },
+          fecha_expedicion: {
+            required: "Este campo es requerido"
+          }
+
         },
         participacion: {
           required: true,
@@ -202,9 +232,6 @@ document.addEventListener(
       errorElement: "span",
     });
 
-    /*---------------------------------------------------
-            EVENTO CLIC EN EL FORMULARIO
-    ----------------------------------------------------*/
 
     // function dataURLtoFile(dataurl, filename) {
     //     var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
@@ -225,11 +252,21 @@ document.addEventListener(
       document.querySelector("#token").value = "Hola";
     });
 
+    $(document).on("change", "#evento", function (e) {
+      if (e.target.value == '-1') {
+        document.querySelector('#evento_opcional').removeAttribute('disabled');
+        document.querySelector('#evento_opcional').setAttribute('required', 'true');
+      } else {
+        document.querySelector('#evento_opcional').setAttribute('disabled', 'false')
+        document.querySelector('#evento_opcional').removeAttribute('required');
+      }
+    });
+
+
+
     $(document).on("submit", "#formFormulario", function (e) {
       e.preventDefault();
       var datos = new FormData(formFormulario);
-
-      return 0;
       div_cargando.style.display = "flex";
       $.ajax({
         dataType: "json",
@@ -237,20 +274,21 @@ document.addEventListener(
         url: url_base + "/crearformulario/insertar?token=" + token,
         data: datos,
         processData: false,
-        contentType: false,
-      })
-        .done(function (json) {
-          formFormulario.reset();
-          if (json.estado === true) {
-            alerta_recargartabla("Formulario", json.msg);
-          } else {
-            alerta_error("Formulario", json.msg);
-          }
-        })
-        .fail(function () {})
-        .always(function () {
-          div_cargando.style.display = "none";
-        });
+        contentType: false
+      }).done(function (json) {
+        formFormulario.reset();
+        if (json.estado === true) {
+          alerta_recargartabla('Formulario', json.msg);
+        } else {
+          if (json.msg === "Token expirado") { alerta_token_exp("Formulario", "El token está expirado. Inicie sesión nuevamente.") }
+          else if (json.msg === "Token no existe") { alerta_token_exp("Formulario", "El token no existe. Inicie sesión nuevamente.") }
+          else { alerta_error('Formulario', json.msg); }
+        }
+      }).fail(function () {
+
+      }).always(function () {
+        div_cargando.style.display = "none";
+      });
     });
   },
   false
@@ -275,23 +313,79 @@ function alerta_token_exp(titulo, mensaje) {
 }
 
 function alerta_recargartabla(titulo, mensaje) {
+
   Swal.fire({
-    title: "<strong>" + titulo + "</strong>",
+    title: '<strong>' + titulo + '</strong>',
     imageUrl: imagenes_alertas + "/usuario_exito.png",
     imageWidth: 100,
     imageHeight: 100,
     html: mensaje,
     showCloseButton: true,
     focusConfirm: true,
-    confirmButtonText: '<i class="ti-check"></i> Aceptar!',
-    confirmButtonColor: "#AA0000",
+    confirmButtonText:
+      '<i class="ti-check"></i> Aceptar!',
+    confirmButtonColor: "#AA0000"
   }).then((result) => {
     if (result.isConfirmed) {
-      cargar_datos();
     } //result confirm
   });
+
 }
 
 function reset_form(form) {
   form.reset();
 }
+
+
+async function fntAñadirMarca() { //Cambiarlo
+
+  const { value: nombre } = await Swal.fire({
+    title: 'Ingrese una participación',
+    input: 'text',
+    inputLabel: 'Su participación',
+    showCancelButton: true,
+    inputValidator: (value) => {
+      if (!value) {
+        return 'Ingrese una participación'
+      } else {
+        div_cargando.style.display = "flex";
+        var datos = { "txtNombre": value };
+        $.ajax({
+          dataType: "json",
+          method: "POST",
+          url: url_base + "/crearformulario/listarparticipacion",
+          data: datos,
+        }).done(function (json) {
+          console.log("EL consultar", json);
+          if (json.estado) {
+            console.log(json.estado)
+            $("#participacion").empty().html(json.participacion);
+            Swal.fire("Participación!", json.msg, "success");
+            document.querySelector("#participacion").value = json.id;
+          } else {
+            Swal.fire("Participación!", json.msg, "error");
+          }
+        }).fail(function () {
+
+        }).always(function () {
+          div_cargando.style.display = "none";
+        });
+      }
+    }
+  })
+
+  if (nombre) {
+    Swal.fire(`Your IP address is ${nombre}`)
+  }
+
+
+
+
+
+}
+
+
+
+
+
+

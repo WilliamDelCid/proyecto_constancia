@@ -34,6 +34,56 @@ class crearformulario extends controladores
         =======================================================*/
 	public function listarparticipacion()
 	{
+
+		if (!empty($_POST['txtNombre'])) {
+			$idparticipacion = 0;
+			$nombre =  limpiar($_POST['txtNombre']);
+			$estado = 1;
+			$existe = $this->modelo->seleccionar_todos_sql("SELECT * FROM participacion WHERE nombre = '$nombre'");
+			//imprimir($existe);die();
+			if ($existe['estado'] == true) {
+				if (empty($existe['datos'])) {
+
+					//$token = $_SESSION['login_datos_'.nombreproyecto()]->{'token_usuario'};
+
+					$campos = array("nombre" => $nombre, "estado" => $estado);
+					//if (isset($_SESSION['permisos_'.nombreproyecto()]['Crear Roles'])) {
+					$insertar = $this->modelo->insertar("participacion", $campos);
+					if ($insertar['estado'] == true) {
+						$htmlC = "";
+						$consulta_datos2 = $this->modelo->seleccionar_todos_sql("SELECT * FROM participacion 
+																						WHERE participacion.estado = 1");
+						if ($consulta_datos2['estado'] == true) {
+							$arr_datos2 = $consulta_datos2['datos'];
+
+							for ($i = 0; $i < count($arr_datos2); $i++) {
+								$htmlC .= '<option value="' . $arr_datos2[$i]['id'] . '">' . $arr_datos2[$i]['nombre'] . '</option>';
+							}
+						} else {
+							$arr_respuesta = array("estado" => false, "msg" => 'Ops. Ocurrió un error.');
+							echo json_encode($arr_respuesta, JSON_UNESCAPED_UNICODE);
+							die();
+						}
+						$respuesta = array("estado" => true, "msg" => $insertar['respuesta'], 'participacion' => $htmlC, "id" => $insertar['idcreado']);
+						echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
+						die();
+					} else {
+						$respuesta = array("estado" => false, "msg" => "Ops. Ocurrió un error.");
+						echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
+						die();
+					}
+				} else {
+					$respuesta = array("estado" => false, "msg" => "La participación ya existe.");
+					echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
+					die();
+				}
+			} else {
+				$respuesta = array("estado" => false, "msg" => "Ops. Ocurrió un error.");
+				echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
+				die();
+			}
+		}
+
 		if (isset($_SESSION['permisos_' . nombreproyecto()]['Crear Formulario'])) {
 			$htmlC = "";
 			$consulta_datos2 = $this->modelo->seleccionar_todos_sql("SELECT * FROM participacion 
@@ -80,6 +130,8 @@ class crearformulario extends controladores
 				echo json_encode($arr_respuesta, JSON_UNESCAPED_UNICODE);
 				die();
 			}
+
+			$htmlC .= '<option value="-1">Otros</option>';
 			$arr_respuesta = array("estado" => true, 'evento' => $htmlC);
 			echo json_encode($arr_respuesta, JSON_UNESCAPED_UNICODE);
 			die();
@@ -157,21 +209,18 @@ class crearformulario extends controladores
 				$apellido =  limpiar($_POST['apellido']);
 				$idparticipacion = intval($_POST['participacion']);
 				$idevento = intval($_POST['evento']);
-				$evento_opcional = limpiar($_POST['evento_opcional']);
 				$fecha_evento = limpiar($_POST['fecha_evento']);
 				$lugar_evento = limpiar($_POST['lugar_evento']);
 				$fecha_expedicion = limpiar($_POST['fecha_expedicion']);
 
-				if ($evento_opcional == 0) {
+				if (isset($_POST['evento_opcional'])) {
+					$evento_opcional = ($_POST['evento_opcional']);
+					$idevento = null;
+				} else {
 					$evento_opcional = null;
 				}
 
-
 				$fechaReducida = self::fechaReducida($fecha_evento);
-				var_dump($fechaReducida);
-
-				die();
-
 
 				if (isset($_SESSION['permisos_' . nombreproyecto()]['Crear Formulario'])) {
 					$existe = $this->modelo->seleccionar_todos_sql("SELECT * FROM formularios WHERE id = $idformulario");
@@ -181,7 +230,7 @@ class crearformulario extends controladores
 
 							//$token = $_SESSION['login_datos_'.nombreproyecto()]->{'token_usuario'};
 
-							$campos = array("nombres" => $nombre, "apellidos" => $apellido, "id_tipo_participacion" => $idparticipacion, "id_evento" => $idevento, "nombre_evento_opcional" => $evento_opcional, "fecha_evento" => $fecha_evento, "lugar_evento" => $lugar_evento, "fecha_expedicion" => $fecha_expedicion);
+							$campos = array("nombres" => $nombre, "apellidos" => $apellido, "id_tipo_participacion" => $idparticipacion, "id_evento" => $idevento, "nombre_evento_opcional" => $evento_opcional, "fecha_evento" => $fechaReducida, "lugar_evento" => $lugar_evento, "fecha_expedicion" => $fecha_expedicion);
 							//if (isset($_SESSION['permisos_'.nombreproyecto()]['Crear Roles'])) {
 							$insertar = $this->modelo->insertar("formularios", $campos);
 							//}
