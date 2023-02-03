@@ -91,22 +91,55 @@ class crearformulario extends controladores
 		die();
 	}
 
+	/*=======================================================
+        	FUNCION PARA GENERAR STRING DE FECHAS
+	=======================================================*/
 
+
+	public  function fechaReducida($fecha_evento)
+	{
+		// separamos las fechas
+		$fechas = explode(',', $fecha_evento);
+		$fechas2 = [];
+		for ($i = 0; $i < count($fechas); $i++) {
+			$fechas2[$i] = explode('/', $fechas[$i]);
+		}
+
+		// Obtenemos los meses
+		$meses = [];
+		for ($j = 0; $j < count($fechas2); $j++) {
+
+			$meses[$j] = $fechas2[$j][1];
+		}
+
+		// eliminamos los meses duplicados
+		$meses = array_values(array_unique($meses));
+
+		// Concatenamos las fechas con las que matchean los meses
+		$fechaReducida = '';
+		for ($k = 0; $k < count($meses); $k++) {
+			for ($l = 0; $l < count($fechas2); $l++) {
+				// var_dump(in_array($meses[$k], $fechas2[$l]));
+				// die();
+				if (in_array($meses[$k], $fechas2[$l])) {
+					$fechaReducida .= $fechas2[$l][0] . ', ';
+					// echo ($fechas2[$l][0]);
+				}
+			}
+			// si es la ultima iteracion del mes concatenamos el mes
+			$ultimaIteracion = $k + 1;
+			if ($ultimaIteracion < count($meses)) {
+				$fechaReducida .= 'de ' . $meses[$k] . ' y ';
+			} else {
+				$fechaReducida .= 'de ' . $meses[$k];
+			}
+		}
+		return $fechaReducida;
+	}
 	/*=======================================================
         			INSERTAR O EDITAR REGISTROS
         =======================================================*/
 
-	public  function verificar($mes, $array)
-	{
-		for ($i = 0; $i < count($array); $i++) {
-			if ($mes == $array[$i]) {
-				continue;
-			} else {
-				return false;
-			}
-		}
-		return true;
-	}
 
 	public function insertar()
 	{
@@ -129,41 +162,8 @@ class crearformulario extends controladores
 					$evento_opcional = null;
 				}
 
-				// https://lineadecodigo.com/php/eliminar-elementos-duplicados-de-un-array-en-php/
 
-				$fechas = explode(',', $fecha_evento);
-				$fechas2 = [];
-				for ($i = 0; $i < count($fechas); $i++) {
-					$fechas2[$i] = explode('/', $fechas[$i]);
-				}
-
-				$meses = [];
-				for ($j = 0; $j < count($fechas2); $j++) {
-
-					$meses[$j] = $fechas2[$j][1];
-				}
-
-				$meses = array_values(array_unique($meses));
-				// var_dump($meses);
-				// die();
-
-				$fechaReducida = '';
-				for ($k = 0; $k < count($meses); $k++) {
-					for ($l = 0; $l < count($fechas2); $l++) {
-						// var_dump(in_array($meses[$k], $fechas2[$l]));
-						// die();
-						if (in_array($meses[$k], $fechas2[$l])) {
-							$fechaReducida .= $fechas2[$l][0] . ', ';
-							// echo ($fechas2[$l][0]);
-						}
-					}
-					$a = $k + 1;
-					if ($a < count($meses)) {
-						$fechaReducida .= 'de ' . $meses[$k] . ' y ';
-					} else {
-						$fechaReducida .= 'de ' . $meses[$k];
-					}
-				}
+				$fechaReducida = self::fechaReducida($fecha_evento);
 				var_dump($fechaReducida);
 
 				die();
