@@ -42,8 +42,21 @@ class crearformulario extends controladores
 	/*=======================================================
         			COMBO CARGO
         =======================================================*/
+
+	public function generartoken()
+	{
+
+		$variable_token = token();
+		$respuesta = array("estado" => true, "token" => $variable_token);
+		echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
+		die();
+	}
+
 	public function listarparticipacion()
 	{
+
+
+
 
 		if (!empty($_POST['txtNombre'])) {
 			$idparticipacion = 0;
@@ -222,7 +235,8 @@ class crearformulario extends controladores
 				$fecha_evento = limpiar($_POST['fecha_evento']);
 				$lugar_evento = limpiar($_POST['lugar_evento']);
 				$fecha_expedicion = limpiar($_POST['fecha_expedicion']);
-
+				$tokenimagen = ($_POST['token']);
+				$imagenurl = ($_POST['imagenurl']);
 				if (isset($_POST['evento_opcional'])) {
 					$evento_opcional = ($_POST['evento_opcional']);
 					$idevento = null;
@@ -240,7 +254,7 @@ class crearformulario extends controladores
 
 							//$token = $_SESSION['login_datos_'.nombreproyecto()]->{'token_usuario'};
 
-							$campos = array("nombres" => $nombre, "apellidos" => $apellido, "id_tipo_participacion" => $idparticipacion, "id_evento" => $idevento, "nombre_evento_opcional" => $evento_opcional, "fecha_evento" => $fechaReducida, "lugar_evento" => $lugar_evento, "fecha_expedicion" => $fecha_expedicion);
+							$campos = array("nombres" => $nombre, "apellidos" => $apellido, "id_tipo_participacion" => $idparticipacion, "id_evento" => $idevento, "nombre_evento_opcional" => $evento_opcional, "fecha_evento" => $fechaReducida, "lugar_evento" => $lugar_evento, "fecha_expedicion" => $fecha_expedicion, "token_unico" => $tokenimagen, "url" => $imagenurl);
 							//if (isset($_SESSION['permisos_'.nombreproyecto()]['Crear Roles'])) {
 							$insertar = $this->modelo->insertar("formularios", $campos);
 							//}
