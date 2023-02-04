@@ -7,7 +7,7 @@ $pdf = new PDF_WriteTag();
 $pdf->AddPage('L', 'Letter');
 $pdf->SetAutoPageBreak(true, 10);
 // imagen Lateral
-$pdf->Image(url_base() . '/archivos/imagenes/plantilla.png', 10, 0, 55);
+$pdf->Image(url_base() . '/archivos/imagenes/plantillaPDF-min.png', 10, 0, 56);
 
 
 // AGREGANDO NUEVOS ESTILOS DE LAS FONTS
@@ -38,7 +38,7 @@ $pdf->WriteTag(140, 6, "$texto", 0, "L", 0, 2);
 $pdf->Ln(10);
 
 //LETRAS DORADAS
-$pdf->SetFont('FontsFree-Net-MYRIADPRO-BOLD', '', 60);
+$pdf->SetFont('FontsFree-Net-MYRIADPRO-BOLD', '', 64);
 $pdf->SetTextColor(188, 164, 102);
 $pdf->SetX(77);
 $pdf->Cell(180, 20, 'RECONOCIMIENTO', 0, 1, 'L');
@@ -62,13 +62,13 @@ $pdf->WriteTag(165, 6, "$texto1", 0, "J", 0, 2);
 // texto largo
 
 $texto1 = utf8_decode(
-    "<p><regular> Por su participación como $tipoParticipacion de la conferencia </regular><bold>$nombreEvento</bold><regular>, que se llevo a cabo $fechas , en las instalaciones de esta Facultad</regular></p>"
+    "<p><regular> Por su participación como $tipoParticipacion de la conferencia </regular><bold>$nombreEvento</bold><regular>, que se llevo a cabo $fechas , en las instalaciones de esta Facultad.</regular></p>"
 
 );
 
 $pdf->Ln(5);
 $pdf->SetX(77);
-$pdf->WriteTag(190, 6, "$texto1", 0, "J", 0, 2);
+$pdf->WriteTag(187, 6, "$texto1", 0, "J", 0, 2);
 
 
 
@@ -99,9 +99,15 @@ $pdf->SetX(77);
 $pdf->SetFont('FontsFree-Net-MYRIADPRO-REGULAR', '', 14);
 $pdf->Cell(150, 6, utf8_decode('Directora de la Facultad de Contaduría y Administración.'), 0, 1, 'L', 0);
 
+$pdf->SetFont('FontsFree-Net-MyriadPro-Light', '', 14);
+$hoy = getdate();
+// $anioActual = explode('/', $fecha);
+$pdf->Text(44, 194, $hoy['year']);
 
 
-$pdf->Image(url_base() . '/archivos/imagenes/qr.png', 215, 160, 60);
+
+
+$pdf->Image(url_base() . '/archivos/imagenes/qr.png', 226, 170, 45);
 
 
 
