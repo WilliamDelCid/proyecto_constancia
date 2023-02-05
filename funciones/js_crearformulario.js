@@ -163,6 +163,10 @@ document.addEventListener(
           required: true,
           formLetras: true,
         },
+        apellido: {
+          required: true,
+          formLetras: true,
+        },
         messages: {
           nombre: {
             required: "Este campo es requerido"
@@ -248,7 +252,30 @@ document.addEventListener(
     $(document).on("click", "#buttonQR", function (e) {
       const contenedorQR = document.getElementById("contenedorQR");
       const QR = new QRCode(contenedorQR);
-      QR.makeCode("http://localhost/proyecto_constancia/crearformulario");
+      var datos = 'Hola';
+      $.ajax({
+        dataType: "json",
+        method: "POST",
+        url: url_base + "/crearformulario/generartoken",
+        data: datos,
+        processData: false,
+        contentType: false
+      }).done(function (json) {
+        if (json.estado === true) {
+          document.querySelector('#token').value = json.token;
+          QR.makeCode("http://localhost/proyecto_constancia/" + json.token);
+          document.querySelector('#buttonQR').setAttribute('disabled', true);
+          document.querySelector('#guardar').removeAttribute('disabled');
+        } else {
+          if (json.msg === "Token expirado") { alerta_token_exp("Formulario", "El token está expirado. Inicie sesión nuevamente.") }
+          else if (json.msg === "Token no existe") { alerta_token_exp("Formulario", "El token no existe. Inicie sesión nuevamente.") }
+          else { alerta_error('Formulario', json.msg); }
+        }
+      }).fail(function () {
+
+      }).always(function () {
+        div_cargando.style.display = "none";
+      });
       document.querySelector("#token").value = "Hola";
     });
 
@@ -266,7 +293,9 @@ document.addEventListener(
 
     $(document).on("submit", "#formFormulario", function (e) {
       e.preventDefault();
+      let imagenurl = document.querySelector('#contenedorQR').children[1].src;
       var datos = new FormData(formFormulario);
+      datos.append('imagenurl', imagenurl);
       div_cargando.style.display = "flex";
       $.ajax({
         dataType: "json",
@@ -277,6 +306,10 @@ document.addEventListener(
         contentType: false
       }).done(function (json) {
         formFormulario.reset();
+        document.querySelector('#token').value = '';
+        document.getElementById("contenedorQR").innerHTML = '';
+        document.querySelector('#guardar').setAttribute('disabled', true);
+        document.querySelector('#buttonQR').removeAttribute('disabled');
         if (json.estado === true) {
           alerta_recargartabla('Formulario', json.msg);
         } else {

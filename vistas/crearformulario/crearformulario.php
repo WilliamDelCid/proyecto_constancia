@@ -103,16 +103,15 @@
                       <div class="form-group">
                         <label class="control-label">Codigo QR</label>
                         <div id="contenedorQR" class="contenedorQR"></div>
-                        <input type="hidden" id="token" name="token" value="">
+                        <input type="hidden" id="token" name="token">
                       </div>
                     </div>
                   </div>
                 </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cerrar</button>
               <button type="button" id="buttonQR" class="btn btn-success" data-dismiss="modal">Generar QR</button>
-              <button type="submit" class="btn bg-<?= COLOR_SIDEBAR_ACTIVO ?>">Guardar</button>
+              <button type="submit" id="guardar" disabled class="btn bg-<?= COLOR_SIDEBAR_ACTIVO ?>">Guardar</button>
             </div>
             </form>
           </div>
