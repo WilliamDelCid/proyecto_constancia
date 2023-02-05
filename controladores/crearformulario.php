@@ -251,7 +251,7 @@ class crearformulario extends controladores
 
 							//$token = $_SESSION['login_datos_'.nombreproyecto()]->{'token_usuario'};
 
-							$campos = array("nombres" => $nombre, "apellidos" => $apellido, "id_tipo_participacion" => $idparticipacion, "id_evento" => $idevento, "nombre_evento_opcional" => $evento_opcional, "fecha_evento" => $fechaReducida, "lugar_evento" => $lugar_evento, "fecha_expedicion" => $fecha_expedicion, "token_unico" => $tokenimagen, "url" => $imagenurl);
+							$campos = array("nombres" => $nombre, "apellidos" => $apellido, "id_tipo_participacion" => $idparticipacion, "id_evento" => $idevento, "nombre_evento_opcional" => $evento_opcional, "fecha_evento" => $fechaReducida, "lugar_evento" => $lugar_evento, "fecha_expedicion" => $fecha_expedicion, "token_unico" => $tokenimagen, "url" => $imagenurl, "estado" => 1);
 							//if (isset($_SESSION['permisos_'.nombreproyecto()]['Crear Roles'])) {
 							$insertar = $this->modelo->insertar("formularios", $campos);
 							//}

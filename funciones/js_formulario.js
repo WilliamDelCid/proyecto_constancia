@@ -158,44 +158,44 @@ function verFormulario(id_reconocimiento) {
 
 
 
-// function fnt_eliminar_empleado(idempleado) {
-//     let datos = { "id": idempleado };
-//     Swal.fire({
-//         title: '<strong>Eliminar Empleado</strong>',
-//         imageUrl: imagenes_alertas + "/usuario_advertencia.png",
-//         imageWidth: 100,
-//         imageHeight: 100,
-//         html: "Realmente desea eliminar el empleado?",
-//         showCloseButton: true,
-//         showCancelButton: true,
-//         focusConfirm: true,
-//         confirmButtonText: 'Si',
-//         cancelButtonText: 'No',
-//     }).then((result) => {
-//         if (result.isConfirmed) {
-//             div_cargando.style.display = "flex";
-//             $.ajax({
-//                 dataType: "json",
-//                 method: "POST",
-//                 url: url_base + "/empleados/eliminar?token=" + token,
-//                 data: datos,
-//             }).done(function (json) {
+function fnt_eliminar_formulario(idformulario) {
+  let datos = { "id": idformulario };
+  Swal.fire({
+    title: '<strong>Dar de baja al Formulario</strong>',
+    imageUrl: imagenes_alertas + "/usuario_advertencia.png",
+    imageWidth: 100,
+    imageHeight: 100,
+    html: "¿Realmente desea dar de baja al formulario?",
+    showCloseButton: true,
+    showCancelButton: true,
+    focusConfirm: true,
+    confirmButtonText: 'Si',
+    cancelButtonText: 'No',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      div_cargando.style.display = "flex";
+      $.ajax({
+        dataType: "json",
+        method: "POST",
+        url: url_base + "/formulario/eliminar?token=" + token,
+        data: datos,
+      }).done(function (json) {
 
-//                 if (json.estado === true) {
-//                     alerta_recargartabla('Empleado', json.msg);
-//                 } else {
-//                     if (json.msg === "Token expirado") { alerta_token_exp("Empleado", "El token está expirado. Inicie sesión nuevamente.") }
-//                     else if (json.msg === "Token no existe") { alerta_token_exp("Empleado", "El token no existe. Inicie sesión nuevamente.") }
-//                     else { alerta_error('Empleado', json.msg); }
-//                 }
+        if (json.estado === true) {
+          alerta_recargartabla('Formulario', json.msg);
+        } else {
+          if (json.msg === "Token expirado") { alerta_token_exp("Formulario", "El token está expirado. Inicie sesión nuevamente.") }
+          else if (json.msg === "Token no existe") { alerta_token_exp("Formulario", "El token no existe. Inicie sesión nuevamente.") }
+          else { alerta_error('Formulario', json.msg); }
+        }
 
-//             }).fail(function () {
+      }).fail(function () {
 
-//             }).always(function () {
-//                 div_cargando.style.display = "none";
-//             });
+      }).always(function () {
+        div_cargando.style.display = "none";
+      });
 
-//         } //result confirm
-//     });
+    } //result confirm
+  });
 
-// }
+}

@@ -19,8 +19,6 @@ class evento extends controladores
         =======================================================*/
 	public function evento()
 	{
-
-
 		$datos_vista['titulo_ventana'] = "Eventos";
 		$datos_vista['titulo_pagina'] = "Eventos";
 		$datos_vista['nombre_pagina'] = "Eventos";
@@ -34,7 +32,6 @@ class evento extends controladores
         =======================================================*/
 	public function listar()
 	{
-		//imprimir(token_sesion());die();
 		$token = $_GET['token'];
 		$validar_token = $this->modelo->validar_token($token);
 
@@ -63,7 +60,6 @@ class evento extends controladores
 						if (isset($_SESSION['permisos_' . nombreproyecto()]['Dar de baja Evento'])) {
 							$boton_eliminar = '<button type="button" class="btn btn-danger btn-sm" onClick="fnt_eliminar_evento(' . $arr_datos[$i]['id'] . ')" title="Eliminar"><i class="fas fa-trash"></i></button>';
 						}
-						//agregamos los botones
 						$arr_datos[$i]['acciones'] = '<div class="text-center"> ' . $boton_editar . ' ' . $boton_eliminar . '</div>';
 						$htmlDatosTabla .= '<tr>
 												<td>' . $arr_datos[$i]['id'] . '</td>
@@ -112,16 +108,12 @@ class evento extends controladores
 				if ($idevento == 0) { //Es una inserción
 					if (isset($_SESSION['permisos_' . nombreproyecto()]['Crear Evento'])) {
 						$existe = $this->modelo->seleccionar_todos_sql("SELECT * FROM eventos WHERE nombre = '$nombre'");
-						//imprimir($existe);die();
 						if ($existe['estado'] == true) {
 							if (empty($existe['datos'])) {
 
-								//$token = $_SESSION['login_datos_'.nombreproyecto()]->{'token_usuario'};
-
 								$campos = array("nombre" => $nombre, "estado" => $estado);
-								//if (isset($_SESSION['permisos_'.nombreproyecto()]['Crear Roles'])) {
 								$insertar = $this->modelo->insertar("eventos", $campos);
-								//}
+
 								if ($insertar['estado'] == true) {
 									$respuesta = array("estado" => true, "msg" => $insertar['respuesta']);
 									echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
@@ -149,15 +141,13 @@ class evento extends controladores
 				} else { //actualizacion
 					if (isset($_SESSION['permisos_' . nombreproyecto()]['Editar Evento'])) {
 						$existe_edicion = $this->modelo->seleccionar_todos_sql("SELECT * FROM eventos WHERE nombre = '$nombre' AND id != $idevento");
-						//imprimir($url_nombre);die();
+
 						if ($existe_edicion['estado'] == true) {
 							if (empty($existe_edicion['datos'])) {
 								$campos = array("nombre" => $nombre, "estado" => $estado);
 
-								//if (isset($_SESSION['permisos_'.nombreproyecto()]['Editar Roles'])) {
 								$editar = $this->modelo->editar("eventos", $campos, 'id', $idevento);
-								//}
-								//}
+
 								if ($editar['estado'] == true) {
 									$respuesta = array("estado" => true, "msg" => $editar['respuesta']);
 									echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
@@ -208,10 +198,7 @@ class evento extends controladores
 				if ($_POST) {
 					$idevento = intval($_POST['id']);
 
-
-					//if (isset($_SESSION['permisos_'.nombreproyecto()]['Ver Roles'])) {
 					$datos = $this->modelo->seleccionar_unico_sql("SELECT * FROM eventos WHERE id = $idevento");
-					//}
 
 					if ($datos['estado'] == true) {
 						if (empty($datos['datos'])) {
@@ -257,13 +244,9 @@ class evento extends controladores
 				if ($_POST) {
 					$idevento = intval($_POST['id']);
 
-					//if (isset($_SESSION['permisos_'.nombreproyecto()]['Ver Roles'])) {
-					$existe = $this->modelo->seleccionar_todos_sql("SELECT * FROM empleados	where id_cargo = $idevento");
-					//}
-					//imprimir($existe);die();
+					$existe = $this->modelo->seleccionar_todos_sql("SELECT * FROM formularios where id_evento = $idevento");
 					if ($existe['estado'] == true) {
 						if (empty($existe['datos'])) {
-							//$token = $_SESSION['login_datos_'.nombreproyecto()]->{'token_usuario'};
 
 							$eliminar = $this->modelo->eliminar("eventos", "id", $idevento);
 
@@ -277,7 +260,7 @@ class evento extends controladores
 								die();
 							}
 						} else {
-							$respuesta = array("estado" => false, "msg" => "No se puede eliminar ya que está asociado a un -.");
+							$respuesta = array("estado" => false, "msg" => "No se puede eliminar ya que está asociado a un Formulario.");
 							echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
 							die();
 						}

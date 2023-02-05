@@ -61,7 +61,7 @@ class formulario extends controladores
 						}
 
 						if (isset($_SESSION['permisos_' . nombreproyecto()]['Editar Formulario'])) {
-							$boton_editar = '<button type="button" class="btn btn-danger btn-sm abrir" data-id="' . $arr_datos[$i]['id_formulario'] . '" onClick="editarFormulario(' . $arr_datos[$i]['id_formulario'] . ')" title="Editar"><i class="fas fa-edit"></i></button>';
+							$boton_editar = '<button type="button" class="btn btn-success btn-sm abrir" data-id="' . $arr_datos[$i]['id_formulario'] . '" onClick="editarFormulario(' . $arr_datos[$i]['id_formulario'] . ')" title="Editar"><i class="fas fa-edit"></i></button>';
 						}
 						if (isset($_SESSION['permisos_' . nombreproyecto()]['Dar de baja Formulario'])) {
 							$boton_eliminar = '<button type="button" class="btn btn-danger btn-sm" onClick="fnt_eliminar_formulario(' . $arr_datos[$i]['id_formulario'] . ')" title="Eliminar"><i class="fas fa-trash"></i></button>';
@@ -288,20 +288,20 @@ class formulario extends controladores
 		$validar_token = $this->modelo->validar_token($token);
 
 		if ($validar_token['estado'] == 1) { //el token no esta expirado
-			if (isset($_SESSION['permisos_' . nombreproyecto()]['Dar de baja Empleado'])) {
+			if (isset($_SESSION['permisos_' . nombreproyecto()]['Dar de baja Formulario'])) {
 				if ($_POST) {
-					$idempleado = intval($_POST['id']);
+					$idformulario = intval($_POST['id']);
 
 					//if (isset($_SESSION['permisos_'.nombreproyecto()]['Ver Roles'])) {
-					$existe = $this->modelo->seleccionar_todos_sql("SELECT * FROM expediente 
-																				WHERE id_tutor = $idempleado");
+					$existe = $this->modelo->seleccionar_todos_sql("SELECT * FROM formularios WHERE id = $idformulario");
 					//}
 					//imprimir($existe);die();
+
 					if ($existe['estado'] == true) {
-						if (empty($existe['datos'])) {
+						if (!empty($existe['datos'])) {
 							//$token = $_SESSION['login_datos_'.nombreproyecto()]->{'token_usuario'};
 
-							$eliminar = $this->modelo->eliminar("empleados", "id", $idempleado);
+							$eliminar = $this->modelo->eliminar("formularios", "id", $idformulario);
 
 							if ($eliminar['estado'] == true) {
 								$respuesta = array("estado" => true, "msg" => $eliminar['respuesta']);
@@ -313,7 +313,7 @@ class formulario extends controladores
 								die();
 							}
 						} else {
-							$respuesta = array("estado" => false, "msg" => "No se puede eliminar ya que está asociado en el expediente.");
+							$respuesta = array("estado" => false, "msg" => "-");
 							echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
 							die();
 						}
