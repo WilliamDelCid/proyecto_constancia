@@ -112,13 +112,6 @@ document.addEventListener(
       },
     });
 
-    // $("#btn_nueva_participacion").click(function (e) {
-    //     e.preventDefault();
-    //     $("#titulo_modal").empty().html("Nueva Participacion");
-    //     $("#id").val(0);
-    //     $('#modal_participacion').modal('show');
-    // });
-
     /*---------------------------------------------------
     METODOS PERSONALIZADOS DE VALIDACION DE FORMULARIOS
     ----------------------------------------------------*/
@@ -223,9 +216,13 @@ document.addEventListener(
         evento: {
           required: "Este campo es requerido",
         },
+        evento_opcional: {
+          required: "Este campo es requerido"
+        },
         fecha_evento: {
           required: "Este campo es requerido",
         },
+
         lugar_evento: {
           required: "Este campo es requerido",
         },
@@ -237,18 +234,6 @@ document.addEventListener(
     });
 
 
-    // function dataURLtoFile(dataurl, filename) {
-    //     var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-    //         bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-    //     while(n--){
-    //         u8arr[n] = bstr.charCodeAt(n);
-    //     }
-    //     return new File([u8arr], filename, {type:mime});
-    // }
-
-    // //Usage example:
-    // var file = dataURLtoFile('data:image/png;base64,......', 'a.png');
-    // console.log(file);
     $(document).on("click", "#buttonQR", function (e) {
       const contenedorQR = document.getElementById("contenedorQR");
       const QR = new QRCode(contenedorQR);
@@ -408,7 +393,7 @@ async function fntAñadirMarca() { //Cambiarlo
   })
 
   if (nombre) {
-    Swal.fire(`Your IP address is ${nombre}`)
+
   }
 
 

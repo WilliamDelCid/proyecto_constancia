@@ -1,15 +1,7 @@
 let div_cargando = document.querySelector('#div_cargando');
 document.addEventListener('DOMContentLoaded', function () {
   cargar_datos();
-  $(document).on("click", ".abrir", function (e) {
-    let id = e.target.getAttribute("data-id");
-    if (e.target.getAttribute("data-id") !== null) {
-      window.open(
-        url_base + "/crearformulario/obtener?id=" + id,
-        "_blank"
-      );
-    }
-  });
+
 
 }, false);
 
@@ -93,51 +85,22 @@ function cargar_datos() {
                 EDITAR
 ----------------------------------------------------*/
 
+function editarFormulario(id) {
+  if (id !== null) {
+    window.open(
+      url_base + "/crearformulario/obtener?id=" + id,
+      "_blank"
+    );
+  }
+
+}
+
+
 function verFormulario(id_reconocimiento) {
   $("#modal_detalle_formulario").modal("show");
 }
 
-function fnt_editar_empleado(idempleado) {
-  $("#titulo_modal").empty().html("Actualizar Empleado");
-  reset_form(formEmpleado);
-  let datos = { id: idempleado };
-  //console.log("Imprimiendo datos: ",datos);
-  div_cargando.style.display = "flex";
-  $.ajax({
-    dataType: "json",
-    method: "POST",
-    url: url_base + "/empleados/obtener?token=" + token,
-    data: datos,
-  })
-    .done(function (json) {
-      if (json.estado) {
-        $("#id").val(json.datos.id);
-        $("#nombre").val(json.datos.nombres);
-        $("#apellido").val(json.datos.apellidos);
-        $("#cargo").val(json.datos.id_cargo).trigger("change");
-        $("#estado").val(json.datos.estado).trigger("change");
-        $("#modal_empleados").modal("show");
-      } else {
-        if (json.msg === "Token expirado") {
-          alerta_token_exp(
-            "Empleado",
-            "El token está expirado. Inicie sesión nuevamente."
-          );
-        } else if (json.msg === "Token no existe") {
-          alerta_token_exp(
-            "Empleado",
-            "El token no existe. Inicie sesión nuevamente."
-          );
-        } else {
-          alerta_error("Empleado", json.msg);
-        }
-      }
-    })
-    .fail(function () { })
-    .always(function () {
-      div_cargando.style.display = "none";
-    });
-}
+
 
 // function fnt_eliminar_empleado(idempleado) {
 //     let datos = { "id": idempleado };

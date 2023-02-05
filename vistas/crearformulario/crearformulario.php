@@ -32,7 +32,7 @@
             <div class="card-body">
               <form id="formFormulario" name="formFormulario">
                 <div class="modal-body">
-                  <input type="hidden" id="id_actividad" value="<?= $datos_vista['id']; ?>">
+                  <input type="hidden" id="id_formulario" value="<?= $datos_vista['id']; ?>">
                   <input type="hidden" id="id" name="id" value="">
                   <p class="text-<?= COLOR_SIDEBAR_ACTIVO ?>">Todos los campos son obligatorios.</p>
                   <div class="row">
@@ -101,7 +101,7 @@
                     </div>
                     <div class="col-sm-6">
                       <div class="form-group">
-                        <label class="control-label">Codigo QR</label>
+                        <label class="control-label" id="label_QR">Codigo QR</label>
                         <div id="contenedorQR" class="contenedorQR"></div>
                         <input type="hidden" id="token" name="token">
                       </div>

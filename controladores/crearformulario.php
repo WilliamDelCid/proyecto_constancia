@@ -33,9 +33,9 @@ class crearformulario extends controladores
 	{
 		$id =  $_GET['id'];
 		$datos_vista['id'] = $id;
-		$datos_vista['titulo_ventana'] = "Detalle Actividad";
-		$datos_vista['titulo_pagina'] = "Detalle Actividad";
-		$datos_vista['nombre_pagina'] = "empleados";
+		$datos_vista['titulo_ventana'] = "Editar Formulario";
+		$datos_vista['titulo_pagina'] = "Editar Formulario";
+		$datos_vista['nombre_pagina'] = "Editar Formulario";
 		$datos_vista['archivo_funciones'] = "js_editarformulario.js";
 		$this->vista->obtener_vista($this, "crearformulario", $datos_vista);
 	}
@@ -54,9 +54,6 @@ class crearformulario extends controladores
 
 	public function listarparticipacion()
 	{
-
-
-
 
 		if (!empty($_POST['txtNombre'])) {
 			$idparticipacion = 0;

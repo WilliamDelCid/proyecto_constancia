@@ -48,7 +48,7 @@ class formulario extends controladores
 				f.fecha_evento AS fecha_evento, f.lugar_evento,
 				f.fecha_expedicion
 				FROM formularios AS f
-				INNER JOIN participacion AS p ON f.id_tipo_participacion = p.id INNER JOIN eventos e on f.id_evento=e.id");
+				INNER JOIN participacion AS p ON f.id_tipo_participacion = p.id INNER JOIN eventos e on f.id_evento=e.id ");
 
 				if ($consulta_datos['estado'] == true) {
 					$arr_datos = $consulta_datos['datos'];
@@ -63,7 +63,7 @@ class formulario extends controladores
 						}
 
 						if (isset($_SESSION['permisos_' . nombreproyecto()]['Editar Formulario'])) {
-							$boton_editar = '<button type="button" class="btn btn-danger btn-sm abrir" data-id="' . $arr_datos[$i]['id_formulario'] . '" title="Editar"><i class="fas fa-edit"></i></button>';
+							$boton_editar = '<button type="button" class="btn btn-danger btn-sm abrir" data-id="' . $arr_datos[$i]['id_formulario'] . '" onClick="editarFormulario(' . $arr_datos[$i]['id_formulario'] . ')" title="Editar"><i class="fas fa-edit"></i></button>';
 						}
 						if (isset($_SESSION['permisos_' . nombreproyecto()]['Dar de baja Formulario'])) {
 							$boton_eliminar = '<button type="button" class="btn btn-danger btn-sm" onClick="fnt_eliminar_formulario(' . $arr_datos[$i]['id_formulario'] . ')" title="Eliminar"><i class="fas fa-trash"></i></button>';
@@ -105,31 +105,96 @@ class formulario extends controladores
 	/*=======================================================
         			EDITAR REGISTROS
         =======================================================*/
+
+	public  function fechaReducida($fecha_evento)
+	{
+		$fechas = explode(',', $fecha_evento);
+		$fechas2 = [];
+		for ($i = 0; $i < count($fechas); $i++) {
+			$fechas2[$i] = explode('/', $fechas[$i]);
+		}
+
+		// Obtenemos los meses
+		$meses = [];
+		for ($j = 0; $j < count($fechas2); $j++) {
+
+			$meses[$j] = $fechas2[$j][1];
+		}
+
+		// eliminamos los meses duplicados
+		$meses = array_values(array_unique($meses));
+
+		// Concatenamos las fechas con las que matchean los meses
+		$fechaReducida = '';
+		for ($k = 0; $k < count($meses); $k++) {
+			for ($l = 0; $l < count($fechas2); $l++) {
+				// var_dump(in_array($meses[$k], $fechas2[$l]));
+				// die();
+				if (in_array($meses[$k], $fechas2[$l])) {
+					if ($l == 0) {
+						$fechaReducida .= $fechas2[$l][0];
+					} else {
+						$fechaReducida .= ', ' . $fechas2[$l][0];
+					}
+					// echo ($fechas2[$l][0]);
+				}
+			}
+			// si es la ultima iteracion del mes concatenamos el mes
+			$ultimaIteracion = $k + 1;
+			if ($ultimaIteracion < count($meses)) {
+				$fechaReducida .= ' de ' . $meses[$k];
+			} else {
+				$fechaReducida .= ' de ' . $meses[$k] . ' de ' . $fechas2[0][2];
+			}
+		}
+		return $fechaReducida;
+	}
+
+
 	public function editar()
 	{
+
+
+
 		$token = $_GET['token'];
 		$validar_token = $this->modelo->validar_token($token);
 
 		if ($validar_token['estado'] == 1) { //el token no esta expirado
 			if ($_POST) {
-				$idempleado = intval($_POST['id']);
+				$idformulario = intval($_POST['id']);
 				$nombre =  limpiar($_POST['nombre']);
 				$apellido =  limpiar($_POST['apellido']);
-				$idcargo = intval($_POST['cargo']);
-				$estado = intval($_POST['estado']);
+				$idparticipacion = intval($_POST['participacion']);
+				$idevento = intval($_POST['evento']);
+				$fecha_evento = limpiar($_POST['fecha_evento']);
+				$lugar_evento = limpiar($_POST['lugar_evento']);
+				$fecha_expedicion = limpiar($_POST['fecha_expedicion']);
+
+				if (isset($_POST['evento_opcional'])) {
+					$evento_opcional = ($_POST['evento_opcional']);
+					$idevento = null;
+				} else {
+					$evento_opcional = null;
+				}
+
+				// $fechaReducida = self::fechaReducida($fecha_evento);
 
 
 				if (isset($_SESSION['permisos_' . nombreproyecto()]['Editar Formulario'])) {
-					$existe_edicion = $this->modelo->seleccionar_todos_sql("SELECT * FROM empleados WHERE id != $idempleado AND nombres = '$nombre'");
+
+
+
+					$existe_edicion = $this->modelo->seleccionar_todos_sql("SELECT * FROM formularios WHERE id != $idformulario AND nombres = '$nombre'");
 					//imprimir($url_nombre);die();
 					if ($existe_edicion['estado'] == true) {
 						if (empty($existe_edicion['datos'])) {
-							//$token = $_SESSION['login_datos_'.nombreproyecto()]->{'token_usuario'};
-							//$url = "roles?token=".$token."&tabla=usuarios&sufijo=usuario&nombreid=id_rol&id=".$idrol;
-							$campos = array("nombres" => $nombre, "apellidos" => $apellido, "estado" => $estado, "id_cargo" => $idcargo);
+							// $token = $_SESSION['login_datos_'.nombreproyecto()]->{'token_usuario'};
+							// $url = "roles?token=".$token."&tabla=usuarios&sufijo=usuario&nombreid=id_rol&id=".$idrol;
+							// $campos = array("nombres" => $nombre, "apellidos" => $apellido, "id_tipo_participacion" => $idparticipacion, "id_evento" => $idevento, "nombre_evento_opcional" => $evento_opcional, "fecha_evento" => $fechaReducida, "lugar_evento" => $lugar_evento, "fecha_expedicion" => $fecha_expedicion);
+							$campos = array("nombres" => $nombre, "apellidos" => $apellido, "id_tipo_participacion" => $idparticipacion, "id_evento" => $idevento, "nombre_evento_opcional" => $evento_opcional, "lugar_evento" => $lugar_evento, "fecha_expedicion" => $fecha_expedicion);
 
 							//if (isset($_SESSION['permisos_'.nombreproyecto()]['Editar Roles'])) {
-							$editar = $this->modelo->editar("empleados", $campos, 'id', $idempleado);
+							$editar = $this->modelo->editar("formularios", $campos, 'id', $idformulario);
 							//}
 							//}
 							if ($editar['estado'] == true) {
@@ -142,7 +207,7 @@ class formulario extends controladores
 								die();
 							}
 						} else {
-							$respuesta = array("estado" => false, "msg" => "El empleado ya existe.");
+							$respuesta = array("estado" => false, "msg" => "El formulario ya existe.");
 							echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
 							die();
 						}
@@ -176,13 +241,13 @@ class formulario extends controladores
 		$validar_token = $this->modelo->validar_token($token);
 
 		if ($validar_token['estado'] == 1) { //el token no esta expirado
-			if (isset($_SESSION['permisos_' . nombreproyecto()]['Ver Empleado'])) {
+			if (isset($_SESSION['permisos_' . nombreproyecto()]['Editar Formulario'])) {
 				if ($_POST) {
-					$idempleado = intval($_POST['id']);
+					$idformulario = intval($_POST['id']);
 
 
 					//if (isset($_SESSION['permisos_'.nombreproyecto()]['Ver Roles'])) {
-					$datos = $this->modelo->seleccionar_unico_sql("SELECT * FROM empleados WHERE id = $idempleado");
+					$datos = $this->modelo->seleccionar_unico_sql("SELECT * FROM formularios WHERE id = $idformulario");
 					//}
 
 					if ($datos['estado'] == true) {
