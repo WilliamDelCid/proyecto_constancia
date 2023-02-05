@@ -69,9 +69,19 @@ function cargar_datos() {
             "El token no existe. Inicie sesión nuevamente."
           );
         } else {
-          if (json.msg === "Token expirado") { alerta_token_exp("Formulario", "El token está expirado. Inicie sesión nuevamente.") }
-          else if (json.msg === "Token no existe") { alerta_token_exp("Formulario", "El token no existe. Inicie sesión nuevamente.") }
-          else { alerta_error('Formulario', json.msg); }
+          if (json.msg === "Token expirado") {
+            alerta_token_exp(
+              "Formulario",
+              "El token está expirado. Inicie sesión nuevamente."
+            );
+          } else if (json.msg === "Token no existe") {
+            alerta_token_exp(
+              "Formulario",
+              "El token no existe. Inicie sesión nuevamente."
+            );
+          } else {
+            alerta_error("Formulario", json.msg);
+          }
         }
       }
     })
@@ -97,6 +107,52 @@ function editarFormulario(id) {
 
 
 function verFormulario(id_reconocimiento) {
+  let datos = { id: id_reconocimiento };
+  div_cargando.style.display = "flex";
+
+  $.ajax({
+    dataType: "json",
+    method: "POST",
+    url: url_base + "/formulario/verDetalle?token=" + token,
+    data: datos,
+  })
+    .done(function (json) {
+      if (json.estado) {
+        let evento = "";
+        console.log(json.datos);
+        // return;
+        evento = json.datos[0].evento_opcional || json.datos[0].nombre_evento;
+        document.querySelector("#imagen").innerHTML = `<img src="${json.datos[0].url}" alt="Codigo QR" width="250px">`;
+        document.querySelector("#nombreEvento").innerHTML = evento;
+        // document.querySelector("#nombreEvento").value=json.datos[0].;
+        document.querySelector("#fechaEvento").innerHTML = json.datos[0].fecha_evento;
+        document.querySelector("#fechaExpedicion").innerHTML = json.datos[0].fecha_expedicion;
+        document.querySelector("#nombreCompleto").innerHTML = `${json.datos[0].nombre_formulario} ${json.datos[0].apellido_formulario}`;
+        document.querySelector("#tipoParticipacion").innerHTML = json.datos[0].nombre_participacion;
+        // document.querySelector("#tipoParticipacion").innerHTML=json.datos[0].fecha_evento;
+        document.querySelector("#lugarEvento").innerHTML = json.datos[0].lugar_evento;
+        document.querySelector("#codigo").innerHTML = json.datos[0].token_unico;
+      } else {
+        if (json.msg === "Token expirado") {
+          alerta_token_exp(
+            "Error",
+            "El token está expirado. Inicie sesión nuevamente."
+          );
+        } else if (json.msg === "Token no existe") {
+          alerta_token_exp(
+            "Error",
+            "El token no existe. Inicie sesión nuevamente."
+          );
+        } else {
+          alerta_error("Error", json.msg);
+        }
+      }
+    })
+    .fail(function () { })
+    .always(function () {
+      div_cargando.style.display = "none";
+    });
+
   $("#modal_detalle_formulario").modal("show");
 }
 
@@ -139,10 +195,7 @@ function verFormulario(id_reconocimiento) {
 //                 div_cargando.style.display = "none";
 //             });
 
-
 //         } //result confirm
 //     });
 
 // }
-
-
