@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (json.estado) {
                 $("#cargo").empty().html(json.cargos);
             } else {
-                alerta_error('Expediente', json.msg);
+                alerta_error('-', json.msg);
             }
 
 

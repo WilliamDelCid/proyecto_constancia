@@ -45,7 +45,7 @@ class formulario extends controladores
 				f.apellidos AS apellido_formulario, (select p.nombre from participacion p where p.id=f.id_tipo_participacion) AS nombre_participacion, 
 				(select e.nombre from eventos e where e.id=f.id_evento) AS nombre_evento, 
 				f.nombre_evento_opcional AS evento_opcional, 
-				f.fecha_evento AS fecha_evento, f.lugar_evento,
+				f.fecha_evento AS fecha_evento, f.lugar_evento, f.token_unico as token_unico,
 				f.fecha_expedicion FROM formularios AS f");
 
 				if ($consulta_datos['estado'] == true) {
@@ -55,7 +55,7 @@ class formulario extends controladores
 					for ($i = 0; $i < count($arr_datos); $i++) {
 						$boton_editar = "";
 						$boton_eliminar = "";
-
+						$boton_reporte = "";
 						if (empty($arr_datos[$i]['nombre_evento'])) {
 							$arr_datos[$i]['nombre_evento'] = $arr_datos[$i]['evento_opcional'];
 						}
@@ -66,10 +66,14 @@ class formulario extends controladores
 						if (isset($_SESSION['permisos_' . nombreproyecto()]['Dar de baja Formulario'])) {
 							$boton_eliminar = '<button type="button" class="btn btn-danger btn-sm" onClick="fnt_eliminar_formulario(' . $arr_datos[$i]['id_formulario'] . ')" title="Eliminar"><i class="fas fa-trash"></i></button>';
 						}
-						$boton_detalle = '<button type="button" class="btn btn-primary btn-sm" onClick="verFormulario(' . $arr_datos[$i]['id_formulario'] . ')" title="Ver detalles"><i class="fas fa-eye"></i></button>';
+						if (isset($_SESSION['permisos_' . nombreproyecto()]['Ver Formulario'])) {
+							$aa = '"';
+							$boton_reporte = '<button type="button" class="btn btn-danger btn-sm" onClick="fnt_crear_pdf_formulario(' . "'" . $arr_datos[$i]["token_unico"]  . "'" . ')" title="Generar pdf"><i class="fas fa-file-pdf"></i></button>';
+						}
+						$boton_detalle = '<button type="button" class="btn btn-primary btn-sm" onClick="verFormulario(' .  $arr_datos[$i]['id_formulario'] .  ')" title="Ver detalles"><i class="fas fa-eye"></i></button>';
 
 						//agregamos los botones
-						$arr_datos[$i]['acciones'] = '<div class="text-center"> ' . $boton_editar . ' ' . $boton_eliminar . ' ' . $boton_detalle . '</div>';
+						$arr_datos[$i]['acciones'] = '<div class="text-center"> ' . $boton_editar . ' ' . $boton_eliminar . ' ' . $boton_detalle . ' ' . $boton_reporte . '</div>';
 						$htmlDatosTabla .= '<tr>
 												<td>' . $arr_datos[$i]['id_formulario'] . '</td>
 												<td>' . $arr_datos[$i]['nombre_formulario'] . '</td>
