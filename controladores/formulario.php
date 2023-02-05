@@ -42,13 +42,12 @@ class formulario extends controladores
 
 			if (isset($_SESSION['permisos_' . nombreproyecto()]['Ver Formulario'])) {
 				$consulta_datos = $this->modelo->seleccionar_todos_sql("SELECT f.id AS id_formulario, f.nombres AS nombre_formulario, 
-				f.apellidos AS apellido_formulario,p.nombre AS nombre_participacion, 
-				e.nombre AS nombre_evento, 
+				f.apellidos AS apellido_formulario, (select p.nombre from participacion p where p.id=f.id_tipo_participacion) AS nombre_participacion, 
+				(select e.nombre from eventos e where e.id=f.id_evento) AS nombre_evento, 
 				f.nombre_evento_opcional AS evento_opcional, 
 				f.fecha_evento AS fecha_evento, f.lugar_evento,
 				f.fecha_expedicion
-				FROM formularios AS f
-				INNER JOIN participacion AS p ON f.id_tipo_participacion = p.id INNER JOIN eventos e on f.id_evento=e.id");
+				FROM formularios AS f");
 
 				if ($consulta_datos['estado'] == true) {
 					$arr_datos = $consulta_datos['datos'];
@@ -262,6 +261,56 @@ class formulario extends controladores
 				}
 			} else {
 				$respuesta = array("estado" => false, "msg" => "Ops. No tiene permisos para dar de baja.");
+				echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
+				die();
+			}
+		} else if ($validar_token['estado'] == 2) { //el token esta expirado
+			$arr_respuesta = array("estado" => false, "msg" => 'Token expirado');
+			echo json_encode($arr_respuesta, JSON_UNESCAPED_UNICODE);
+		} else if ($validar_token['estado'] == 0) { //el token no existe
+			$arr_respuesta = array("estado" => false, "msg" => 'Token no existe');
+			echo json_encode($arr_respuesta, JSON_UNESCAPED_UNICODE);
+		}
+		die();
+	}
+
+	public function verDetalle()
+	{
+		$token = $_GET['token'];
+		$validar_token = $this->modelo->validar_token($token);
+
+		if ($validar_token['estado'] == 1) { //el token no esta expirado
+			if (isset($_SESSION['permisos_' . nombreproyecto()]['Ver Formulario'])) {
+				if ($_POST) {
+					$id = intval($_POST['id']);
+
+					$datos = $this->modelo->seleccionar_todos_sql("SELECT f.id AS id_formulario, f.nombres AS nombre_formulario, 
+					f.apellidos AS apellido_formulario, f.token_unico, f.url, (select p.nombre from participacion p where p.id=f.id_tipo_participacion) AS nombre_participacion, 
+					(select e.nombre from eventos e where e.id=f.id_evento) AS nombre_evento, 
+					f.nombre_evento_opcional AS evento_opcional, 
+					f.fecha_evento AS fecha_evento, f.lugar_evento,
+					f.fecha_expedicion
+					FROM formularios AS f WHERE f.id=$id");
+
+
+					if ($datos['estado'] == true) {
+						if (empty($datos['datos'])) {
+							$respuesta = array("estado" => false, "msg" => "Ops. No se encontraron los datos.");
+							echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
+							die();
+						} else {
+							$respuesta = array("estado" => true, "datos" => $datos['datos']);
+							echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
+							die();
+						}
+					} else {
+						$respuesta = array("estado" => false, "msg" => "Ops. Ocurrió un error.");
+						echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
+						die();
+					}
+				}
+			} else {
+				$respuesta = array("estado" => false, "msg" => "Ops. No tiene permisos para ver.");
 				echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
 				die();
 			}
