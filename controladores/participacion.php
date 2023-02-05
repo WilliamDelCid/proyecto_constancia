@@ -34,11 +34,10 @@ class participacion extends controladores
         =======================================================*/
 	public function listar()
 	{
-		//imprimir(token_sesion());die();
 		$token = $_GET['token'];
 		$validar_token = $this->modelo->validar_token($token);
 
-		if ($validar_token['estado'] == 1) { //el token no esta expirado
+		if ($validar_token['estado'] == 1) {
 
 			if (isset($_SESSION['permisos_' . nombreproyecto()]['Ver Participacion'])) {
 				$consulta_datos = $this->modelo->seleccionar_todos_sin_where("participacion");
@@ -63,7 +62,6 @@ class participacion extends controladores
 						if (isset($_SESSION['permisos_' . nombreproyecto()]['Dar de baja Participacion'])) {
 							$boton_eliminar = '<button type="button" class="btn btn-danger btn-sm" onClick="fnt_eliminar_participacion(' . $arr_datos[$i]['id'] . ')" title="Eliminar"><i class="fas fa-trash"></i></button>';
 						}
-						//agregamos los botones
 						$arr_datos[$i]['acciones'] = '<div class="text-center"> ' . $boton_editar . ' ' . $boton_eliminar . '</div>';
 						$htmlDatosTabla .= '<tr>
 												<td>' . $arr_datos[$i]['id'] . '</td>
@@ -104,7 +102,7 @@ class participacion extends controladores
 		$token = $_GET['token'];
 		$validar_token = $this->modelo->validar_token($token);
 
-		if ($validar_token['estado'] == 1) { //el token no esta expirado
+		if ($validar_token['estado'] == 1) {
 			if ($_POST) {
 				$idparticipacion = intval($_POST['id']);
 				$nombre =  limpiar($_POST['nombre']);
@@ -113,16 +111,11 @@ class participacion extends controladores
 				if ($idparticipacion == 0) { //Es una inserción
 					if (isset($_SESSION['permisos_' . nombreproyecto()]['Crear Participacion'])) {
 						$existe = $this->modelo->seleccionar_todos_sql("SELECT * FROM participacion WHERE nombre = '$nombre'");
-						//imprimir($existe);die();
 						if ($existe['estado'] == true) {
 							if (empty($existe['datos'])) {
 
-								//$token = $_SESSION['login_datos_'.nombreproyecto()]->{'token_usuario'};
-
 								$campos = array("nombre" => $nombre, "estado" => $estado);
-								//if (isset($_SESSION['permisos_'.nombreproyecto()]['Crear Roles'])) {
 								$insertar = $this->modelo->insertar("participacion", $campos);
-								//}
 								if ($insertar['estado'] == true) {
 									$respuesta = array("estado" => true, "msg" => $insertar['respuesta']);
 									echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
@@ -150,15 +143,11 @@ class participacion extends controladores
 				} else { //actualizacion
 					if (isset($_SESSION['permisos_' . nombreproyecto()]['Editar Participacion'])) {
 						$existe_edicion = $this->modelo->seleccionar_todos_sql("SELECT * FROM participacion WHERE nombre = '$nombre' AND id != $idparticipacion");
-						//imprimir($url_nombre);die();
 						if ($existe_edicion['estado'] == true) {
 							if (empty($existe_edicion['datos'])) {
 								$campos = array("nombre" => $nombre, "estado" => $estado);
 
-								//if (isset($_SESSION['permisos_'.nombreproyecto()]['Editar Roles'])) {
 								$editar = $this->modelo->editar("participacion", $campos, 'id', $idparticipacion);
-								//}
-								//}
 								if ($editar['estado'] == true) {
 									$respuesta = array("estado" => true, "msg" => $editar['respuesta']);
 									echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
@@ -209,10 +198,7 @@ class participacion extends controladores
 				if ($_POST) {
 					$idparticipacion = intval($_POST['id']);
 
-
-					//if (isset($_SESSION['permisos_'.nombreproyecto()]['Ver Roles'])) {
 					$datos = $this->modelo->seleccionar_unico_sql("SELECT * FROM participacion WHERE id = $idparticipacion");
-					//}
 
 					if ($datos['estado'] == true) {
 						if (empty($datos['datos'])) {
@@ -258,16 +244,11 @@ class participacion extends controladores
 				if ($_POST) {
 					$idparticipacion = intval($_POST['id']);
 
-					//if (isset($_SESSION['permisos_'.nombreproyecto()]['Ver Roles'])) {
-					$existe = $this->modelo->seleccionar_todos_sql("SELECT * FROM empleados	where id_cargo = $idparticipacion");
-					//}
-					//imprimir($existe);die();
+					$existe = $this->modelo->seleccionar_todos_sql("SELECT * FROM formularios where id_tipo_participacion = $idparticipacion");
+
 					if ($existe['estado'] == true) {
 						if (empty($existe['datos'])) {
-							//$token = $_SESSION['login_datos_'.nombreproyecto()]->{'token_usuario'};
-
 							$eliminar = $this->modelo->eliminar("participacion", "id", $idparticipacion);
-
 							if ($eliminar['estado'] == true) {
 								$respuesta = array("estado" => true, "msg" => $eliminar['respuesta']);
 								echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
@@ -278,7 +259,7 @@ class participacion extends controladores
 								die();
 							}
 						} else {
-							$respuesta = array("estado" => false, "msg" => "No se puede eliminar ya que está asociado a un empleado.");
+							$respuesta = array("estado" => false, "msg" => "No se puede eliminar ya que está asociado a un Formulario.");
 							echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
 							die();
 						}
