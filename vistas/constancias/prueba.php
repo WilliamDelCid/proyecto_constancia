@@ -45,13 +45,22 @@ $pdf->Cell(180, 20, 'RECONOCIMIENTO', 0, 1, 'L');
 
 
 ///////////////////////
-$tipoParticipacion = "EVALUADOR";
-$nombreEvento = "Sistema para consultas de información de DENUE, SCINCE, Inventario Nacional de Vivienda 2016, PyMES y Mapas Digitales";
-$fechas = "20 de Marzo de 2018";
+$nombreParticipante = strtoupper($datos_vista['datos']['datos'][0]['nombre_formulario'] . ' ' . $datos_vista['datos']['datos'][0]['apellido_formulario']);
+$tipoParticipacion = $datos_vista['datos']['datos'][0]['nombre_participacion'];
+$nombreEvento = $datos_vista['datos']['datos'][0]['nombre_evento'];
+$fechas = $datos_vista['datos']['datos'][0]['fecha_evento'];
+$fechaExpe = $datos_vista['datos']['datos'][0]['fecha_expedicion'];
+$meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+$fechaExpe2 = explode('-', $fechaExpe);
+$mesCero = str_split($fechaExpe2[1]);
+$fechaExpedicion = $fechaExpe2[2] . ' de ' . $meses[$mesCero[1]] . ' de ' . $fechaExpe2[0];
+$lugar = $datos_vista['datos']['datos'][0]['lugar_evento'];
+
+// var_dump($fechaExpedicion);
 
 
 $texto1 = utf8_decode(
-    "<p><regular10>a: </regular10><bold10>MARÍA GREGORÍA NEÍTEZ LIMA</bold10></p>"
+    "<p><regular10>a: </regular10><bold10>$nombreParticipante</bold10></p>"
 
 );
 
@@ -76,7 +85,7 @@ $pdf->WriteTag(187, 6, "$texto1", 0, "J", 0, 2);
 $pdf->Ln(10);
 $pdf->SetX(77);
 $texto2 = utf8_decode(
-    "<p><regular>San Luis Potosí, S.L.P., 12 Marzo 2023</regular></p>"
+    "<p><regular>$lugar, $fechaExpedicion</regular></p>"
 );
 
 $pdf->WriteTag(165, 6, "$texto2", 0, "J", 0, 2);
@@ -92,7 +101,7 @@ $pdf->Cell(100, 6, utf8_decode('Siempre Autonoma. Por mí patria Educaré.'), 0,
 
 // ULTIMOO
 $pdf->SetFont('FontsFree-Net-MYRIADPRO-BOLD', '', 14);
-$pdf->Ln(25);
+$pdf->Ln(26);
 $pdf->SetX(77);
 $pdf->Cell(100, 6, utf8_decode('M.A Hilda Lorena Borjas García'), 0, 1, 'L', 0);
 $pdf->SetX(77);
@@ -107,9 +116,9 @@ $pdf->Text(44, 194, $hoy['year']);
 
 
 
-$pdf->Image(url_base() . '/archivos/imagenes/qr.png', 226, 170, 45);
+// $pdf->Image(url_base() . '/archivos/imagenes/qr.png', 226, 170, 45);
+$pdf->image($datos_vista['datos']['datos'][0]['url'], 230, 170, 35, 0, 'png');
 
+$nombrecito = utf8_decode($nombreParticipante);
 
-
-
-$pdf->Output();
+$pdf->Output("Reconocimiento - $nombrecito .pdf", "I");
