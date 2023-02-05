@@ -260,7 +260,7 @@ class evento extends controladores
 								die();
 							}
 						} else {
-							$respuesta = array("estado" => false, "msg" => "No se puede eliminar ya que está asociado a un -.");
+							$respuesta = array("estado" => false, "msg" => "No se puede eliminar ya que está asociado a un Formulario.");
 							echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
 							die();
 						}
