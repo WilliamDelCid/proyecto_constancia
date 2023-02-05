@@ -59,6 +59,7 @@ document.addEventListener(
     };
     $.datepicker.setDefaults($.datepicker.regional["es"]);
     $("#fecha_evento").multiDatesPicker();
+
     // obtener_formulario();
     /*---------------------------------------------------
       AL DAR CLIC EN EL BOTON DE NUEVO SE ABRE EL MODAL
@@ -291,6 +292,7 @@ document.addEventListener(
         contentType: false
       }).done(function (json) {
         formFormulario.reset();
+        $("#fecha_evento").multiDatesPicker('resetDates');
         document.querySelector('#token').value = '';
         document.getElementById("contenedorQR").innerHTML = '';
         document.querySelector('#guardar').setAttribute('disabled', true);

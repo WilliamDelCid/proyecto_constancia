@@ -270,7 +270,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // document.querySelector('#buttonQR').removeAttribute('disabled');
             console.log('Entre al done');
             if (json.estado === true) {
-                alerta_recargartabla('Formulario 1', json.msg);
+                alerta_recargartabla('Formulario', json.msg);
             } else {
                 if (json.msg === "Token expirado") { alerta_token_exp("Formulario", "El token está expirado. Inicie sesión nuevamente.") }
                 else if (json.msg === "Token no existe") { alerta_token_exp("Formulario", "El token no existe. Inicie sesión nuevamente.") }

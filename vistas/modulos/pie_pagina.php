@@ -47,9 +47,9 @@
 <script src="<?= url_base(); ?>/template/plugins/jquery-validation/additional-methods.min.js"></script>
 <!-- custom file input -->
 <script src="<?= url_base(); ?>/template/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<script src="<?= url_base(); ?>/template/plugins/jquery-ui-1.13.2.custom/jquery-ui.min.js"></script>
 <!-- drpzone -->
 <script src="<?= url_base(); ?>/template/plugins/dropzone/min/dropzone.min.js"></script>
-<script src="<?= url_base(); ?>/template/plugins/jquery-ui-1.13.2.custom/jquery-ui.min.js"></script>
 
 <!-- AdminLTE App -->
 <script src="<?= url_base(); ?>/template/plugins/adminlte/js/adminlte.min.js"></script>
@@ -57,8 +57,8 @@
 
 <!-- AdminLTE for demo purposes <script src="template/plugins/adminlte/js/demo.js"></script>-->
 
-<script src="<?= url_base(); ?>/funciones/jquery-ui.multidatespicker.js"></script>
 <script src="<?= url_base(); ?>/funciones/qrcode.min.js"></script>
+<script src="<?= url_base(); ?>/funciones/jquery-ui.multidatespicker.js"></script>
 
 
 <link rel="stylesheet" type="text/css" href="<?= url_base(); ?>/funciones/jquery-ui.css">
