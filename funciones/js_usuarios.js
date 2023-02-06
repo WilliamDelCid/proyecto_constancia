@@ -211,7 +211,6 @@ function fnt_editar_usuario(idusuario) {
   $("#titulo_modal").empty().html("Actualizar Usuario");
   reset_form(formUsuarios);
   let datos = { "idusuario": idusuario };
-  //console.log("Imprimiendo datos: ",datos);
   //mostrar_mensaje("Almacenando información","Por favor no recargue la página");
   $.ajax({
     dataType: "json",
@@ -219,7 +218,6 @@ function fnt_editar_usuario(idusuario) {
     url: url_base + "/usuarios/obtener?token=" + token,
     data: datos,
   }).done(function (json) {
-    //console.log(json.datos[0]);
     if (json.estado) {
       $("#id").val(json.datos.id);
       //$("#tipousuario").val(json.datos.tipo_usuario).trigger("change"); 
@@ -231,7 +229,6 @@ function fnt_editar_usuario(idusuario) {
       //llenar_select_usuario_y_seleccionar(json.datos.tipo_usuario);
 
       if (json.datos.tipo_usuario == 1) {
-        //console.log(json.datos.id_personal_academico);
         //$("#usuario").val(json.datos.id_personal_academico).trigger("change");
         //$("#usuario").select2("val", json.datos.id_personal_academico);
         llenar_select_usuario_y_seleccionar(json.datos.tipo_usuario, json.datos.id_personal_academico);

@@ -68,8 +68,7 @@ class usuarios extends controladores
 						$arr_datos[$i]['fecha_creacion'] = formatear_fecha($arr_datos[$i]['fecha_creacion']);
 
 						if (isset($_SESSION['permisos_' . nombreproyecto()]['Editar Usuarios'])) {
-							//si el usuario logueado tiene el id 1 y si tiene el id rol 1 es que es ADMINSTRADOR
-							//si son administradores pero no el superadministrador, no podran editar los datos de aquellos que sean administradores, solamente los demas roles
+
 							if (($_SESSION['login_datos_' . nombreproyecto()]['id'] == 1 and $_SESSION['login_datos_' . nombreproyecto()]['id_rol'] == 1)
 								|| ($_SESSION['login_datos_' . nombreproyecto()]['id_rol'] == 1 and $arr_datos[$i]['id_rol'] != 1)
 							) {
@@ -79,22 +78,18 @@ class usuarios extends controladores
 							}
 						}
 						if (isset($_SESSION['permisos_' . nombreproyecto()]['Dar de baja Usuarios'])) {
-							//si el usuario logueado tiene el id 1 y si tiene el id rol 1 es que es ADMINSTRADOR
-							//si son administradores pero no el superadministrador, no podran dar de baja los datos de aquellos que sean administradores, solamente los demas roles
+
 							if (($_SESSION['login_datos_' . nombreproyecto()]['id'] == 1 and $_SESSION['login_datos_' . nombreproyecto()]['id_rol'] == 1)
 								|| ($_SESSION['login_datos_' . nombreproyecto()]['id_rol'] == 1 and $arr_datos[$i]['id_rol'] != 1)
 								and ($_SESSION['login_datos_' . nombreproyecto()]['id'] != $arr_datos[$i]['id'])
-							) { //si el id del usuario logueado es diferente al que esta recorriendo, para desabilitar el boton al que es superadmin
+							) {
 								$boton_eliminar = '<button type="button" class="btn btn-danger btn-sm" onClick="fnt_eliminar_usuario(' . $arr_datos[$i]['id'] . ')" title="Eliminar"><i class="fas fa-trash"></i></button>';
 							} else {
 								$boton_eliminar = '<button type="button" class="btn btn-danger btn-sm" disabled><i class="fas fa-trash"></i></button>';
 							}
 						}
-						//agregamos los botones
+
 						$arr_datos[$i]['acciones'] = '<div class="text-center">' . $boton_ver . ' ' . $boton_editar . ' ' . $boton_eliminar . '</div>';
-
-						//AGREGAMOS EL CAMPO DE FOTO
-
 
 						$htmlDatosTabla .= '<tr>
 												<td>' . $arr_datos[$i]['id'] . '</td>
@@ -136,7 +131,6 @@ class usuarios extends controladores
 
 		if ($validar_token['estado'] == 1) { //el token no esta expirado
 			if ($_POST) {
-				//imprimir($_POST);die();
 
 				$idusuario = intval($_POST['id']);
 				$correo =  limpiar($_POST['email']);
@@ -149,14 +143,11 @@ class usuarios extends controladores
 					if (isset($_SESSION['permisos_' . nombreproyecto()]['Crear Usuarios'])) {
 						$existe = $this->modelo->seleccionar_todos_sql("SELECT * FROM usuarios WHERE email = '$correo'");
 
-						//SI LA PETICION SE HIZO CORRECTAMENTE
 						if ($existe['estado'] == true) {
 							$arr_datos = $existe['datos'];
-							//SI NO EXISTE ESE USUARIO
-							if (empty($arr_datos)) {
-								//REGISTRO EL USUARIO						
 
-								//si la contra viene vacia se le crea una
+							if (empty($arr_datos)) {
+
 								if (empty($contrasena)) {
 									$contragenerada = generar_contrasena(); //ESTA CONTRASEÑA SE LE DEBE ENVIAR AL CORREO, HAY QUE DESENCRIPTSARLA Y ENVIARLA
 									$contra_encriptada = crypt($contragenerada, '$2a$07$azybxcagsrp23425rpazybxcags098$'); //CRYPT_BLOWFISH
@@ -182,11 +173,8 @@ class usuarios extends controladores
 									);
 								}
 
-
 								$insertar = $this->modelo->insertar("usuarios", $campos);
 
-								//imprimir($insertar);die();
-								//SI SE INSERTO CORRECTAMENTE EL USUARIO
 								if ($insertar['estado'] == true) {
 									$respuesta = array("estado" => true, "msg" => "Se registraron los datos correctamente.");
 									echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
@@ -214,14 +202,12 @@ class usuarios extends controladores
 				} else { //actualizacion
 					if (isset($_SESSION['permisos_' . nombreproyecto()]['Editar Usuarios'])) {
 						$existe = $this->modelo->seleccionar_todos_sql("SELECT * FROM usuarios WHERE email = '$correo' AND id != $idusuario");
-						//SI LA PETICION SE HIZO CORRECTAMENTE
+
 						if ($existe['estado'] == true) {
 							$arr_datos = $existe['datos'];
-							//SI NO EXISTE ESE USUARIO
-							if (empty($arr_datos)) {
-								//ACTUALIZAR EL USUARIO
 
-								//si la contra viene vacia no se envia a la actualizacion
+							if (empty($arr_datos)) {
+
 								if (empty($contrasena)) {
 
 									$campos = array(
@@ -244,14 +230,7 @@ class usuarios extends controladores
 
 								$editar = $this->modelo->editar("usuarios", $campos, "id", $idusuario);
 
-								//var_dump($editar);die();
-								//SI SE EDITO CORRECTAMENTE EL USUARIO
 								if ($editar['estado'] == true) {
-
-
-									//SI SE SUBIO LA FOTO
-
-
 
 									$respuesta = array("estado" => true, "msg" => "Se editaron los datos correctamente.");
 									echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);

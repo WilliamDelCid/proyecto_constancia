@@ -190,7 +190,6 @@ function fnt_editar_evento(idevento) {
     $("#titulo_modal").empty().html("Actualizar Evento");
     reset_form(formEvento);
     let datos = { "id": idevento };
-    //console.log("Imprimiendo datos: ",datos);
     div_cargando.style.display = "flex";
     $.ajax({
         dataType: "json",

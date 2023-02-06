@@ -210,7 +210,6 @@ function fnt_editar_empleado(idempleado) {
     $("#titulo_modal").empty().html("Actualizar Empleado");
     reset_form(formEmpleado);
     let datos = { "id": idempleado };
-    //console.log("Imprimiendo datos: ",datos);
     div_cargando.style.display = "flex";
     $.ajax({
         dataType: "json",

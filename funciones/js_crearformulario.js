@@ -376,9 +376,7 @@ async function fntAñadirMarca() { //Cambiarlo
           url: url_base + "/crearformulario/listarparticipacion",
           data: datos,
         }).done(function (json) {
-          console.log("EL consultar", json);
           if (json.estado) {
-            console.log(json.estado)
             $("#participacion").empty().html(json.participacion);
             Swal.fire("Participación!", json.msg, "success");
             document.querySelector("#participacion").value = json.id;

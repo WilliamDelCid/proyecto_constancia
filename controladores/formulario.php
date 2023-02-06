@@ -34,7 +34,7 @@ class formulario extends controladores
         =======================================================*/
 	public function listar()
 	{
-		//imprimir(token_sesion());die();
+
 		$token = $_GET['token'];
 		$validar_token = $this->modelo->validar_token($token);
 
@@ -67,7 +67,6 @@ class formulario extends controladores
 							$boton_eliminar = '<button type="button" class="btn btn-danger btn-sm" onClick="fnt_eliminar_formulario(' . $arr_datos[$i]['id_formulario'] . ')" title="Eliminar"><i class="fas fa-trash"></i></button>';
 						}
 						if (isset($_SESSION['permisos_' . nombreproyecto()]['Ver Formulario'])) {
-							$aa = '"';
 							$boton_reporte = '<button type="button" class="btn btn-danger btn-sm" onClick="fnt_crear_pdf_formulario(' . "'" . $arr_datos[$i]["token_unico"]  . "'" . ')" title="Generar pdf"><i class="fas fa-file-pdf"></i></button>';
 						}
 						$boton_detalle = '<button type="button" class="btn btn-primary btn-sm" onClick="verFormulario(' .  $arr_datos[$i]['id_formulario'] .  ')" title="Ver detalles"><i class="fas fa-eye"></i></button>';
@@ -296,10 +295,7 @@ class formulario extends controladores
 				if ($_POST) {
 					$idformulario = intval($_POST['id']);
 
-					//if (isset($_SESSION['permisos_'.nombreproyecto()]['Ver Roles'])) {
 					$existe = $this->modelo->seleccionar_todos_sql("SELECT * FROM formularios WHERE id = $idformulario");
-					//}
-					//imprimir($existe);die();
 
 					if ($existe['estado'] == true) {
 						if (!empty($existe['datos'])) {
