@@ -105,6 +105,16 @@ function editarFormulario(id) {
 
 }
 
+function fnt_crear_pdf_formulario(token) {
+  if (token !== null) {
+    window.open(
+      url_base + "/constancias/reconocimiento?id=" + token,
+      "_blank"
+    );
+  }
+
+}
+
 
 function verFormulario(id_reconocimiento) {
   let datos = { id: id_reconocimiento };
@@ -119,7 +129,6 @@ function verFormulario(id_reconocimiento) {
     .done(function (json) {
       if (json.estado) {
         let evento = "";
-        console.log(json.datos);
         // return;
         evento = json.datos[0].evento_opcional || json.datos[0].nombre_evento;
         document.querySelector("#imagen").innerHTML = `<img src="${json.datos[0].url}" alt="Codigo QR" width="250px">`;

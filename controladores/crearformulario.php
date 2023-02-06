@@ -60,14 +60,13 @@ class crearformulario extends controladores
 			$nombre =  limpiar($_POST['txtNombre']);
 			$estado = 1;
 			$existe = $this->modelo->seleccionar_todos_sql("SELECT * FROM participacion WHERE nombre = '$nombre'");
-			//imprimir($existe);die();
+
 			if ($existe['estado'] == true) {
 				if (empty($existe['datos'])) {
 
-					//$token = $_SESSION['login_datos_'.nombreproyecto()]->{'token_usuario'};
 
 					$campos = array("nombre" => $nombre, "estado" => $estado);
-					//if (isset($_SESSION['permisos_'.nombreproyecto()]['Crear Roles'])) {
+
 					$insertar = $this->modelo->insertar("participacion", $campos);
 					if ($insertar['estado'] == true) {
 						$htmlC = "";
@@ -167,7 +166,6 @@ class crearformulario extends controladores
         	FUNCION PARA GENERAR STRING DE FECHAS
 	=======================================================*/
 
-
 	public  function fechaReducida($fecha_evento)
 	{
 		// separamos las fechas
@@ -216,7 +214,6 @@ class crearformulario extends controladores
         			INSERTAR O EDITAR REGISTROS
         =======================================================*/
 
-
 	public function insertar()
 	{
 		$token = $_GET['token'];
@@ -245,16 +242,14 @@ class crearformulario extends controladores
 
 				if (isset($_SESSION['permisos_' . nombreproyecto()]['Crear Formulario'])) {
 					$existe = $this->modelo->seleccionar_todos_sql("SELECT * FROM formularios WHERE id = $idformulario");
-					//imprimir($existe);die();
+
 					if ($existe['estado'] == true) {
 						if (empty($existe['datos'])) {
 
-							//$token = $_SESSION['login_datos_'.nombreproyecto()]->{'token_usuario'};
-
 							$campos = array("nombres" => $nombre, "apellidos" => $apellido, "id_tipo_participacion" => $idparticipacion, "id_evento" => $idevento, "nombre_evento_opcional" => $evento_opcional, "fecha_evento" => $fechaReducida, "lugar_evento" => $lugar_evento, "fecha_expedicion" => $fecha_expedicion, "token_unico" => $tokenimagen, "url" => $imagenurl, "estado" => 1);
-							//if (isset($_SESSION['permisos_'.nombreproyecto()]['Crear Roles'])) {
+
 							$insertar = $this->modelo->insertar("formularios", $campos);
-							//}
+
 							if ($insertar['estado'] == true) {
 								$respuesta = array("estado" => true, "msg" => $insertar['respuesta']);
 								echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);

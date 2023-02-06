@@ -190,7 +190,6 @@ function fnt_editar_participacion(idParticipacion) {
     $("#titulo_modal").empty().html("Actualizar Participación");
     reset_form(formParticipacion);
     let datos = { "id": idParticipacion };
-    //console.log("Imprimiendo datos: ",datos);
     div_cargando.style.display = "flex";
     $.ajax({
         dataType: "json",

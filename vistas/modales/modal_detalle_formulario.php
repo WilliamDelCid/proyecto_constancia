@@ -62,7 +62,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">
                         <i class="bx bx-x d-block d-sm-none"></i>
-                        <span class="d-none d-sm-block">Cancelar</span>
+                        <span class="d-none d-sm-block">Cerrar</span>
                     </button>
                 </div>
             </div>

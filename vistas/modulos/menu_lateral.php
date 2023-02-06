@@ -1,6 +1,6 @@
 <!-- Navigation Bar-->
 <header id="topnav">
-    <div class="topbar-main" style="background-color: #004A98;height: 120px;display:flex;">
+    <div class="topbar-main" style="background-color: #004A98;height: 120px;display:flex; flex-direction: row; ">
         <div class="container-fluid">
 
             <!-- Logo container-->
@@ -9,7 +9,25 @@
                     <img src="<?= url_base(); ?>/archivos/imagenes/Logo_Universidad.png" alt="" height="120">
                 </a>
             </div>
+            <div class="menu-extras topbar-custom">
 
+
+                <ul class="list-inline float-right mb-0">
+
+                    <li class="menu-item list-inline-item">
+                        <!-- Mobile menu toggle-->
+                        <a class="navbar-toggle nav-link">
+                            <div class="lines">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </a>
+                        <!-- End mobile menu toggle-->
+                    </li>
+
+                </ul>
+            </div>
 
 
         </div> <!-- end container -->

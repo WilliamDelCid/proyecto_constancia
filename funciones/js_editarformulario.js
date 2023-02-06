@@ -268,7 +268,6 @@ document.addEventListener("DOMContentLoaded", () => {
             // document.getElementById("contenedorQR").innerHTML = '';
             // document.querySelector('#guardar').setAttribute('disabled', true);
             // document.querySelector('#buttonQR').removeAttribute('disabled');
-            console.log('Entre al done');
             if (json.estado === true) {
                 alerta_recargartabla('Formulario', json.msg);
             } else {
@@ -354,9 +353,7 @@ async function fntAñadirMarca() { //Cambiarlo
                     url: url_base + "/crearformulario/listarparticipacion",
                     data: datos,
                 }).done(function (json) {
-                    console.log("EL consultar", json);
                     if (json.estado) {
-                        console.log(json.estado)
                         $("#participacion").empty().html(json.participacion);
                         Swal.fire("Participación!", json.msg, "success");
                         document.querySelector("#participacion").value = json.id;

@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (json.estado) {
                 $("#cargo").empty().html(json.cargos);
             } else {
-                alerta_error('Expediente', json.msg);
+                alerta_error('-', json.msg);
             }
 
 
@@ -210,7 +210,6 @@ function fnt_editar_empleado(idempleado) {
     $("#titulo_modal").empty().html("Actualizar Empleado");
     reset_form(formEmpleado);
     let datos = { "id": idempleado };
-    //console.log("Imprimiendo datos: ",datos);
     div_cargando.style.display = "flex";
     $.ajax({
         dataType: "json",

@@ -21,7 +21,7 @@ define("COLOR_SIDEBAR", $_ENV['COLOR_SIDEBAR']); //Color de fondo para el menu l
 define("COLOR_SIDEBAR_ACTIVO", $_ENV['COLOR_SIDEBAR_ACTIVO']); //Color de item activo del menu lateral
 
 //Zona horaria
-date_default_timezone_set('America/El_Salvador');
+date_default_timezone_set('America/Mexico_City');
 
 //Deliminadores decimal y millar Ej. 24,1989.00
 const DECIMAL = ".";
