@@ -2,127 +2,184 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?= $datos_vista['titulo_ventana']; ?></title>
-    <link rel="shortcut icon" href="<?= url_base(); ?>/archivos/imagenes/logo-u.png">
-    <!-- Google Font: Source Sans Pro -->
-    <!-- Font Awesome -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
     <style>
-        .ui-state-highlight {
-            border: 0 !important;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .ui-state-highlight a {
-            background: #363636 !important;
-            color: #fff !important;
+        header {
+            background-color: #004A98;
+            height: 120px;
         }
 
-        .cardi {
-            background-color: #fff;
-            border-radius: 5px;
-            padding: 25px;
+        #imagen_logo {
+            width: 100%;
+            object-fit: contain;
         }
 
-        .flexi {
-            /* width: 80%; */
+        .section__container {
+            width: 300px;
+            height: auto;
+            /* background-color: red; */
+            margin-inline: auto;
+            margin-top: 20px;
+        }
+
+        .card {
+            width: 300px;
+            min-height: 600px;
+            /* max-height: 600px; */
+            background: #07182E;
+            position: relative;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            place-content: center;
+            place-items: center;
+            overflow: hidden;
+            border-radius: 20px;
+            margin-inline: auto;
+        }
+
+        .card div {
+            z-index: 1;
+            color: black;
+            margin-inline: auto;
+            font-size: 14px;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            width: 100px;
+            background-image: linear-gradient(180deg, rgb(0, 183, 255), rgb(0, 183, 255));
+            height: 130%;
+            animation: rotBGimg 6s linear infinite;
+            transition: all 0.9s linear;
+        }
+
+        @keyframes rotBGimg {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            background: #fff;
+            ;
+            inset: 5px;
+            border-radius: 15px;
+        }
+
+        #card__container {
+            width: 290px;
+            height: 600px;
+            display: flex;
+            align-items: flex-start;
+            flex-direction: column;
+            color: black;
+            text-align: center;
+        }
+
+        #imagen_persona {
+            z-index: 1;
+            width: 280px;
+            /* max-width: 500px; */
+            margin-inline: auto;
+            margin-top: 20px;
+        }
+
+        .card:hover:before {
+            background-image: linear-gradient(180deg, rgb(81, 255, 0), purple);
+            animation: rotBGimg 3.5s linear infinite;
+        }
+
+
+
+        @media only screen and (min-width: 425px) {
+            #imagen_logo {
+                display: flex;
+                width: 420px;
+                margin: 0 auto;
+            }
+        }
+
+        @media only screen and (min-width: 768px) {
+            #imagen_logo {
+                display: flex;
+                width: 420px;
+                margin: unset;
+            }
         }
     </style>
-    <link rel="stylesheet" href="<?= url_base(); ?>/template/plugins/fontawesome-free/css/all.min.css">
-    <link rel="stylesheet" href="<?= url_base(); ?>/template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="<?= url_base(); ?>/template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-
-    <link href="<?= url_base(); ?>/archivos/css/estilos_generales.css" rel="stylesheet" />
-    <!-- Estilos dropzone -->
-    <link href="<?= url_base(); ?>/archivos/css/estilos_dropzone.css" rel="stylesheet" />
-    <link href="<?= url_base(); ?>/Horizontal/public/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="<?= url_base(); ?>/Horizontal/public/assets/css/icons.css" rel="stylesheet" type="text/css" />
-    <link href="<?= url_base(); ?>/Horizontal/public/assets/css/style.css" rel="stylesheet" type="text/css" />
 </head>
 
-<body style="padding-bottom: 0px;" class="hold-transition sidebar-mini layout-fixed <?= COLOR_TEMA ?>">
+<body>
+    <section>
 
-    <!-- Site wrapper -->
-    <div>
-
-        <!-- Navigation Bar-->
         <header>
-            <div class="topbar-main" style="background-color: #004A98;height: 120px;display:flex;">
-                <div class="container-fluid">
-
-                    <!-- Logo container-->
-                    <div class="logo">
-                        <a href="index.php" class="logo">
-                            <img src="<?= url_base(); ?>/archivos/imagenes/Logo_Universidad.png" alt="" height="120">
-                        </a>
-                    </div>
-                </div> <!-- end container -->
-            </div>
-
+            <img id="imagen_logo" src="<?= url_base(); ?>/archivos/imagenes/Logo_Universidad.png" alt="" height="120">
         </header>
-        <!-- End Navigation Bar-->
 
-        <div style="width: 100%; height: 500px; ">
-
-            <!-- <div class="row card" style="width: 800px; margin: 0px auto; margin-top:60px;"> -->
-            <div class="row"">
-            <div class=" col-md-6">
-                <img src="<?= url_base() ?>/archivos/imagenes/dooble.svg" width="600px" style="margin-left:40px; margin-top:20px; width: 100%;" alt="">
-
-            </div>
-            <div class="col-md-6 flexi">
-                <div class="cardi">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <b>Nombre del evento :</b>
-                            <p style="margin-right: 10px;" id="nombreEvento" name="nombreEvento">Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae, excepturi? Alias expedita nihil dolore in suscipit rerum quod ipsa provident!</p>
-                        </div>
+    </section>
+    <section class="section__container">
+        <div class="card">
+            <div id="card__container">
+                <img id="imagen_persona" src="<?= url_base() ?>/archivos/imagenes/dooble.svg" alt="Imagen Referencia">
+                <div class="row">
+                    <div class="col-md-6">
+                        <b>Nombre Completo:</b>
+                        <p style=" margin-right: 10px;" id="nombreCompleto" name="nombreCompleto">Pedro Pedoro Zanchez Maruchines</p>
                     </div>
-
-                    <div class=" row">
-                        <div class="col-md-6">
-                            <b>Fecha del evento:</b>
-                            <p style=" margin-right: 10px;" id="fechaEvento" name="fechaEvento">12,13 de Febrero de 2023</p>
-                        </div>
-                        <div class=" col-md-6">
-                            <b>Fecha de expedición:</b>
-                            <p style=" margin-right: 10px;" id="fechaExpedicion" name="fechaExpedicion">13/02/2023</p>
-                        </div>
+                    <div class=" col-md-6">
+                        <b>Tipo de Participación:</b>
+                        <p style=" margin-right: 10px;" id="tipoParticipacion" name="tipoParticipacion">CONFERENCIA</p>
                     </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <b>Nombre Completo:</b>
-                            <p style=" margin-right: 10px;" id="nombreCompleto" name="nombreCompleto">Pedro Pedoro Zanchez Maruchines</p>
-                        </div>
-                        <div class=" col-md-6">
-                            <b>Tipo de Participación:</b>
-                            <p style=" margin-right: 10px;" id="tipoParticipacion" name="tipoParticipacion">CONFERENCIA</p>
-                        </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <b>Nombre Completo:</b>
+                        <p style=" margin-right: 10px;" id="nombreCompleto" name="nombreCompleto">Pedro Pedoro Zanchez Maruchines</p>
                     </div>
-
-                    <div class="row">
-                        <div class=" col-md-6">
-                            <b>Lugar del Evento:</b>
-                            <p style=" margin-right: 10px;" id="lugarEvento" name="lugarEvento">San Salvador</p>
-                        </div>
-                        <div class="col-md-6">
-                            <b>Codigo:</b>
-                            <p style=" margin-right: 10px; color:#004A98;" id="codigo" name="codigo">asdftyui456hnmjfe67</p>
-                        </div>
+                    <div class=" col-md-6">
+                        <b>Tipo de Participación:</b>
+                        <p style=" margin-right: 10px;" id="tipoParticipacion" name="tipoParticipacion">CONFERENCIA</p>
                     </div>
-
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <b>Nombre Completo:</b>
+                        <p style=" margin-right: 10px;" id="nombreCompleto" name="nombreCompleto">Pedro Pedoro Zanchez Maruchines</p>
+                    </div>
+                    <div class=" col-md-6">
+                        <b>Tipo de Participación:</b>
+                        <p style=" margin-right: 10px;" id="tipoParticipacion" name="tipoParticipacion">CONFERENCIA</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <b>Nombre Completo:</b>
+                        <p style=" margin-right: 10px;" id="nombreCompleto" name="nombreCompleto">Pedro Pedoro Zanchez Maruchines</p>
+                    </div>
+                    <div class=" col-md-6">
+                        <b>Tipo de Participación:</b>
+                        <p style=" margin-right: 10px;" id="tipoParticipacion" name="tipoParticipacion">CONFERENCIA</p>
+                    </div>
                 </div>
             </div>
 
         </div>
+    </section>
+</body>
 
-
-    </div>
-    <!-- Content Wrapper. Contains page content -->
-    <!-- /.content-wrapper -->
-
-    <?php piepagina($datos_vista); ?>
+</html>
