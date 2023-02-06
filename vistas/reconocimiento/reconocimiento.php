@@ -5,12 +5,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="<?= url_base(); ?>/archivos/imagenes/logo-u.png">
+
     <title>Document</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
         }
 
         header {
@@ -24,16 +33,18 @@
         }
 
         .section__container {
-            width: 300px;
+            max-width: 1200px;
             height: auto;
             /* background-color: red; */
             margin-inline: auto;
             margin-top: 20px;
+            margin-bottom: 20px;
         }
 
         .card {
-            width: 300px;
-            min-height: 600px;
+            width: 95%;
+            /* min-height: 600px; */
+            padding: 20px;
             /* max-height: 600px; */
             background: #07182E;
             position: relative;
@@ -56,7 +67,7 @@
             content: '';
             position: absolute;
             width: 100px;
-            background-image: linear-gradient(180deg, rgb(0, 183, 255), rgb(0, 183, 255));
+            background-image: linear-gradient(180deg, rgb(0, 74, 152), rgb(0, 74, 152));
             height: 130%;
             animation: rotBGimg 6s linear infinite;
             transition: all 0.9s linear;
@@ -72,6 +83,13 @@
             }
         }
 
+        h2 {
+            /* font-size: px; */
+            text-align: center;
+            margin-top: 20px;
+            padding-inline: 20px;
+        }
+
         .card::after {
             content: '';
             position: absolute;
@@ -83,7 +101,7 @@
 
         #card__container {
             width: 290px;
-            height: 600px;
+            /* height: 600px; */
             display: flex;
             align-items: flex-start;
             flex-direction: column;
@@ -92,18 +110,38 @@
         }
 
         #imagen_persona {
-            z-index: 1;
+            /* z-index: 1; */
             width: 280px;
+            display: block;
             /* max-width: 500px; */
             margin-inline: auto;
             margin-top: 20px;
         }
 
-        .card:hover:before {
+        .texts__info {
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-align: center;
+            line-height: 1.5;
+
+        }
+
+        .row {
+            width: 100%;
+
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        /* .card:hover:before {
             background-image: linear-gradient(180deg, rgb(81, 255, 0), purple);
             animation: rotBGimg 3.5s linear infinite;
         }
-
+ */
 
 
         @media only screen and (min-width: 425px) {
@@ -120,6 +158,50 @@
                 width: 420px;
                 margin: unset;
             }
+
+            #card__container {
+                width: 100%;
+                /* height: 500px; */
+                display: grid;
+                grid-template-columns: 400px 1fr;
+                align-content: center;
+            }
+
+            .texts__info {
+                text-align: left;
+
+            }
+
+            .divImagen {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            #imagen_persona {
+                width: 350px;
+            }
+        }
+
+        @media only screen and (min-width: 992px) {
+            #card__container {
+                width: 100%;
+                /* height: 500px; */
+                display: grid;
+                grid-template-columns: 500px 1fr;
+                align-content: center;
+            }
+
+            #imagen_persona {
+                width: 450px;
+            }
+
+            h2 {
+                font-size: 32px;
+
+            }
         }
     </style>
 </head>
@@ -132,11 +214,42 @@
         </header>
 
     </section>
+    <h2>El reconococimiento es valido</h2>
     <section class="section__container">
         <div class="card">
             <div id="card__container">
-                <img id="imagen_persona" src="<?= url_base() ?>/archivos/imagenes/dooble.svg" alt="Imagen Referencia">
-                <div class="row">
+
+                <div class="divImagen">
+                    <img id="imagen_persona" src="<?= url_base() ?>/archivos/imagenes/dooble.svg" alt="Imagen Referencia">
+                </div>
+
+                <div class="texts__info">
+                    <div class="row">
+                        <b>Nombre del evento:</b>
+                        <p><?= $datos_vista['datos']['datos'][0]['nombre_evento'] ?></p>
+                    </div>
+                    <div class="row">
+                        <b>Nombre del participante:</b>
+                        <p><?= $datos_vista['datos']['datos'][0]['nombre_formulario'] . ' ' . $datos_vista['datos']['datos'][0]['apellido_formulario'] ?></p>
+                    </div>
+                    <div class="row">
+                        <b>Fecha del Evento:</b>
+                        <p><?= $datos_vista['datos']['datos'][0]['fecha_evento'] ?></p>
+                    </div>
+                    <div class="row">
+                        <b>Fecha de expedición:</b>
+                        <p><?= $datos_vista['datos']['datos'][0]['fecha_expedicion'] ?></p>
+                    </div>
+                    <div class="row">
+                        <b>Lugar del Evento:</b>
+                        <p><?= $datos_vista['datos']['datos'][0]['lugar_evento'] ?></p>
+                    </div>
+                    <div class="row">
+                        <b>Token único:</b>
+                        <p><?= $datos_vista['datos']['datos'][0]['token_unico'] ?></p>
+                    </div>
+                </div>
+                <!-- <div class="row">
                     <div class="col-md-6">
                         <b>Nombre Completo:</b>
                         <p style=" margin-right: 10px;" id="nombreCompleto" name="nombreCompleto">Pedro Pedoro Zanchez Maruchines</p>
@@ -175,7 +288,7 @@
                         <b>Tipo de Participación:</b>
                         <p style=" margin-right: 10px;" id="tipoParticipacion" name="tipoParticipacion">CONFERENCIA</p>
                     </div>
-                </div>
+                </div> -->
             </div>
 
         </div>
