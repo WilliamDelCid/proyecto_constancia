@@ -249,7 +249,7 @@ document.addEventListener(
       }).done(function (json) {
         if (json.estado === true) {
           document.querySelector('#token').value = json.token;
-          QR.makeCode("http://localhost/proyecto_constancia/" + json.token);
+          QR.makeCode("http://localhost/proyecto_constancia/reconocimiento?token=" + json.token);
           document.querySelector('#buttonQR').setAttribute('disabled', true);
           document.querySelector('#guardar').removeAttribute('disabled');
         } else {
