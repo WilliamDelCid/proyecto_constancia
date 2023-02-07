@@ -129,6 +129,83 @@ class crearformulario extends controladores
 		die();
 	}
 
+
+	public function listartipo_documento()
+	{
+
+		if (!empty($_POST['txtNombre'])) {
+			$idtipo_documento = 0;
+			$nombre =  limpiar($_POST['txtNombre']);
+			$estado = 1;
+			$existe = $this->modelo->seleccionar_todos_sql("SELECT * FROM tipo_documento WHERE nombre = '$nombre'");
+
+			if ($existe['estado'] == true) {
+				if (empty($existe['datos'])) {
+
+
+					$campos = array("nombre" => $nombre, "estado" => $estado);
+
+					$insertar = $this->modelo->insertar("tipo_documento", $campos);
+					if ($insertar['estado'] == true) {
+						$htmlC = "";
+						$consulta_datos2 = $this->modelo->seleccionar_todos_sql("SELECT * FROM tipo_documento 
+																						WHERE tipo_documento.estado = 1");
+						if ($consulta_datos2['estado'] == true) {
+							$arr_datos2 = $consulta_datos2['datos'];
+
+							for ($i = 0; $i < count($arr_datos2); $i++) {
+								$htmlC .= '<option value="' . $arr_datos2[$i]['id'] . '">' . $arr_datos2[$i]['nombre'] . '</option>';
+							}
+						} else {
+							$arr_respuesta = array("estado" => false, "msg" => 'Ops. Ocurrió un error.');
+							echo json_encode($arr_respuesta, JSON_UNESCAPED_UNICODE);
+							die();
+						}
+						$respuesta = array("estado" => true, "msg" => $insertar['respuesta'], 'tipo_documento' => $htmlC, "id" => $insertar['idcreado']);
+						echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
+						die();
+					} else {
+						$respuesta = array("estado" => false, "msg" => "Ops. Ocurrió un error.");
+						echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
+						die();
+					}
+				} else {
+					$respuesta = array("estado" => false, "msg" => "El tipo de documento ya existe.");
+					echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
+					die();
+				}
+			} else {
+				$respuesta = array("estado" => false, "msg" => "Ops. Ocurrió un error.");
+				echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
+				die();
+			}
+		}
+
+		if (isset($_SESSION['permisos_' . nombreproyecto()]['Crear Formulario'])) {
+			$htmlC = "";
+			$consulta_datos2 = $this->modelo->seleccionar_todos_sql("SELECT * FROM tipo_documento 
+																		WHERE tipo_documento.estado = 1");
+			if ($consulta_datos2['estado'] == true) {
+				$arr_datos2 = $consulta_datos2['datos'];
+
+				for ($i = 0; $i < count($arr_datos2); $i++) {
+					$htmlC .= '<option value="' . $arr_datos2[$i]['id'] . '">' . $arr_datos2[$i]['nombre'] . '</option>';
+				}
+			} else {
+				$arr_respuesta = array("estado" => false, "msg" => 'Ops. Ocurrió un error.');
+				echo json_encode($arr_respuesta, JSON_UNESCAPED_UNICODE);
+				die();
+			}
+			$arr_respuesta = array("estado" => true, 'tipo_documento' => $htmlC);
+			echo json_encode($arr_respuesta, JSON_UNESCAPED_UNICODE);
+			die();
+		} else {
+			$respuesta = array("estado" => false, "msg" => "Ops. No tiene permisos para ver.");
+			echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
+			die();
+		}
+		die();
+	}
 	/*=======================================================
         			COMBO CARGO
         =======================================================*/
@@ -225,6 +302,7 @@ class crearformulario extends controladores
 				$nombre =  limpiar($_POST['nombre']);
 				$apellido =  limpiar($_POST['apellido']);
 				$idparticipacion = intval($_POST['participacion']);
+				$tipo_documento = intval($_POST['tipo_documento']);
 				$idevento = intval($_POST['evento']);
 				$fecha_evento = limpiar($_POST['fecha_evento']);
 				$lugar_evento = limpiar($_POST['lugar_evento']);
@@ -246,7 +324,7 @@ class crearformulario extends controladores
 					if ($existe['estado'] == true) {
 						if (empty($existe['datos'])) {
 
-							$campos = array("nombres" => $nombre, "apellidos" => $apellido, "id_tipo_participacion" => $idparticipacion, "id_evento" => $idevento, "nombre_evento_opcional" => $evento_opcional, "fecha_evento" => $fechaReducida, "lugar_evento" => $lugar_evento, "fecha_expedicion" => $fecha_expedicion, "token_unico" => $tokenimagen, "url" => $imagenurl, "estado" => 1);
+							$campos = array("nombres" => $nombre, "apellidos" => $apellido, "id_tipo_participacion" => $idparticipacion, "id_evento" => $idevento, "nombre_evento_opcional" => $evento_opcional, "fecha_evento" => $fechaReducida, "lugar_evento" => $lugar_evento, "fecha_expedicion" => $fecha_expedicion, "token_unico" => $tokenimagen, "url" => $imagenurl, "estado" => 1, "tipo_documento" => $tipo_documento);
 
 							$insertar = $this->modelo->insertar("formularios", $campos);
 

@@ -2,7 +2,7 @@
 <?php obtener_modal("modal_usuarios", $datos_vista); ?>
 
 <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper" style="margin-top: 80px">
+<div class="content" style="margin-top: 80px">
 
   <!-- Content Header (Page header) -->
   <section class="content-header">

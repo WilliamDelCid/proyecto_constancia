@@ -1,7 +1,7 @@
 <?php cabecera($datos_vista); ?>
 
 <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper" style="margin-top: 80px">
+<div class="content" style="margin-top: 80px">
 
   <!-- Content Header (Page header) -->
   <section class="content-header">
@@ -60,9 +60,24 @@
                     </div>
                     <div class="col-sm-2">
                       <div class="form-group">
-                        <button type="button" onclick="fntAñadirMarca();" class="btn btn-outline-dark" id="btn_nueva_participacion" data-dismiss="modal" style="display: grid; place-items: center; margin:30px 0px  0px; width: 50px; height: 40px;"><i class="fa fa-plus"></i></button>
+                        <button type="button" onclick="fntAñadirMarca();" class="btn btn-success" id="btn_nueva_participacion" data-dismiss="modal" style="display: grid; place-items: center; margin:30px 0px  0px; width: 50px; height: 40px;"><i class="fa fa-plus"></i></button>
                       </div>
                     </div>
+                    <div class="col-sm-4">
+                      <div class="form-group">
+                        <label for="cargo">Tipo de documento</label>
+                        <select class="form-control select2 select2-<?= COLOR_SIDEBAR_ACTIVO ?>" id="tipo_documento" name="tipo_documento" data-dropdown-css-class="select2-<?= COLOR_SIDEBAR_ACTIVO ?>" required="" style="width: 100%;">
+                        </select>
+                      </div>
+                      <div id="invalid-cargo" class="error"></div>
+                    </div>
+                    <div class="col-sm-2">
+                      <div class="form-group">
+                        <button type="button" onclick="fntAñadirTipoDocumento();" class="btn btn-success" id="btn_nuevo_tipo_documento" data-dismiss="modal" style="display: grid; place-items: center; margin:30px 0px  0px; width: 50px; height: 40px;"><i class="fa fa-plus"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label for="cargo">Nombre del evento</label>
@@ -71,28 +86,29 @@
                       </div>
                       <div id="invalid-cargo" class="error"></div>
                     </div>
-                  </div>
-                  <div class="row">
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label class="control-label">Nombre del evento (Opcional) </label>
                         <input class="form-control" id="evento_opcional" name="evento_opcional" disabled type="text" placeholder="Nombre del evento">
                       </div>
                     </div>
+                  </div>
+                  <div class=" row">
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label class="control-label">Fecha del evento</label>
                         <input class="form-control" type="text" id="fecha_evento" name="fecha_evento" />
                       </div>
                     </div>
-                  </div>
-                  <div class=" row">
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label class="control-label">Lugar del evento</label>
                         <input class="form-control" id="lugar_evento" name="lugar_evento" type="text" placeholder="Lugar del evento">
                       </div>
                     </div>
+                  </div>
+
+                  <div class="row">
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label class="control-label">Fecha de expedición</label>
@@ -107,20 +123,22 @@
                       </div>
                     </div>
                   </div>
+
                 </div>
             </div>
-            <div class="modal-footer">
-              <button type="button" id="buttonQR" class="btn btn-success" data-dismiss="modal">Generar QR</button>
-              <button type="submit" id="guardar" disabled class="btn bg-<?= COLOR_SIDEBAR_ACTIVO ?>">Guardar</button>
-            </div>
-            </form>
           </div>
-          <!-- /.card-body -->
-
+          <div class="modal-footer">
+            <button type="button" id="buttonQR" class="btn btn-success" data-dismiss="modal">Generar QR</button>
+            <button type="submit" id="guardar" disabled class="btn bg-<?= COLOR_SIDEBAR_ACTIVO ?>">Guardar</button>
+          </div>
+          </form>
         </div>
-        <!-- /.card -->
+        <!-- /.card-body -->
+
       </div>
+      <!-- /.card -->
     </div>
+</div>
 
 </div>
 

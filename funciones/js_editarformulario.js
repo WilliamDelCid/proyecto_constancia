@@ -2,6 +2,7 @@ let formFormulario = document.querySelector("#formFormulario");
 let div_cargando = document.querySelector("#div_cargando");
 document.addEventListener("DOMContentLoaded", () => {
     obtener_participacion();
+    obtener_tipo_documento();
     obtener_evento();
     editarbotones();
     editar();
@@ -83,6 +84,25 @@ document.addEventListener("DOMContentLoaded", () => {
     /*---------------------------------------------------
       Cargar combo evento
     ----------------------------------------------------*/
+
+    function obtener_tipo_documento() {
+        $.ajax({
+            dataType: "json",
+            method: "POST",
+            url: url_base + "/crearformulario/listartipo_documento",
+        })
+            .done(function (json) {
+                if (json.estado) {
+                    $("#tipo_documento").empty().html(json.tipo_documento);
+                } else {
+                    alerta_error("Tipo Documento", json.msg);
+                }
+            })
+            .fail(function () { })
+            .always(function () {
+                //Swal.close();
+            });
+    }
 
     function obtener_evento() {
         $.ajax({
@@ -300,6 +320,8 @@ function editar() {
                 $("#nombre").val(json.datos.nombres);
                 $("#apellido").val(json.datos.apellidos);
                 $("#participacion").val(json.datos.id_tipo_participacion).trigger("change");
+                $("#tipo_documento").val(json.datos.tipo_documento).trigger("change");
+
                 if (json.datos.id_evento == null) {
                     $("#evento").val(-1).trigger("change")
                     document.querySelector('#evento_opcional').removeAttribute('disabled');
