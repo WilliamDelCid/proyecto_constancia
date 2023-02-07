@@ -1,42 +1,36 @@
 <!-- Navigation Bar-->
 <header id="topnav">
-    <div class="topbar-main" style="background-color: #004A98;height: 120px;display:flex; flex-direction: row; ">
+    <div class="topbar-main" style="background-color: #004A98;height: 120px;display:flex; flex-direction: row; align-items: center; justify-content: center; ">
         <div class="container-fluid">
-
             <!-- Logo container-->
             <div class="logo">
                 <a href="index.php" class="logo">
-                    <img src="<?= url_base(); ?>/archivos/imagenes/Logo_Universidad.png" alt="" height="120">
+                    <img src="<?= url_base(); ?>/archivos/imagenes/Logo_Universidad.png" alt="" style="display: flex;object-fit: contain; margin: 0 auto ; " width="90%" height="100">
                 </a>
+
             </div>
-            <div class="menu-extras topbar-custom">
-
-
-                <ul class="list-inline float-right mb-0">
-
-                    <li class="menu-item list-inline-item">
-                        <!-- Mobile menu toggle-->
-                        <a class="navbar-toggle nav-link">
-                            <div class="lines">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </a>
-                        <!-- End mobile menu toggle-->
-                    </li>
-
-                </ul>
-            </div>
-
-
         </div> <!-- end container -->
+        <!-- <div class="menu-extras topbar-custom"> -->
+        <ul class="list-inline float-right mb-0">
+            <li class="menu-item list-inline-item">
+                <!-- Mobile menu toggle-->
+                <a class="navbar-toggle nav-link">
+                    <div class="lines">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </a>
+                <!-- End mobile menu toggle-->
+            </li>
+        </ul>
+        <!-- </div> -->
     </div>
     <!-- end topbar-main -->
     <!-- MENU Start -->
     <div class="navbar-custom" style="background-color: #fff;">
         <div class="container-fluid">
-            <div id="navigation">
+            <div id="navigation" style="top: unset; z-index: 1; ">
                 <!-- Navigation Menu-->
                 <ul class="navigation-menu">
 
@@ -108,13 +102,19 @@
 
                         <li class="has-submenu">
 
-                            <a style="color: #004A98;" href="<?= url_base(); ?>/crearformulario" class=" <?php if ($datos_vista['nombre_pagina'] == 'crearformulario') {
-                                                                                                                echo 'active';
-                                                                                                            } ?>">
-                                <i class="mdi mdi-buffer"></i>Crear formulario
 
-                            </a>
+                            <a href="#" style="color: #004A98;"><i class="mdi mdi-book"></i>Formulario</a>
+
                             <ul class="submenu">
+                                <li class="">
+
+                                    <a href="<?= url_base(); ?>/crearformulario" class=" <?php if ($datos_vista['nombre_pagina'] == 'crearformulario') {
+                                                                                                echo 'active';
+                                                                                            } ?>">
+                                        Crear formulario
+
+                                    </a>
+                                </li>
                                 <?php if (isset($_SESSION['todos_permisos_' . nombreproyecto()]['Ver Formulario'])) { ?>
                                     <li class="">
                                         <a href="<?= url_base(); ?>/formulario" class=" <?php if ($datos_vista['nombre_pagina'] == 'formulario') {

@@ -53,10 +53,10 @@
     </div>
   </div>
   <!-- Site wrapper -->
-  <div class="wrapper">
-    <!-- Navbar -->
-    <?php barra_horizontal($datos_vista); ?>
-    <!-- /.navbar -->
 
-    <!-- Main Sidebar Container -->
-    <?php menu_lateral($datos_vista); ?>
+  <!-- Navbar -->
+  <?php barra_horizontal($datos_vista); ?>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <?php menu_lateral($datos_vista); ?>

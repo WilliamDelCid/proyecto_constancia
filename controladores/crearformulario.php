@@ -319,14 +319,28 @@ class crearformulario extends controladores
 				$fechaReducida = self::fechaReducida($fecha_evento);
 
 				if (isset($_SESSION['permisos_' . nombreproyecto()]['Crear Formulario'])) {
+
+					$cantidad = $this->modelo->seleccionar_todos_sql("SELECT * FROM conteo");
+
+					if ($cantidad["cuantos"] == 0) {
+						$correlativo = 1;
+						$campos = array("conteo" => $correlativo, "id" => 1);
+						$this->modelo->insertar("conteo", $campos);
+					} else {
+						$correlativo = (int)$cantidad["datos"][0]["conteo"] + 1;
+						$campos = array("conteo" => $correlativo);
+						$this->modelo->editar("conteo", $campos, 'id', 1);
+					}
+
 					$existe = $this->modelo->seleccionar_todos_sql("SELECT * FROM formularios WHERE id = $idformulario");
 
 					if ($existe['estado'] == true) {
 						if (empty($existe['datos'])) {
 
-							$campos = array("nombres" => $nombre, "apellidos" => $apellido, "id_tipo_participacion" => $idparticipacion, "id_evento" => $idevento, "nombre_evento_opcional" => $evento_opcional, "fecha_evento" => $fechaReducida, "lugar_evento" => $lugar_evento, "fecha_expedicion" => $fecha_expedicion, "token_unico" => $tokenimagen, "url" => $imagenurl, "estado" => 1, "tipo_documento" => $tipo_documento);
+							$campos = array("nombres" => $nombre, "apellidos" => $apellido, "id_tipo_participacion" => $idparticipacion, "id_evento" => $idevento, "nombre_evento_opcional" => $evento_opcional, "fecha_evento" => $fechaReducida, "lugar_evento" => $lugar_evento, "fecha_expedicion" => $fecha_expedicion, "token_unico" => $tokenimagen, "url" => $imagenurl, "estado" => 1, "tipo_documento" => $tipo_documento, "folio" => $correlativo);
 
 							$insertar = $this->modelo->insertar("formularios", $campos);
+
 
 							if ($insertar['estado'] == true) {
 								$respuesta = array("estado" => true, "msg" => $insertar['respuesta']);

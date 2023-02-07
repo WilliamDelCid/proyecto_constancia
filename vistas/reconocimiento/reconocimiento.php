@@ -220,7 +220,7 @@
             <div id="card__container">
 
                 <div class="divImagen">
-                    <iframe src="<?= url_base(); ?>/web/viewer.html?file=http://localhost/proyecto_constancia/constancias/reconocimiento?id=68aca5120b8bf7362beaac89" type="application/pdf" width="100%" height="300px"> </iframe>
+                    <iframe src="<?= url_base(); ?>/web/viewer.html?file=http://localhost/proyecto_constancia/constancias/reconocimiento?id=<?= $datos_vista['datos']['datos'][0]['token_unico'] ?>" type="application/pdf" width="100%" height="300px"> </iframe>
                     <!-- <iframe src="<?= url_base(); ?>/constancias/reconocimiento?id=68aca5120b8bf7362beaac89" width=" auto" height="auto"> </iframe> -->
                     <!-- <img id="imagen_persona" src="<?= url_base() ?>/archivos/imagenes/dooble.svg" alt="Imagen Referencia"> -->
                     <!-- <a href=>AAAA</a> -->

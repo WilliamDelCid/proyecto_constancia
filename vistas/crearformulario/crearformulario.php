@@ -1,7 +1,7 @@
 <?php cabecera($datos_vista); ?>
 
 <!-- Content Wrapper. Contains page content -->
-<div class="content" style="margin-top: 80px">
+<div class="content">
 
   <!-- Content Header (Page header) -->
   <section class="content-header">
