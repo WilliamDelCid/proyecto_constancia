@@ -5,13 +5,6 @@ class constancias extends controladores
     public function __construct()
     {
         parent::__construct();
-        session_start();
-        if (empty($_SESSION['login_' . nombreproyecto()])) {
-            header('location: ' . url_base() . '/login');
-        }
-
-        $this->modelo->obtener_permisos_modulo(3, $_SESSION['login_datos_' . nombreproyecto()]['id_rol']);
-        $this->modelo->obtener_permisos_todos($_SESSION['login_datos_' . nombreproyecto()]['id_rol']);
     }
 
     /*=======================================================
