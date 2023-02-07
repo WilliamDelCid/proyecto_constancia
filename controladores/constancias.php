@@ -25,14 +25,15 @@ class constancias extends controladores
         $datos_vista['titulo_pagina'] = "Reporte de Prueba";
         $datos_vista['nombre_pagina'] = "Reporte de Prueba";
         if (isset($_GET['id'])) {
-            $id = intval($_GET['id']);
+            $id = limpiar($_GET['id']);
             $datos_vista['datos'] = $this->modelo->seleccionar_todos_sql("SELECT f.id AS id_formulario, f.nombres AS nombre_formulario, 
         f.apellidos AS apellido_formulario, f.token_unico, f.url, (select p.nombre from participacion p where p.id=f.id_tipo_participacion) AS nombre_participacion, 
         (select e.nombre from eventos e where e.id=f.id_evento) AS nombre_evento, 
         f.nombre_evento_opcional AS evento_opcional, 
         f.fecha_evento AS fecha_evento, f.lugar_evento,
         f.fecha_expedicion
-        FROM formularios AS f WHERE f.token_unico=$id");
+        FROM formularios AS f WHERE f.token_unico='$id'");
+
 
             // var_dump(isset($datos_vista['datos']['datos'][0]['evento_opcional']));
             // die();

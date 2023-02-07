@@ -43,7 +43,7 @@
                   <thead>
                     <tr>
                       <th>ID</th>
-                      <th>Nombre</th>
+                      <th>Nombre del evento</th>
                       <th>Estado</th>
                       <th>Fecha Creado</th>
                       <th>Acciones</th>
