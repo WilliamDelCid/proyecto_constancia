@@ -65,7 +65,7 @@
                                     <a href="<?= url_base(); ?>/participacion" class=" <?php if ($datos_vista['nombre_pagina'] == 'participacion') {
                                                                                             echo 'active';
                                                                                         } ?>">
-                                        <p>Tipo Participacion</p>
+                                        <p>Tipo de Participacion</p>
                                     </a>
                                 </li>
                             <?php } ?>
@@ -93,6 +93,15 @@
                                                                                         echo 'active';
                                                                                     } ?>">
                                         <p>Empleados</p>
+                                    </a>
+                                </li>
+                            <?php } ?>
+                            <?php if (isset($_SESSION['todos_permisos_' . nombreproyecto()]['Ver Tipo Documento'])) { ?>
+                                <li class="">
+                                    <a href="<?= url_base(); ?>/tipo_documento" class=" <?php if ($datos_vista['nombre_pagina'] == 'Tipo de Documento') {
+                                                                                            echo 'active';
+                                                                                        } ?>">
+                                        <p>Tipo de Documento</p>
                                     </a>
                                 </li>
                             <?php } ?>

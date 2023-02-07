@@ -45,7 +45,7 @@
     border-bottom: 2px solid #fff;
   }
 </style>
-<!-- 
+
 <footer class="foooter">
 
   <div class="info">
@@ -100,7 +100,7 @@
   </div>
 
 
-</footer> -->
+</footer>
 
 
 <!-- /.control-sidebar -->
