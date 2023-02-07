@@ -40,13 +40,19 @@ if ($datos_vista['datos']['respuesta'] === 'Hay datos') {
     $pdf->SetXY(77, 35);
     $pdf->WriteTag(140, 6, "$texto", 0, "L", 0, 2);
 
+    $pdf->Text(251, 10, utf8_decode('N° Folio ' . $datos_vista['datos']['datos'][0]['folio']));
+
+
+
+
     $pdf->Ln(10);
 
     //LETRAS DORADAS
     $pdf->SetFont('FontsFree-Net-MYRIADPRO-BOLD', '', 64);
     $pdf->SetTextColor(188, 164, 102);
     $pdf->SetX(77);
-    $pdf->Cell(180, 20, 'RECONOCIMIENTO', 0, 1, 'L');
+    $nombreRepo = $datos_vista['datos']['datos'][0]['tipo_documento'];
+    $pdf->Cell(180, 20, $nombreRepo, 0, 1, 'L');
 
 
     ///////////////////////
