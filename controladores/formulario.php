@@ -166,6 +166,7 @@ class formulario extends controladores
 				$nombre =  limpiar($_POST['nombre']);
 				$apellido =  limpiar($_POST['apellido']);
 				$idparticipacion = intval($_POST['participacion']);
+				$tipo_documento = intval($_POST['tipo_documento']);
 				$idevento = intval($_POST['evento']);
 				$fecha_evento = limpiar($_POST['fecha_evento']);
 				$lugar_evento = limpiar($_POST['lugar_evento']);
@@ -197,7 +198,7 @@ class formulario extends controladores
 							// $token = $_SESSION['login_datos_'.nombreproyecto()]->{'token_usuario'};
 							// $url = "roles?token=".$token."&tabla=usuarios&sufijo=usuario&nombreid=id_rol&id=".$idrol;
 							// $campos = array("nombres" => $nombre, "apellidos" => $apellido, "id_tipo_participacion" => $idparticipacion, "id_evento" => $idevento, "nombre_evento_opcional" => $evento_opcional, "fecha_evento" => $fechaReducida, "lugar_evento" => $lugar_evento, "fecha_expedicion" => $fecha_expedicion);
-							$campos = array("nombres" => $nombre, "apellidos" => $apellido, "id_tipo_participacion" => $idparticipacion, "id_evento" => $idevento, "nombre_evento_opcional" => $evento_opcional, "lugar_evento" => $lugar_evento, "fecha_expedicion" => $fecha_expedicion, "fecha_evento" => $fecha_evento);
+							$campos = array("nombres" => $nombre, "apellidos" => $apellido, "id_tipo_participacion" => $idparticipacion, "id_evento" => $idevento, "nombre_evento_opcional" => $evento_opcional, "lugar_evento" => $lugar_evento, "fecha_expedicion" => $fecha_expedicion, "fecha_evento" => $fecha_evento, "tipo_documento" => $tipo_documento);
 
 							//if (isset($_SESSION['permisos_'.nombreproyecto()]['Editar Roles'])) {
 							$editar = $this->modelo->editar("formularios", $campos, 'id', $idformulario);
