@@ -20,6 +20,9 @@ class constancias extends controladores
     public function reconocimiento()
     {
 
+        if (!isset($_GET['id'])) {
+            header('location: ' . url_base() . '/errores');
+        }
 
         $datos_vista['titulo_ventana'] = "Reporte de Prueba";
         $datos_vista['titulo_pagina'] = "Reporte de Prueba";
@@ -35,14 +38,10 @@ class constancias extends controladores
         FROM formularios AS f WHERE f.token_unico='$id'");
 
 
-            // var_dump(isset($datos_vista['datos']['datos'][0]['evento_opcional']));
-            // die();
-            if (!isset($datos_vista['datos']['datos'][0]['nombre_evento'])) {
+
+            if (!isset($datos_vista['datos']['datos'][0]['nombre_evento']) && $datos_vista['datos']['cuantos'] > 0) {
                 $datos_vista['datos']['datos'][0]['nombre_evento'] = $datos_vista['datos']['datos'][0]['evento_opcional'];
             }
-
-            // var_dump($datos_vista['datos']['datos'][0]['nombre_evento']);
-            // die();
         }
         $this->vista->obtener_vista($this, "prueba", $datos_vista);
     }
