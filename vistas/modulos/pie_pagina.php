@@ -1,7 +1,7 @@
 <style>
   .foooter {
     width: 100%;
-    height: 280px;
+    /* height: 280px; */
     background-color: #004A98;
     padding: 25px 50px 30px 50px;
     border-top: 8px solid #00B2E3;
@@ -9,6 +9,7 @@
     left: 0;
     bottom: 0;
     margin-top: 50px;
+    /* text-align: center; */
   }
 
   .fa {
@@ -17,10 +18,12 @@
   }
 
   .info {
-    max-width: 900px;
+    /* max-width: 900px;
     margin-inline: auto;
-    display: grid;
     grid-template-columns: 750px 1fr;
+     */
+    display: grid;
+    gap: 20px;
     color: #fff;
   }
 
@@ -34,15 +37,39 @@
 
   .anchor {
     color: #fff;
-    font-weight: 400;
-    transition: all 0.3s;
+    font-weight: 800;
+    border-bottom: 1px solid #fff;
+
     /* desktop */
     /* font-size: 20px; */
   }
 
-  .anchor:hover {
-    color: #fff;
-    border-bottom: 2px solid #fff;
+
+
+
+
+  @media screen and (min-width:900px) {
+    .info {
+      max-width: 900px;
+      margin-inline: auto;
+      grid-template-columns: 750px 1fr;
+    }
+
+    .foooter {
+      height: 280px;
+
+    }
+
+    .anchor {
+      transition: all 0.3s;
+      border-bottom: unset;
+
+    }
+
+    .anchor:hover {
+      color: #fff;
+      border-bottom: 2px solid #fff;
+    }
   }
 </style>
 
