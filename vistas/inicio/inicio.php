@@ -30,7 +30,8 @@ obtener_modal("modal_roles", $datos_vista);
   <!-- Content Wrapper. Contains page content -->
   <!-- Content Header (Page header) -->
 
-
+  <div style="height: calc(100vh - 180px);">
+  </div>
 
 
   <!-- /.content-wrapper -->

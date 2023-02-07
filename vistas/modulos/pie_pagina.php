@@ -1,11 +1,108 @@
-<footer class="main-footer footer_space">
-  <strong>Copyright &copy; <?= date("Y"); ?> <a class="text-<?= COLOR_SIDEBAR_ACTIVO ?>" href="" target="_blank">Facultad de Contaduria y Administración</a>.</strong> Todos los derechos reservados.
+<style>
+  .foooter {
+    width: 100%;
+    height: 280px;
+    background-color: #004A98;
+    padding: 25px 50px 30px 50px;
+    border-top: 8px solid #00B2E3;
+    position: relative;
+    left: 0;
+    bottom: 0;
+    margin-top: 50px;
+  }
+
+  .fa {
+    color: #fff;
+    /* width: 60px; */
+  }
+
+  .info {
+    max-width: 900px;
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: 750px 1fr;
+    color: #fff;
+  }
+
+  .redes_sociales {
+    max-width: 900px;
+    margin-inline: auto;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .anchor {
+    color: #fff;
+    font-weight: 400;
+    transition: all 0.3s;
+    /* desktop */
+    /* font-size: 20px; */
+  }
+
+  .anchor:hover {
+    color: #fff;
+    border-bottom: 2px solid #fff;
+  }
+</style>
+
+<footer class="foooter">
+
+  <div class="info">
+
+    <div>
+
+      <div class="redes_sociales">
+        <a href="https://www.facebook.com/LaUASLP/" target="_blank">
+          <span class="fa fa-facebook-square fa-lg"></span>
+        </a>
+        <a href="https://twitter.com/LaUASLP" target="_blank">
+          <span class="fa fa-twitter-square fa-lg"></span>
+        </a>
+        <a href="https://www.youtube.com/LaUASLP" target="_blank">
+          <span class="fa fa-youtube-play fa-lg"></span>
+        </a>
+
+        <a href="https://www.instagram.com/lauaslp" target="_blank">
+          <span class="fa fa-instagram fa-lg"></span>
+        </a>
+
+        <a href="https://www.linkedin.com/school/somosuaslp/" target="_blank">
+          <span class="fa fa-linkedin-square fa-lg"></span>
+        </a>
+
+      </div>
+
+
+      <div id="identidad">
+        <span><b>UASLP</b></span><br>
+        <span>Universidad Autónoma de San Luis Potosí</span><br>
+        <span>Álvaro Obregón 64, Centro. CP 78000</span><br>
+        <span>San Luis Potosí, SLP</span><br>
+        <span>444 826 23 00</span><br>
+        <span>©2023 Todos los derechos reservados</span><br>
+      </div>
+
+    </div>
+
+
+
+    <div class="container_links">
+      <div><a class="anchor" href="https://www.uaslp.mx//">Universidad</a></div>
+      <div><a class="anchor" href="https://www.uaslp.mx/ProgramasAcademicos">Oferta Educativa</a></div>
+      <div><a class="anchor" href="https://www.uaslp.mx/InvestigacionyPosgrado#gsc.tab=0">Investigación</a></div>
+      <div><a class="anchor" href="https://www.uaslp.mx/DifusionCultural">Cultura</a></div>
+      <div><a class="anchor" href="https://www.uaslp.mx/	Paginas/General/2595">Vinculación</a></div>
+      <div><a class="anchor" href="https://www.uaslp.mx/Paginas/General/2596">Internacional</a></div>
+      <div><a class="anchor" href="https://transparencia.uaslp.mx/Paginas/TRANSPARENCIA-Y-ACCESO-A-LA-INFORMACION-PUBLICA/3157#gsc.tab=0">Transparencia</a></div>
+    </div>
+
+  </div>
+
+
 </footer>
 
-<!-- Control Sidebar -->
-<aside class="control-sidebar control-sidebar-dark">
-  <!-- Control sidebar content goes here -->
-</aside>
+
 <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
