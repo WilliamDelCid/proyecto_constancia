@@ -445,3 +445,45 @@ function alerta_recargartabla(titulo, mensaje) {
 function reset_form(form) {
     form.reset();
 }
+
+async function fntAñadirTipoDocumento() { //Cambiarlo
+
+    const { value: nombre } = await Swal.fire({
+        title: 'Ingrese un tipo de documento',
+        input: 'text',
+        inputLabel: 'Tipo de Documetno',
+        showCancelButton: true,
+        inputValidator: (value) => {
+            if (!value) {
+                return 'Ingrese un tipo de documento valido'
+            } else {
+                div_cargando.style.display = "flex";
+                var datos = { "txtNombre": value };
+                $.ajax({
+                    dataType: "json",
+                    method: "POST",
+                    url: url_base + "/crearformulario/listartipo_documento",
+                    data: datos,
+                }).done(function (json) {
+                    if (json.estado) {
+                        $("#tipo_documento").empty().html(json.tipo_documento);
+                        Swal.fire("Tipo de Documento!", json.msg, "success");
+                        document.querySelector("#tipo_documento").value = json.id;
+                    } else {
+                        Swal.fire("Tipo de Documento!", json.msg, "error");
+                    }
+                }).fail(function () {
+
+                }).always(function () {
+                    div_cargando.style.display = "none";
+                });
+            }
+        }
+    })
+
+    if (nombre) {
+
+    }
+
+
+}
